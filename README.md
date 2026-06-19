@@ -1,7 +1,7 @@
-# Orey Analytics - Financial Intelligence Portfolio
+# Financial Intelligence Portfolio
 **Overview**
 
-Orey Analytics is a data-driven financial intelligence system designed to help SMEs monitor, predict, and improve their financial health.
+Building a data-driven financial intelligence system designed to help SMEs monitor, predict, and improve their financial health.
  
 **This portfolio showcases projects across**:
 1. Data cleaning
@@ -34,7 +34,7 @@ Created interactive dashboards for retail and service-based businesses.
 5. Case Studies:
 Simulated real-world business scenarios and financial decision-making.
 
-6. Orey SME Health Index:
+6. SME Health Index:
 A scoring system (0–100) assessing SME financial health across profitability, liquidity, growth, and efficiency.
  
  
