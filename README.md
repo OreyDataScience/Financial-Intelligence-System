@@ -31,11 +31,11 @@ Built predictive models to estimate future revenue and trends.
 4. Dashboards:
 Created interactive dashboards for retail and service-based businesses.
 
-5. Case Studies:
-Simulated real-world business scenarios and financial decision-making.
-
-6. SME Health Index:
+5. SME Health Index:
 A scoring system (0–100) assessing SME financial health across profitability, liquidity, growth, and efficiency.
+
+6. Case Studies:
+Simulated real-world business scenarios and financial decision-making.
  
  
 **Vision**
