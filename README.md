@@ -29,7 +29,7 @@ Developed business-style charts and dashboards to communicate insights.
 Built predictive models to estimate future revenue and trends.
 
 4. Dashboards:
-Created interactive dashboards for retail and service-based businesses.
+Created interactive dashboards for retail-based businesses.
 
 5. SME Health Index:
 A scoring system (0–100) assessing SME financial health across profitability, liquidity, growth, and efficiency.
