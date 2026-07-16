@@ -28,6 +28,9 @@ The portfolio focuses on building scalable financial intelligence systems that i
 
 ---
 
+
+# Portfolio Projects
+
 **Project Phases**
 1. Data Cleaning:
 Cleaned and structured messy SME datasets into analysis-ready formats.
@@ -46,8 +49,6 @@ A scoring system (0–100) assessing SME financial health across profitability, 
 
 6. Case Studies:
 Simulated real-world business scenarios and financial decision-making.
-
-# Portfolio Projects
 
 ## Data Quality Framework
 
