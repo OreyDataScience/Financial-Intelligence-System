@@ -50,6 +50,8 @@ A scoring system (0–100) assessing SME financial health across profitability, 
 6. Case Studies:
 Simulated real-world business scenarios and financial decision-making.
 
+
+
 ## Data Quality Framework
 
 Developed a reusable data quality framework to assess and improve dataset reliability through:
