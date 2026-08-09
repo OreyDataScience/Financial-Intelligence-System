@@ -26,17 +26,44 @@ margin = latest["Avg_Margin"]
 
 forecast_revenue = forecast_next["Revenue_Forecast"]
 
+# ==========================================================
+# MONTH-ON-MONTH GROWTH
+# ==========================================================
+
+previous_revenue = monthly.iloc[-2]["Revenue"]
+
 growth = (
-    (monthly.iloc[-1]["Revenue"] - monthly.iloc[-2]["Revenue"])
-    / monthly.iloc[-2]["Revenue"]
+    (revenue - previous_revenue)
+    / previous_revenue
 ) * 100
 
 # ==========================================================
-# Layout
+# DYNAMIC KPI COLORS
+# ==========================================================
+
+# Profit and growth: Green if positive and Red if negative
+profit_color = (
+    "#2ECC71"
+    if profit >= 0
+    else "#C0392B"
+)
+
+growth_color = (
+    "#2ECC71"
+    if growth >= 0
+    else "#C0392B"
+)
+
+# ==========================================================
+# LAYOUT
 # ==========================================================
 
 layout = dbc.Container(
     [
+        # ==================================================
+        # HEADER
+        # ==================================================
+
         html.H1(
             "Revenue Intelligence",
             className="mb-1"
@@ -49,40 +76,60 @@ layout = dbc.Container(
 
         html.Br(),
 
+        # ==================================================
+        # KPI CARDS
+        # ==================================================
+
         dbc.Row(
             [
+                # ------------------------------------------
+                # LATEST REVENUE
+                # ------------------------------------------
+
                 dbc.Col(
                     kpi_card(
                         "Latest Revenue",
                         format_currency(revenue),
                         "Current Month",
-                        "#0B6E4F"
+                        "#3498DB"
                     ),
 
                     lg=3
                 ),
+
+                # ------------------------------------------
+                # PROFIT
+                # ------------------------------------------
 
                 dbc.Col(
                     kpi_card(
                         "Profit",
                         format_currency(profit),
                         "Current Month",
-                        "#2E86DE"
+                        profit_color
                     ),
 
                     lg=3
                 ),
+
+                # ------------------------------------------
+                # GROWTH
+                # ------------------------------------------
 
                 dbc.Col(
                     kpi_card(
                         "Growth",
                         f"{growth:.1f}%",
                         "Month-on-Month",
-                        "#8E44AD"
+                        growth_color
                     ),
 
                     lg=3
                 ),
+
+                # ------------------------------------------
+                # FORECAST
+                # ------------------------------------------
 
                 dbc.Col(
                     kpi_card(
@@ -95,10 +142,15 @@ layout = dbc.Container(
                     lg=3
                 )
             ],
+
             className="g-4"
         ),
 
         html.Br(),
+
+        # ==================================================
+        # REVENUE + FORECAST CHART
+        # ==================================================
 
         dbc.Card(
             dbc.CardBody(

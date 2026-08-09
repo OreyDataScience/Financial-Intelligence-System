@@ -285,7 +285,7 @@ layout = dbc.Container(
                 # Aligns with KPI cards 5–6
                 dbc.Col(
                     executive_insights(
-                        strategic_findings.head(3)
+                        strategic_findings.head(4)
                     ),
 
                     lg=4,
