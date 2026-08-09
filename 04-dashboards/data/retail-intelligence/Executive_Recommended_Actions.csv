@@ -1,0 +1,6 @@
+Audience,Priority,Action,Outcome,Route,Impact_Value
+SME,1,Review fulfilment and returns controls at Rural.,2.6% stock-out rate and 9.7% return rate,/stores,276060.63364645606
+SME,2,Review fulfilment and returns controls at Suburban.,2.5% stock-out rate and 9.4% return rate,/stores,274806.7819490131
+SME,3,Review fulfilment and returns controls at Urban.,3% stock-out rate and 9.2% return rate,/stores,261755.16366464997
+SME,4,Review fulfilment and returns controls at Suburban.,3.3% stock-out rate and 9.5% return rate,/stores,258962.74182146075
+SME,5,Review fulfilment and returns controls at Urban.,2% stock-out rate and 9.6% return rate,/stores,257604.06891748

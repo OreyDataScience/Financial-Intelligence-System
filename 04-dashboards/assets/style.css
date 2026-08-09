@@ -1,61 +1,36 @@
-body{
-
-    background-color:#F4F6F9;
-    font-family:Arial, Helvetica, sans-serif;
-
+:root { --orey-navy: #061b3a; --orey-navy-deep: #03132b; --orey-blue: #1479d2; --orey-sky: #48a7f8; --orey-text: #102a4c; }
+body { background: linear-gradient(135deg, var(--orey-navy-deep), var(--orey-navy) 52%, #0a315f); color: var(--orey-text); font-family: Inter, "Segoe UI", Arial, sans-serif; min-height: 100vh; }
+.sidebar { background: linear-gradient(180deg, #061b3a, #092952) !important; height: 100vh; border-right: 1px solid rgba(153,207,255,.18); box-shadow: 8px 0 28px rgba(0,12,35,.22); }
+.content { padding: 24px 28px 36px; min-height: 100vh; }
+.orey-sidebar-inner { height: 100%; padding: 14px 14px 12px; position: relative; }
+.orey-logo { width: 104px; max-height: 56px; object-fit: contain; display: block; margin: 0 auto 5px; }
+.orey-brand { color: #fff; font-size: 1rem; font-weight: 800; letter-spacing: .09em; margin: 0; }
+.orey-tagline { color: #9dc8f4 !important; font-size: .72rem; margin: 1px 0 10px; }
+.orey-nav .nav-link { color: #c8e0fa; margin: 2px 0; padding: 8px 10px; border-radius: 8px; font-size: .82rem; font-weight: 600; line-height: 1.15; }
+.orey-nav .nav-link:hover { background: rgba(82,165,245,.16); color: #fff; }
+.orey-nav .nav-link.active { background: linear-gradient(90deg, var(--orey-blue), #2394e6); color: #fff; box-shadow: 0 5px 12px rgba(3,18,48,.26); }
+.orey-sidebar-footer { color: #8ebae6 !important; font-size: .7rem; position: absolute; bottom: 12px; left: 14px; }
+h1, h2, h3 { color: #fff; font-weight: 750; letter-spacing: -.025em; } h1 { font-size: 2rem; } h2 { font-size: 1.35rem; }
+.content > .container-fluid > p, .content .text-muted { color: #b8d5f2 !important; }
+.card { border: 1px solid rgba(211,230,248,.9) !important; border-radius: 14px !important; box-shadow: 0 12px 28px rgba(0,15,42,.20) !important; overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(0,15,42,.28) !important; }
+.card-body { padding: 16px; }
+.orey-kpi { border-top: 4px solid var(--orey-blue) !important; min-height: 92px; }
+.orey-kpi .kpi-label { color: #5b7190 !important; font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 7px; }
+.orey-kpi .kpi-value { margin: 0; font-size: 1.55rem; }.orey-kpi .kpi-subtitle { color: #7488a1 !important; }
+.table { color: var(--orey-text); margin-bottom: 0; }.table-striped > tbody > tr:nth-of-type(odd) > * { color: var(--orey-text); background-color: #f1f8ff; }.table-hover > tbody > tr:hover > * { color: var(--orey-text); background-color: #e1f1ff; }.alert-light { color: #18385f; background: #edf6ff; border: 1px solid #d1e8fb; }
+.action-card { border-left: 4px solid var(--orey-blue) !important; box-shadow: none !important; background: #f8fbff; }.action-priority { color: #1479d2; font-size: .72rem; font-weight: 800; text-transform: uppercase; }.action-audience { color: #6d8199; font-size: .72rem; font-weight: 700; }.action-outcome { color: #087c5b; font-size: .88rem; font-weight: 750; }.attention-strip .card { box-shadow: none !important; }.attention-count { color: #1479d2; font-size: 1.6rem; font-weight: 800; }
+@media (max-width: 991px) { .sidebar { height: auto; min-height: auto; }.orey-sidebar-footer { display: none; }.content { padding: 20px 16px; } }
+.action-card .card-body {
+    padding: 12px;
 }
 
-.sidebar{
-
-    background-color:white;
-    height:100vh;
-    border-right:1px solid #E5E5E5;
-    box-shadow:2px 0px 8px rgba(0,0,0,0.05);
-
+.action-card h6 {
+    font-size: 0.82rem;
+    line-height: 1.25;
 }
 
-.content{
-
-    padding:30px;
-
-}
-
-.nav-pills .nav-link{
-
-    color:#333;
-    margin-bottom:8px;
-    border-radius:10px;
-    font-weight:500;
-
-}
-
-.nav-pills .nav-link.active{
-
-    background:#0B6E4F;
-    color:white;
-
-}
-
-h1{
-
-    font-weight:700;
-
-}
-
-h3{
-
-    font-weight:600;
-
-}
-
-.card{
-
-    transition:0.3s;
-
-}
-
-.card:hover{
-
-    transform:translateY(-5px);
-
+.action-card .action-outcome {
+    font-size: 0.78rem;
+    margin-bottom: 8px !important;
 }

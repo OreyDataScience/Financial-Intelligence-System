@@ -1,0 +1,4 @@
+Priority,Area,Count,Detail,Route
+2,High-risk suppliers,26,Suppliers with elevated lead-time or stock-out exposure.,/suppliers
+4,Elevated returns,24,Months with return rate above the 8% threshold.,/operational
+1,High-risk stores,15,Stores with elevated stock-out or return risk.,/stores

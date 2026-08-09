@@ -36,9 +36,7 @@ growth = (
 # ==========================================================
 
 layout = dbc.Container(
-
     [
-
         html.H1(
             "Revenue Intelligence",
             className="mb-1"
@@ -52,95 +50,59 @@ layout = dbc.Container(
         html.Br(),
 
         dbc.Row(
-
             [
-
                 dbc.Col(
-
                     kpi_card(
-
                         "Latest Revenue",
-
                         format_currency(revenue),
-
                         "Current Month",
-
                         "#0B6E4F"
-
                     ),
 
                     lg=3
-
                 ),
 
                 dbc.Col(
-
                     kpi_card(
-
                         "Profit",
-
                         format_currency(profit),
-
                         "Current Month",
-
                         "#2E86DE"
-
                     ),
 
                     lg=3
-
                 ),
 
                 dbc.Col(
-
                     kpi_card(
-
                         "Growth",
-
                         f"{growth:.1f}%",
-
                         "Month-on-Month",
-
                         "#8E44AD"
-
                     ),
 
                     lg=3
-
                 ),
 
                 dbc.Col(
-
                     kpi_card(
-
                         "Forecast",
-
                         format_currency(forecast_revenue),
-
                         "Next Month",
-
                         "#3498DB"
-
                     ),
 
                     lg=3
-
                 )
-
             ],
-
             className="g-4"
-
         ),
 
         html.Br(),
 
         dbc.Card(
-
             dbc.CardBody(
-
                 dcc.Graph(
-
                     figure=revenue_chart(
                         monthly,
                         forecast
@@ -151,17 +113,12 @@ layout = dbc.Container(
                         "displaylogo": False,
                         "responsive": True
                     }
-
                 )
-
             ),
 
             className="shadow-sm"
-
         )
-
     ],
 
     fluid=True
-
 )

@@ -2,19 +2,19 @@ from dash import html, dcc, register_page
 import dash_bootstrap_components as dbc
 
 from components.cards import kpi_card
-from components.supplier_chart import (
-    supplier_risk_chart,
-    supplier_lead_time_chart
+from components.segment_chart import (
+    segment_revenue_chart,
+    segment_margin_chart
 )
 
-from scripts.data_loader import suppliers, high_risk_suppliers
+from scripts.data_loader import segments
 from scripts.utils import format_currency
 
 
 register_page(
     __name__,
-    path="/suppliers",
-    name="Suppliers"
+    path="/segments",
+    name="Customer Segments"
 )
 
 
@@ -22,17 +22,13 @@ register_page(
 # METRICS
 # ==========================================================
 
-total_revenue = suppliers["Revenue"].sum()
+total_revenue = segments["Revenue"].sum()
 
-avg_lead_time = suppliers["Avg_LeadTime"].mean()
+total_profit = segments["Profit"].sum()
 
-avg_stockout = suppliers["StockOutRate"].mean()
+avg_margin = segments["AvgMargin"].mean()
 
-high_risk_count = suppliers[
-    suppliers["Supplier_Risk"].astype(str).str.lower().isin(
-        ["high risk", "critical", "high", "critical"]
-    )
-].shape[0]
+avg_return_rate = segments["ReturnRate"].mean()
 
 
 # ==========================================================
@@ -44,12 +40,12 @@ layout = dbc.Container(
     [
 
         html.H1(
-            "Supplier Risk",
+            "Customer Segments",
             className="mb-1"
         ),
 
         html.P(
-            "Supplier reliability, lead times and operational risk.",
+            "Revenue, profitability and customer behaviour across segments.",
             className="text-muted"
         ),
 
@@ -66,9 +62,9 @@ layout = dbc.Container(
                 dbc.Col(
 
                     kpi_card(
-                        "Supplier Revenue",
+                        "Revenue",
                         format_currency(total_revenue),
-                        "Portfolio",
+                        "All Segments",
                         "#0B6E4F"
                     ),
 
@@ -81,9 +77,9 @@ layout = dbc.Container(
                 dbc.Col(
 
                     kpi_card(
-                        "Avg Lead Time",
-                        f"{avg_lead_time:.1f}",
-                        "Average",
+                        "Profit",
+                        format_currency(total_profit),
+                        "All Segments",
                         "#2E86DE"
                     ),
 
@@ -96,10 +92,10 @@ layout = dbc.Container(
                 dbc.Col(
 
                     kpi_card(
-                        "Stock-Out Rate",
-                        f"{avg_stockout * 100:.1f}%",
-                        "Supplier Average",
-                        "#F39C12"
+                        "Average Margin",
+                        f"{avg_margin:.1f}%",
+                        "Segment Average",
+                        "#8E44AD"
                     ),
 
                     xs=12,
@@ -111,9 +107,9 @@ layout = dbc.Container(
                 dbc.Col(
 
                     kpi_card(
-                        "High-Risk Suppliers",
-                        f"{high_risk_count}",
-                        "High Risk/ Critical",
+                        "Return Rate",
+                        f"{avg_return_rate * 100:.1f}%",
+                        "Segment Average",
                         "#C0392B"
                     ),
 
@@ -132,7 +128,7 @@ layout = dbc.Container(
         html.Br(),
 
         # ==================================================
-        # STOCK-OUT RISK
+        # REVENUE BY SEGMENT
         # ==================================================
 
         dbc.Card(
@@ -141,10 +137,10 @@ layout = dbc.Container(
 
                 dcc.Graph(
 
-                    id="supplier-risk-chart",
+                    id="segment-revenue-chart",
 
-                    figure=supplier_risk_chart(
-                        suppliers
+                    figure=segment_revenue_chart(
+                        segments
                     ),
 
                     config={
@@ -164,7 +160,7 @@ layout = dbc.Container(
         html.Br(),
 
         # ==================================================
-        # LEAD TIME
+        # MARGIN BY SEGMENT
         # ==================================================
 
         dbc.Card(
@@ -173,10 +169,10 @@ layout = dbc.Container(
 
                 dcc.Graph(
 
-                    id="supplier-lead-time-chart",
+                    id="segment-margin-chart",
 
-                    figure=supplier_lead_time_chart(
-                        suppliers
+                    figure=segment_margin_chart(
+                        segments
                     ),
 
                     config={
@@ -191,52 +187,7 @@ layout = dbc.Container(
 
             className="shadow-sm"
 
-        ),
-
-        html.Br(),
-
-        # ==================================================
-        # RISK SUMMARY
-        # ==================================================
-
-        dbc.Card(
-
-            dbc.CardBody(
-
-                [
-
-                    html.H4(
-                        "Supplier Risk Summary"
-                    ),
-
-                    html.Hr(),
-
-                    html.P(
-                        f"There are currently "
-                        f"{high_risk_count} suppliers classified "
-                        f"as High risk or Critical."
-                    ),
-
-                    html.P(
-                        f"Average supplier lead time is "
-                        f"{avg_lead_time:.1f}."
-                    ),
-
-                    html.P(
-                        f"Average supplier stock-out rate is "
-                        f"{avg_stockout * 100:.1f}%."
-                    )
-
-                ]
-
-            ),
-
-            className="shadow-sm"
-
-        ),
-
-        html.Br(),
-        dbc.Card(dbc.CardBody([html.H4("High-Risk Suppliers"), html.Hr(), dbc.Table.from_dataframe(high_risk_suppliers[["SupplierID", "Avg_LeadTime", "StockOutRate", "Supplier_Risk"]].head(10), striped=True, hover=True, size="sm")]), className="shadow-sm")
+        )
 
     ],
 

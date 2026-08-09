@@ -18,8 +18,8 @@ def revenue_chart(monthly, forecast):
             name="Revenue",
 
             line=dict(
-                color="#0B6E4F",
-                width=4
+                color="#1479D2",
+                width=3
             ),
 
             marker=dict(size=8),
@@ -43,8 +43,8 @@ def revenue_chart(monthly, forecast):
             name="Forecast",
 
             line=dict(
-                color="#3498DB",
-                width=4,
+                color="#48A7F8",
+                width=3,
                 dash="dash"
             ),
 
@@ -86,7 +86,7 @@ def revenue_chart(monthly, forecast):
 
             fill="tonexty",
 
-            fillcolor="rgba(52,152,219,0.18)",
+            fillcolor="rgba(72,167,248,0.20)",
 
             line=dict(width=0),
 
@@ -102,24 +102,24 @@ def revenue_chart(monthly, forecast):
 
         template="plotly_white",
 
-        height=550,
+        height=330,
 
         title=dict(
             text="Revenue Trend & 6-Month Forecast",
             x=0.01,
-            font=dict(size=22)
+            font=dict(size=17, color="#102A4C")
         ),
 
         hovermode="x unified",
 
-        paper_bgcolor="white",
+        paper_bgcolor="#FFFFFF",
 
-        plot_bgcolor="white",
+        plot_bgcolor="#FFFFFF",
 
         margin=dict(
             l=20,
             r=20,
-            t=70,
+            t=55,
             b=20
         ),
 
@@ -147,7 +147,7 @@ def revenue_chart(monthly, forecast):
 
         separatethousands=True,
 
-        gridcolor="#ECECEC",
+        gridcolor="#DDEAF6",
 
         zeroline=False
 

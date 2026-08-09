@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 from components.cards import kpi_card
 from components.product_chart import top_products_chart
 
-from scripts.data_loader import products
+from scripts.data_loader import products, top_products, bottom_products
 from scripts.utils import format_currency
 
 register_page(
@@ -167,7 +167,13 @@ layout = dbc.Container(
 
             className="shadow-sm"
 
-        )
+        ),
+
+        html.Br(),
+        dbc.Row([
+            dbc.Col(dbc.Card(dbc.CardBody([html.H4("Top Products"), html.Hr(), dbc.Table.from_dataframe(top_products[["ProductName", "Revenue", "Profit"]].head(10), striped=True, hover=True, size="sm")]), className="h-100"), lg=6),
+            dbc.Col(dbc.Card(dbc.CardBody([html.H4("Bottom Products"), html.Hr(), dbc.Table.from_dataframe(bottom_products[["ProductName", "Revenue", "Profit"]].head(10), striped=True, hover=True, size="sm")]), className="h-100"), lg=6),
+        ], className="g-4")
 
     ],
 

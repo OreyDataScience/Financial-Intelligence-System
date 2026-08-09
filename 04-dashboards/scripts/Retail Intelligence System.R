@@ -9,7 +9,7 @@ library(lubridate)
 library(forecast)
 library(tseries)
 
-setwd("E:/Business/Orey Analytics/Portfolio Building/10-dashboards/data")
+setwd("D:/Business/Orey Analytics/Portfolio Building/10-dashboards/data")
 retail <- read_csv("retail_intelligence_dataset_clean.csv")
 
 # ===========================================================================
@@ -245,7 +245,7 @@ channel_analysis <- retail %>%
   )
 
 # ===========================================================================
-# SECTION 11: SUPPLIER RISK ANALYSIS
+# SECTION 11A: SUPPLIER RISK ANALYSIS
 # ===========================================================================
 
 supplier_analysis <- retail %>%
@@ -262,6 +262,217 @@ supplier_analysis <- retail %>%
       TRUE ~ "Reliable"
     )
   )
+
+# ===========================================================================
+# SECTION 11B: PRESCRIPTIVE ACTIONS & NEEDS ATTENTION
+# ===========================================================================
+
+high_risk_stores <- store_analysis %>%
+  filter(Store_Risk == "High Risk")
+
+high_risk_suppliers <- supplier_analysis %>%
+  filter(Supplier_Risk == "High Risk")
+
+
+# ---------------------------------------------------------------------------
+# SKU-LEVEL REORDER DECISION ENGINE
+# ---------------------------------------------------------------------------
+
+analysis_days <- max(
+  1,
+  as.numeric(max(retail$Date) - min(retail$Date)) + 1
+)
+
+# Demand and operational risk by SKU
+product_demand <- retail %>%
+  group_by(ProductID, ProductName, Category) %>%
+  summarise(
+    Avg_Daily_Demand = sum(UnitsSold, na.rm = TRUE) / analysis_days,
+    Avg_LeadTime = mean(LeadTimeDays, na.rm = TRUE),
+    StockOutRate = mean(StockOutFlag, na.rm = TRUE),
+    Revenue = sum(Revenue, na.rm = TRUE),
+    Avg_Unit_Price = mean(UnitPrice, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Latest known inventory level per SKU
+latest_inventory <- retail %>%
+  filter(Date == max(Date, na.rm = TRUE)) %>%
+  group_by(ProductID, ProductName, Category) %>%
+  summarise(
+    Current_Stock = mean(InventoryLevel, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Reorder-point logic:
+# expected demand during supplier lead time + seven-day safety stock
+sku_reorder_decisions <- product_demand %>%
+  left_join(
+    latest_inventory,
+    by = c("ProductID", "ProductName", "Category")
+  ) %>%
+  mutate(
+    Safety_Stock = Avg_Daily_Demand * 7,
+    Reorder_Point = Avg_Daily_Demand * Avg_LeadTime + Safety_Stock,
+    Units_To_Order = pmax(round(Reorder_Point - Current_Stock), 0),
+    Stock_Risk_Value = Units_To_Order * Avg_Unit_Price,
+    
+    SKU_Risk = case_when(
+      Current_Stock <= Reorder_Point & StockOutRate > 0.05 ~ "Critical",
+      Current_Stock <= Reorder_Point ~ "High",
+      StockOutRate > 0.05 ~ "Moderate",
+      TRUE ~ "Healthy"
+    )
+  ) %>%
+  arrange(desc(Stock_Risk_Value))
+
+
+at_risk_skus <- sku_reorder_decisions %>%
+  filter(SKU_Risk %in% c("Critical", "High"))
+
+
+# ---------------------------------------------------------------------------
+# RECOMMENDED ACTIONS
+# ---------------------------------------------------------------------------
+
+sku_actions <- at_risk_skus %>%
+  mutate(
+    Audience = "SME",
+    Action = paste0(
+      "Reorder ",
+      ProductName,
+      " before the next supplier cycle."
+    ),
+    Outcome = paste0(
+      "R ",
+      format(round(Stock_Risk_Value, 0), big.mark = ","),
+      " revenue risk flagged"
+    ),
+    Route = "/inventory",
+    Impact_Value = Stock_Risk_Value
+  ) %>%
+  select(
+    Audience,
+    Action,
+    Outcome,
+    Route,
+    Impact_Value
+  )
+
+
+supplier_actions <- high_risk_suppliers %>%
+  mutate(
+    Audience = "SME",
+    Action = paste0(
+      "Confirm delivery timing and contingency stock with supplier ",
+      SupplierID,
+      "."
+    ),
+    Outcome = paste0(
+      round(StockOutRate * 100, 1),
+      "% stock-out exposure; ",
+      round(Avg_LeadTime, 1),
+      "-day average lead time"
+    ),
+    Route = "/suppliers",
+    Impact_Value = Revenue * StockOutRate
+  ) %>%
+  select(
+    Audience,
+    Action,
+    Outcome,
+    Route,
+    Impact_Value
+  )
+
+
+store_actions <- high_risk_stores %>%
+  mutate(
+    Audience = "SME",
+    Action = paste0(
+      "Review fulfilment and returns controls at ",
+      StoreLocation,
+      "."
+    ),
+    Outcome = paste0(
+      round(StockOutRate * 100, 1),
+      "% stock-out rate and ",
+      round(ReturnRate * 100, 1),
+      "% return rate"
+    ),
+    Route = "/stores",
+    Impact_Value = Revenue * (StockOutRate + ReturnRate)
+  ) %>%
+  select(
+    Audience,
+    Action,
+    Outcome,
+    Route,
+    Impact_Value
+  )
+
+
+recommended_actions <- bind_rows(
+  sku_actions,
+  supplier_actions,
+  store_actions
+) %>%
+  arrange(desc(Impact_Value)) %>%
+  slice_head(n = 5) %>%
+  mutate(
+    Priority = row_number()
+  ) %>%
+  select(
+    Audience,
+    Priority,
+    Action,
+    Outcome,
+    Route,
+    Impact_Value
+  )
+
+
+# ---------------------------------------------------------------------------
+# NEEDS ATTENTION
+# ---------------------------------------------------------------------------
+
+needs_attention <- bind_rows(
+  
+  tibble(
+    Priority = 1,
+    Area = "High-risk stores",
+    Count = nrow(high_risk_stores),
+    Detail = "Stores with elevated stock-out or return risk.",
+    Route = "/stores"
+  ),
+  
+  tibble(
+    Priority = 2,
+    Area = "High-risk suppliers",
+    Count = nrow(high_risk_suppliers),
+    Detail = "Suppliers with elevated lead-time or stock-out exposure.",
+    Route = "/suppliers"
+  ),
+  
+  tibble(
+    Priority = 3,
+    Area = "At-risk SKUs",
+    Count = nrow(at_risk_skus),
+    Detail = "SKUs currently below their calculated reorder point.",
+    Route = "/inventory"
+  ),
+  
+  tibble(
+    Priority = 4,
+    Area = "Elevated returns",
+    Count = sum(monthly_data$ReturnRate > 0.08, na.rm = TRUE),
+    Detail = "Months with return rate above the 8% threshold.",
+    Route = "/operational"
+  )
+  
+) %>%
+  filter(Count > 0) %>%
+  arrange(desc(Count))
 
 # ===========================================================================
 # SECTION 12: EXECUTIVE SUMMARY
@@ -282,7 +493,7 @@ cat("==========================================================\n")
 # SECTION 13: POWER BI EXPORTS
 # ===========================================================================
 
-output_path <- "E:/Business/Orey Analytics/Portfolio Building/10-dashboards/Retail Intelligence/PowerBI data"
+output_path <- "D:/Business/Orey Analytics/Portfolio Building/10-dashboards/Retail Intelligence/PowerBI data"
 dir.create(output_path, recursive = TRUE, showWarnings = FALSE)
 
 # Dashboard 1: Revenue & Sales Intelligence
@@ -325,4 +536,21 @@ write_csv(segment_analysis,
 write_csv(monthly_data %>%
             select(Month, StockOutRate, ReturnRate, Avg_LeadTime, Inventory_Risk),
           file.path(output_path, "Dashboard_2_Operational_Risk.csv"))
+
+# Additional Info for Prescriptive Analytics
+write_csv(
+  recommended_actions,
+  file.path(output_path, "Executive_Recommended_Actions.csv")
+)
+
+write_csv(
+  needs_attention,
+  file.path(output_path, "Executive_Needs_Attention.csv")
+)
+
+write_csv(
+  sku_reorder_decisions,
+  file.path(output_path, "Executive_SKU_Reorder_Decisions.csv")
+)
+
 

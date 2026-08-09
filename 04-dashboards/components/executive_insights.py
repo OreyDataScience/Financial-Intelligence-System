@@ -2,13 +2,37 @@ from dash import html
 import dash_bootstrap_components as dbc
 
 
-def executive_insights(
-    revenue,
-    forecast,
-    margin,
-    inventory,
-    returns
-):
+def executive_insights(strategic_findings):
+
+    findings = strategic_findings.head(6)
+
+    items = []
+
+    for _, row in findings.iterrows():
+
+        items.append(
+
+            dbc.Alert(
+
+                [
+
+                    html.Strong(
+                        f"{row['Strategic_Area']}: "
+                    ),
+
+                    html.Span(
+                        str(row["Insight"])
+                    )
+
+                ],
+
+                color="light",
+
+                className="mb-2"
+
+            )
+
+        )
 
     return dbc.Card(
 
@@ -16,34 +40,18 @@ def executive_insights(
 
             [
 
-                html.H4("Executive Insights"),
+                html.H4(
+                    "Strategic Findings"
+                ),
 
                 html.Hr(),
 
-                html.P(
-                    f"• Latest revenue recorded: R {revenue:,.0f}"
-                ),
-
-                html.P(
-                    f"• Next month's forecast: R {forecast:,.0f}"
-                ),
-
-                html.P(
-                    f"• Average margin: {margin:.1f}%"
-                ),
-
-                html.P(
-                    f"• Inventory status: {inventory}"
-                ),
-
-                html.P(
-                    f"• Return rate: {returns*100:.1f}%"
-                )
+                *items
 
             ]
 
         ),
 
-        className="shadow-sm h-100"
+        className="shadow-sm"
 
     )

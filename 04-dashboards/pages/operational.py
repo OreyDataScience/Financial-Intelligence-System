@@ -2,19 +2,18 @@ from dash import html, dcc, register_page
 import dash_bootstrap_components as dbc
 
 from components.cards import kpi_card
-from components.supplier_chart import (
-    supplier_risk_chart,
-    supplier_lead_time_chart
+from components.operational_chart import (
+    operational_risk_chart,
+    lead_time_chart
 )
 
-from scripts.data_loader import suppliers, high_risk_suppliers
-from scripts.utils import format_currency
+from scripts.data_loader import operational, seasonal_risk
 
 
 register_page(
     __name__,
-    path="/suppliers",
-    name="Suppliers"
+    path="/operational",
+    name="Operational Risk"
 )
 
 
@@ -22,17 +21,15 @@ register_page(
 # METRICS
 # ==========================================================
 
-total_revenue = suppliers["Revenue"].sum()
+latest = operational.iloc[-1]
 
-avg_lead_time = suppliers["Avg_LeadTime"].mean()
+stockout = latest["StockOutRate"]
 
-avg_stockout = suppliers["StockOutRate"].mean()
+returns = latest["ReturnRate"]
 
-high_risk_count = suppliers[
-    suppliers["Supplier_Risk"].astype(str).str.lower().isin(
-        ["high risk", "critical", "high", "critical"]
-    )
-].shape[0]
+lead_time = latest["Avg_LeadTime"]
+
+inventory_risk = latest["Inventory_Risk"]
 
 
 # ==========================================================
@@ -44,12 +41,12 @@ layout = dbc.Container(
     [
 
         html.H1(
-            "Supplier Risk",
+            "Operational Risk",
             className="mb-1"
         ),
 
         html.P(
-            "Supplier reliability, lead times and operational risk.",
+            "Monitoring inventory, returns, supplier lead times and operational risk.",
             className="text-muted"
         ),
 
@@ -66,10 +63,10 @@ layout = dbc.Container(
                 dbc.Col(
 
                     kpi_card(
-                        "Supplier Revenue",
-                        format_currency(total_revenue),
-                        "Portfolio",
-                        "#0B6E4F"
+                        "Stock-Out Rate",
+                        f"{stockout * 100:.1f}%",
+                        "Latest Month",
+                        "#C0392B"
                     ),
 
                     xs=12,
@@ -81,9 +78,24 @@ layout = dbc.Container(
                 dbc.Col(
 
                     kpi_card(
-                        "Avg Lead Time",
-                        f"{avg_lead_time:.1f}",
-                        "Average",
+                        "Return Rate",
+                        f"{returns * 100:.1f}%",
+                        "Latest Month",
+                        "#E67E22"
+                    ),
+
+                    xs=12,
+                    sm=6,
+                    lg=3
+
+                ),
+
+                dbc.Col(
+
+                    kpi_card(
+                        "Average Lead Time",
+                        f"{lead_time:.1f}",
+                        "Latest Month",
                         "#2E86DE"
                     ),
 
@@ -96,25 +108,10 @@ layout = dbc.Container(
                 dbc.Col(
 
                     kpi_card(
-                        "Stock-Out Rate",
-                        f"{avg_stockout * 100:.1f}%",
-                        "Supplier Average",
-                        "#F39C12"
-                    ),
-
-                    xs=12,
-                    sm=6,
-                    lg=3
-
-                ),
-
-                dbc.Col(
-
-                    kpi_card(
-                        "High-Risk Suppliers",
-                        f"{high_risk_count}",
-                        "High Risk/ Critical",
-                        "#C0392B"
+                        "Inventory Risk",
+                        str(inventory_risk),
+                        "Latest Month",
+                        "#8E44AD"
                     ),
 
                     xs=12,
@@ -132,7 +129,7 @@ layout = dbc.Container(
         html.Br(),
 
         # ==================================================
-        # STOCK-OUT RISK
+        # OPERATIONAL TRENDS
         # ==================================================
 
         dbc.Card(
@@ -141,10 +138,10 @@ layout = dbc.Container(
 
                 dcc.Graph(
 
-                    id="supplier-risk-chart",
+                    id="operational-risk-chart",
 
-                    figure=supplier_risk_chart(
-                        suppliers
+                    figure=operational_risk_chart(
+                        operational
                     ),
 
                     config={
@@ -173,10 +170,10 @@ layout = dbc.Container(
 
                 dcc.Graph(
 
-                    id="supplier-lead-time-chart",
+                    id="lead-time-chart",
 
-                    figure=supplier_lead_time_chart(
-                        suppliers
+                    figure=lead_time_chart(
+                        operational
                     ),
 
                     config={
@@ -206,25 +203,29 @@ layout = dbc.Container(
                 [
 
                     html.H4(
-                        "Supplier Risk Summary"
+                        "Operational Risk Summary"
                     ),
 
                     html.Hr(),
 
                     html.P(
-                        f"There are currently "
-                        f"{high_risk_count} suppliers classified "
-                        f"as High risk or Critical."
+                        f"Current inventory risk classification: "
+                        f"{inventory_risk}."
                     ),
 
                     html.P(
-                        f"Average supplier lead time is "
-                        f"{avg_lead_time:.1f}."
+                        f"Current stock-out rate: "
+                        f"{stockout * 100:.1f}%."
                     ),
 
                     html.P(
-                        f"Average supplier stock-out rate is "
-                        f"{avg_stockout * 100:.1f}%."
+                        f"Current return rate: "
+                        f"{returns * 100:.1f}%."
+                    ),
+
+                    html.P(
+                        f"Current average lead time: "
+                        f"{lead_time:.1f}."
                     )
 
                 ]
@@ -236,7 +237,7 @@ layout = dbc.Container(
         ),
 
         html.Br(),
-        dbc.Card(dbc.CardBody([html.H4("High-Risk Suppliers"), html.Hr(), dbc.Table.from_dataframe(high_risk_suppliers[["SupplierID", "Avg_LeadTime", "StockOutRate", "Supplier_Risk"]].head(10), striped=True, hover=True, size="sm")]), className="shadow-sm")
+        dbc.Card(dbc.CardBody([html.H4("Seasonal Risk"), html.Hr(), dbc.Table.from_dataframe(seasonal_risk[["Month_Name", "Seasonal_Effect", "Strategic_Risk"]], striped=True, hover=True, size="sm")]), className="shadow-sm")
 
     ],
 

@@ -1,5 +1,7 @@
 import plotly.express as px
 
+OREY_BLUES = ["#1479D2", "#48A7F8", "#0B4F92", "#8CC9FF", "#2467A5"]
+
 
 def top_products_chart(products):
 
@@ -27,7 +29,8 @@ def top_products_chart(products):
 
         text="Revenue",
 
-        template="plotly_white"
+        template="plotly_white",
+        color_discrete_sequence=OREY_BLUES
 
     )
 
@@ -43,7 +46,7 @@ def top_products_chart(products):
 
         title="Top 10 Products by Revenue",
 
-        height=550,
+        height=360,
 
         xaxis_title="Revenue (R)",
 
