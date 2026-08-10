@@ -32,6 +32,64 @@ total_profit = inventory["Profit"].sum()
 
 
 # ==========================================================
+# CONDITIONAL KPI COLOURS
+# ==========================================================
+
+# Stock-Out Rate
+# Below 5% = Orange
+# 5% or higher = Red
+
+stockout_colour = (
+    "#F39C12"
+    if avg_stockout < 0.05
+    else "#C0392B"
+)
+
+
+# Profit
+# Positive = Green
+# Negative = Red
+
+profit_colour = (
+    "#2ECC71"
+    if total_profit >= 0
+    else "#C0392B"
+)
+
+
+# ==========================================================
+# PREPARE INVENTORY RISK TABLE
+# ==========================================================
+
+risk_table = inventory_summary[
+    [
+        "Category",
+        "StockOutRate",
+        "Inventory_Risk",
+        "Revenue"
+    ]
+].head(10).copy()
+
+
+# Format Revenue with R and 2 decimal places
+risk_table["Revenue"] = risk_table["Revenue"].apply(
+    lambda x: f"R {x:,.2f}"
+)
+
+
+# Convert Stock-Out Rate to percentage
+# Round original value to 4 decimals first,
+# then multiply by 100.
+
+risk_table["StockOutRate"] = (
+    risk_table["StockOutRate"]
+    .round(4)
+    .mul(100)
+    .map(lambda x: f"{x:.2f}%")
+)
+
+
+# ==========================================================
 # LAYOUT
 # ==========================================================
 
@@ -65,7 +123,7 @@ layout = dbc.Container(
                         "Average Inventory",
                         f"{total_inventory:,.0f}",
                         "Category Total",
-                        "#0B6E4F"
+                        "#3498DB"
                     ),
 
                     xs=12,
@@ -80,7 +138,7 @@ layout = dbc.Container(
                         "Stock-Out Rate",
                         f"{avg_stockout * 100:.1f}%",
                         "Category Average",
-                        "#C0392B"
+                        stockout_colour
                     ),
 
                     xs=12,
@@ -95,7 +153,7 @@ layout = dbc.Container(
                         "Revenue",
                         format_currency(total_revenue),
                         "Inventory Categories",
-                        "#2E86DE"
+                        "#3498DB"
                     ),
 
                     xs=12,
@@ -110,7 +168,7 @@ layout = dbc.Container(
                         "Profit",
                         format_currency(total_profit),
                         "Inventory Categories",
-                        "#8E44AD"
+                        profit_colour
                     ),
 
                     xs=12,
@@ -190,7 +248,44 @@ layout = dbc.Container(
         ),
 
         html.Br(),
-        dbc.Card(dbc.CardBody([html.H4("Inventory Risk"), html.Hr(), dbc.Table.from_dataframe(inventory_summary[["Category", "StockOutRate", "Inventory_Risk", "Revenue"]].head(10), striped=True, hover=True, size="sm")]), className="shadow-sm")
+
+        # ==================================================
+        # INVENTORY RISK
+        # ==================================================
+
+        dbc.Card(
+
+            dbc.CardBody(
+
+                [
+
+                    html.H4(
+                        "Inventory Risk"
+                    ),
+
+                    html.Hr(),
+
+                    dbc.Table.from_dataframe(
+
+                        risk_table,
+
+                        striped=True,
+                        hover=True,
+                        size="sm",
+
+                        style={
+                            "textAlign": "left"
+                        }
+
+                    )
+
+                ]
+
+            ),
+
+            className="shadow-sm"
+
+        )
 
     ],
 
