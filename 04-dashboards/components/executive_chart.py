@@ -3,7 +3,6 @@ import plotly.express as px
 OREY_SEQUENCE = ["#1479D2", "#48A7F8", "#0B4F92", "#8CC9FF", "#2467A5"]
 RISK_COLOURS = {"Low": "#3AA981", "Medium": "#F2B84B", "High": "#E97A4A", "Critical": "#D84D5A"}
 
-
 def executive_top_products_chart(products):
 
     data = (

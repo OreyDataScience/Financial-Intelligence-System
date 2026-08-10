@@ -1,7 +1,6 @@
 from dash import html
 import dash_bootstrap_components as dbc
 
-
 def executive_insights(strategic_findings):
 
     findings = strategic_findings.head(6)
@@ -11,11 +10,8 @@ def executive_insights(strategic_findings):
     for _, row in findings.iterrows():
 
         items.append(
-
             dbc.Alert(
-
                 [
-
                     html.Strong(
                         f"{row['Strategic_Area']}: "
                     ),
@@ -23,23 +19,15 @@ def executive_insights(strategic_findings):
                     html.Span(
                         str(row["Insight"])
                     )
-
                 ],
-
                 color="light",
-
                 className="mb-2"
-
             )
-
         )
 
     return dbc.Card(
-
         dbc.CardBody(
-
             [
-
                 html.H4(
                     "Strategic Findings"
                 ),
@@ -47,11 +35,8 @@ def executive_insights(strategic_findings):
                 html.Hr(),
 
                 *items
-
             ]
-
         ),
 
         className="shadow-sm"
-
     )

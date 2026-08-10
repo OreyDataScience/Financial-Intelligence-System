@@ -13,9 +13,7 @@ register_page(
     name="Products"
 )
 
-# ==========================================================
 # KPIs
-# ==========================================================
 
 total_revenue = products["Revenue"].sum()
 
@@ -25,9 +23,7 @@ total_units = products["UnitsSold"].sum()
 
 avg_margin = products["AvgMargin"].mean()
 
-# ==========================================================
 # TABLE DATA
-# ==========================================================
 
 top_products_table = top_products[
     ["ProductName", "Category", "Revenue", "Profit"]
@@ -37,9 +33,7 @@ bottom_products_table = bottom_products[
     ["ProductName", "Category", "Revenue", "Profit"]
 ].head(10).copy()
 
-# ==========================================================
 # FORMAT FINANCIAL VALUES
-# ==========================================================
 
 top_products_table["Revenue"] = (
     top_products_table["Revenue"].map(
@@ -65,9 +59,7 @@ bottom_products_table["Profit"] = (
     )
 )
 
-# ==========================================================
 # RENAME TABLE COLUMNS
-# ==========================================================
 
 top_products_table = top_products_table.rename(
     columns={
@@ -87,9 +79,7 @@ bottom_products_table = bottom_products_table.rename(
     }
 )
 
-# ==========================================================
 # LAYOUT
-# ==========================================================
 
 layout = dbc.Container(
     [
@@ -105,9 +95,7 @@ layout = dbc.Container(
 
         html.Br(),
 
-        # ==================================================
         # KPI CARDS
-        # ==================================================
 
         dbc.Row(
             [
@@ -161,9 +149,7 @@ layout = dbc.Container(
 
         html.Br(),
 
-        # ==================================================
         # PRODUCT REVENUE CHART
-        # ==================================================
 
         dbc.Card(
             dbc.CardBody(
@@ -185,15 +171,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-        # ==================================================
         # TOP & BOTTOM PRODUCTS
-        # ==================================================
 
         dbc.Row(
             [
-                # ------------------------------------------
                 # TOP PRODUCTS
-                # ------------------------------------------
 
                 dbc.Col(
                     dbc.Card(
@@ -216,15 +198,10 @@ layout = dbc.Container(
 
                                 dbc.Table.from_dataframe(
                                     top_products_table,
-
                                     striped=True,
-
                                     hover=True,
-
                                     bordered=False,
-
                                     size="sm",
-
                                     responsive=True
                                 )
                             ]
@@ -236,9 +213,7 @@ layout = dbc.Container(
                     lg=6
                 ),
 
-                # ------------------------------------------
                 # BOTTOM PRODUCTS
-                # ------------------------------------------
 
                 dbc.Col(
                     dbc.Card(
@@ -261,15 +236,10 @@ layout = dbc.Container(
 
                                 dbc.Table.from_dataframe(
                                     bottom_products_table,
-
                                     striped=True,
-
                                     hover=True,
-
                                     bordered=False,
-
                                     size="sm",
-
                                     responsive=True
                                 )
                             ]

@@ -23,9 +23,7 @@ register_page(
     name="Executive",
 )
 
-# ==========================================================
 # METRICS
-# ==========================================================
 
 latest = monthly.iloc[-1]
 
@@ -40,9 +38,7 @@ forecast_revenue = forecast.iloc[0]["Revenue_Forecast"]
 profit_colour = "#2EAD76" if profit >= 0 else "#D84D5A"
 margin_colour = "#2EAD76" if margin >= 0 else "#D84D5A"
 
-# ==========================================================
 # NEEDS ATTENTION PANEL
-# ==========================================================
 
 def needs_attention_panel(items):
 
@@ -153,9 +149,7 @@ def needs_attention_panel(items):
         ]
     )
 
-# ==========================================================
 # LAYOUT
-# ==========================================================
 
 layout = dbc.Container(
     [
@@ -169,9 +163,7 @@ layout = dbc.Container(
             className="text-muted mb-3",
         ),
 
-        # ==================================================
         # KPI CARDS
-        # ==================================================
 
         dbc.Row(
             [
@@ -245,9 +237,7 @@ layout = dbc.Container(
             className="g-3 mb-3",
         ),
 
-        # ==================================================
         # FORECAST CHART + STRATEGIC FINDINGS
-        # ==================================================
 
         dbc.Row(
             [
@@ -296,9 +286,7 @@ layout = dbc.Container(
             className="g-3 mb-3",
         ),
 
-        # ==================================================
         # NEEDS ATTENTION 
-        # ==================================================
 
         dbc.Row(
             dbc.Col(
@@ -311,12 +299,9 @@ layout = dbc.Container(
             className="g-3 mb-3",
         ),
 
-        # ==================================================
         # RECOMMENDED ACTIONS
-        # ==================================================
 
         recommended_actions_panel(
-
             recommended_actions[
                 recommended_actions["Audience"] == "SME"
             ]

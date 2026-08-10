@@ -1,8 +1,6 @@
 import plotly.express as px
 
-# ==========================================================
 # STORE RISK COLOURS
-# ==========================================================
 
 RISK_COLOURS = {
     "Reliable": "#2ECC71",
@@ -11,9 +9,7 @@ RISK_COLOURS = {
     "Critical": "#C0392B"
 }
 
-# ==========================================================
 # STORE LABEL
-# ==========================================================
 
 def create_store_label(row):
 
@@ -22,9 +18,7 @@ def create_store_label(row):
         f"{row['StoreLocation']}"
     )
 
-# ==========================================================
 # NORMALISE RISK VALUES
-# ==========================================================
 
 def normalise_risk(value):
 
@@ -42,9 +36,7 @@ def normalise_risk(value):
     else:
         return "High Risk"
 
-# ==========================================================
 # DISPLAY RISK COLOURS
-# ==========================================================
 
 DISPLAY_RISK_COLOURS = {
     "Reliable": "#2ECC71",
@@ -52,9 +44,7 @@ DISPLAY_RISK_COLOURS = {
     "High Risk": "#C0392B"
 }
 
-# ==========================================================
 # TOP STORES BY REVENUE
-# ==========================================================
 
 def top_stores_chart(stores):
 
@@ -87,7 +77,6 @@ def top_stores_chart(stores):
         color_discrete_map=DISPLAY_RISK_COLOURS,
         category_orders={
             "StoreLabel": top["StoreLabel"].tolist(),
-
             "Risk_Display": [
                 "Reliable",
                 "Moderate Risk",
@@ -98,9 +87,7 @@ def top_stores_chart(stores):
 
     fig.update_traces(
         texttemplate="R %{text:,.0f}",
-
         textposition="outside",
-
         textfont=dict(
             size=12
         )
@@ -108,22 +95,16 @@ def top_stores_chart(stores):
 
     fig.update_layout(
         title="Top 10 Stores by Revenue",
-
         height=430,
-
         xaxis_title="Store",
-
         yaxis_title="Revenue (R)",
-
         legend_title="Store Risk",
-
         margin=dict(
             l=60,
             r=40,
             t=70,
             b=110
         ),
-
         xaxis=dict(
             tickangle=0,
             tickmode="array",
@@ -132,7 +113,6 @@ def top_stores_chart(stores):
             categoryorder="array",
             categoryarray=top["StoreLabel"].tolist()
         ),
-
         yaxis=dict(
             range=[0, 2500000],
             tickmode="array",
@@ -149,7 +129,6 @@ def top_stores_chart(stores):
                 2250000,
                 2500000
             ],
-
             ticktext=[
                 "0",
                 "250K",
@@ -163,16 +142,13 @@ def top_stores_chart(stores):
                 "2.25M",
                 "2.5M"
             ],
-
             separatethousands=True
         )
     )
 
     return fig
 
-# ==========================================================
 # TOP STORES BY PROFIT
-# ==========================================================
 
 def store_profit_chart(stores):
 
@@ -233,7 +209,6 @@ def store_profit_chart(stores):
             t=70,
             b=110
         ),
-
         xaxis=dict(
             tickangle=0,
             tickmode="array",
@@ -242,7 +217,6 @@ def store_profit_chart(stores):
             categoryorder="array",
             categoryarray=top["StoreLabel"].tolist()
         ),
-
         yaxis=dict(
             range=[0, 700000],
             tickmode="array",
@@ -256,7 +230,6 @@ def store_profit_chart(stores):
                 600000,
                 700000
             ],
-
             ticktext=[
                 "0",
                 "100K",
@@ -267,16 +240,13 @@ def store_profit_chart(stores):
                 "600K",
                 "700K"
             ],
-
             separatethousands=True
         )
     )
 
     return fig
 
-# ==========================================================
 # REVENUE SHARE BY STORE LOCATION
-# ==========================================================
 
 def store_revenue_share_chart(stores):
 
@@ -293,9 +263,7 @@ def store_revenue_share_chart(stores):
         )
     )
 
-    # ======================================================
     # OREY ANALYTICS LOCATION COLOURS
-    # ======================================================
 
     LOCATION_COLOURS = [
         "#0B4F92",  # Dark Blue
@@ -313,9 +281,7 @@ def store_revenue_share_chart(stores):
         color_discrete_sequence=LOCATION_COLOURS
     )
 
-    # ======================================================
     # OUTSIDE PERCENTAGE LABELS
-    # ======================================================
 
     fig.update_traces(
         textposition="outside",
@@ -330,12 +296,9 @@ def store_revenue_share_chart(stores):
             "Revenue Share: %{percent}"
             "<extra></extra>"
         )
-
     )
 
-    # ======================================================
     # LAYOUT
-    # ======================================================
 
     fig.update_layout(
         height=300,

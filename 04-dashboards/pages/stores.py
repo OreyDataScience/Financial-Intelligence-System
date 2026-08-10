@@ -22,9 +22,7 @@ register_page(
     name="Stores"
 )
 
-# ==========================================================
 # METRICS
-# ==========================================================
 
 total_revenue = stores["Revenue"].sum()
 
@@ -34,9 +32,7 @@ avg_margin = stores["AvgMargin"].mean()
 
 avg_stockout = stores["StockOutRate"].mean()
 
-# ==========================================================
 # HIGH-RISK STORE TABLE
-# ==========================================================
 
 risk_table = high_risk_stores[
     [
@@ -72,24 +68,17 @@ risk_table = risk_table.rename(
 
     columns={
         "StoreID": "Store",
-
         "StoreLocation": "Location",
-
         "StockOutRate": "Stock-Out Rate",
-
         "ReturnRate": "Return Rate"
     }
 )
 
-# ==========================================================
 # LAYOUT
-# ==========================================================
 
 layout = dbc.Container(
     [
-        # ==================================================
         # PAGE HEADER
-        # ==================================================
 
         html.H1(
             "Store Performance",
@@ -103,9 +92,7 @@ layout = dbc.Container(
 
         html.Br(),
 
-        # ==================================================
         # KPI CARDS
-        # ==================================================
 
         dbc.Row(
             [
@@ -175,9 +162,7 @@ layout = dbc.Container(
 
         html.Br(),
 
-        # ==================================================
         # REVENUE CHART
-        # ==================================================
 
         dbc.Card(
             dbc.CardBody(
@@ -203,9 +188,7 @@ layout = dbc.Container(
 
         html.Br(),
 
-        # ==================================================
         # PROFIT CHART
-        # ==================================================
 
         dbc.Card(
             dbc.CardBody(
@@ -231,15 +214,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-        # ==================================================
         # HIGH-RISK STORES + REVENUE SHARE
-        # ==========================================================
 
         dbc.Row(
             [
-                # ==========================================
                 # HIGH-RISK STORES
-                # ==========================================
 
                 dbc.Col(
                     dbc.Card(
@@ -283,9 +262,7 @@ layout = dbc.Container(
                     lg=7
                 ),
 
-                # ==========================================
                 # REVENUE SHARE PIE CHART
-                # ==========================================
 
                 dbc.Col(
                     dbc.Card(

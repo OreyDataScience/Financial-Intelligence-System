@@ -1,7 +1,6 @@
 from dash import html
 import dash_bootstrap_components as dbc
 
-
 def recommended_actions_panel(actions):
     cards = []
     for _, action in actions.head(3).iterrows():

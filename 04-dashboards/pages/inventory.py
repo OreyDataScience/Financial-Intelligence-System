@@ -17,10 +17,7 @@ register_page(
     name="Inventory"
 )
 
-
-# ==========================================================
 # METRICS
-# ==========================================================
 
 total_inventory = inventory["Avg_Inventory"].sum()
 
@@ -30,14 +27,8 @@ total_revenue = inventory["Revenue"].sum()
 
 total_profit = inventory["Profit"].sum()
 
-
-# ==========================================================
 # CONDITIONAL KPI COLOURS
-# ==========================================================
-
-# Stock-Out Rate
-# Below 5% = Orange
-# 5% or higher = Red
+# Stock-Out Rate, Below 5% = Orange & 5% or higher = Red
 
 stockout_colour = (
     "#F39C12"
@@ -45,10 +36,7 @@ stockout_colour = (
     else "#C0392B"
 )
 
-
-# Profit
-# Positive = Green
-# Negative = Red
+# Profit, Positive = Green & Negative = Red
 
 profit_colour = (
     "#2ECC71"
@@ -56,10 +44,7 @@ profit_colour = (
     else "#C0392B"
 )
 
-
-# ==========================================================
 # PREPARE INVENTORY RISK TABLE
-# ==========================================================
 
 risk_table = inventory_summary[
     [
@@ -70,16 +55,12 @@ risk_table = inventory_summary[
     ]
 ].head(10).copy()
 
-
 # Format Revenue with R and 2 decimal places
 risk_table["Revenue"] = risk_table["Revenue"].apply(
     lambda x: f"R {x:,.2f}"
 )
 
-
 # Convert Stock-Out Rate to percentage
-# Round original value to 4 decimals first,
-# then multiply by 100.
 
 risk_table["StockOutRate"] = (
     risk_table["StockOutRate"]
@@ -88,15 +69,10 @@ risk_table["StockOutRate"] = (
     .map(lambda x: f"{x:.2f}%")
 )
 
-
-# ==========================================================
 # LAYOUT
-# ==========================================================
 
 layout = dbc.Container(
-
     [
-
         html.H1(
             "Inventory Intelligence",
             className="mb-1"
@@ -109,16 +85,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-        # ==================================================
         # KPI CARDS
-        # ==================================================
 
         dbc.Row(
-
             [
-
                 dbc.Col(
-
                     kpi_card(
                         "Average Inventory",
                         f"{total_inventory:,.0f}",
@@ -129,11 +100,9 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 ),
 
                 dbc.Col(
-
                     kpi_card(
                         "Stock-Out Rate",
                         f"{avg_stockout * 100:.1f}%",
@@ -144,11 +113,9 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 ),
 
                 dbc.Col(
-
                     kpi_card(
                         "Revenue",
                         format_currency(total_revenue),
@@ -159,11 +126,9 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 ),
 
                 dbc.Col(
-
                     kpi_card(
                         "Profit",
                         format_currency(total_profit),
@@ -174,29 +139,20 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 )
-
             ],
 
             className="g-4"
-
         ),
 
         html.Br(),
 
-        # ==================================================
         # INVENTORY LEVELS
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 dcc.Graph(
-
                     id="inventory-category-chart",
-
                     figure=inventory_by_category_chart(
                         inventory
                     ),
@@ -206,89 +162,60 @@ layout = dbc.Container(
                         "displaylogo": False,
                         "responsive": True
                     }
-
                 )
-
             ),
 
             className="shadow-sm"
-
         ),
 
         html.Br(),
 
-        # ==================================================
         # REVENUE PERFORMANCE
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 dcc.Graph(
-
                     id="inventory-revenue-chart",
-
                     figure=inventory_revenue_chart(
                         inventory
                     ),
-
                     config={
                         "displayModeBar": True,
                         "displaylogo": False,
                         "responsive": True
                     }
-
                 )
-
             ),
 
             className="shadow-sm"
-
         ),
 
         html.Br(),
 
-        # ==================================================
         # INVENTORY RISK
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 [
-
                     html.H4(
                         "Inventory Risk"
                     ),
-
                     html.Hr(),
-
                     dbc.Table.from_dataframe(
-
                         risk_table,
-
                         striped=True,
                         hover=True,
                         size="sm",
-
                         style={
                             "textAlign": "left"
                         }
-
                     )
-
                 ]
-
             ),
 
             className="shadow-sm"
-
         )
-
     ],
 
     fluid=True
-
 )

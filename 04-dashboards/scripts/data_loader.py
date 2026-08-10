@@ -1,19 +1,13 @@
 from pathlib import Path
 import pandas as pd
 
-
-# ==========================================================
 # BASE DIRECTORIES
-# ==========================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATA = BASE_DIR / "data" / "retail-intelligence"
 
-
-# ==========================================================
 # CORE DASHBOARD DATA
-# ==========================================================
 
 monthly = pd.read_csv(
     DATA / "Dashboard_1_Monthly_Retail_Overview.csv"
@@ -51,10 +45,7 @@ operational = pd.read_csv(
     DATA / "Dashboard_2_Operational_Risk.csv"
 )
 
-
-# ==========================================================
 # EXECUTIVE INTELLIGENCE DATA
-# ==========================================================
 
 business_overview = pd.read_csv(
     DATA / "Executive_Business_overview.csv"
@@ -115,7 +106,6 @@ seasonal_risk = pd.read_csv(
 strategic_findings = pd.read_csv(
     DATA / "Executive_Strategic_Findings.csv"
 )
-
 
 recommended_actions = pd.read_csv(
     DATA / "Executive_Recommended_Actions.csv"
