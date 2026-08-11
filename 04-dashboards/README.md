@@ -330,4 +330,6 @@ The project combines:
 - Prescriptive analytics
 - Interactive dashboard development
 
-within
+within a single analytical and decision-support environment.
+
+The project represents an important foundation for the broader **Orey Analytics** product and portfolio, demonstrating how data can be transformed from raw business records into insights, forecasts, risks and actionable management decisions.
