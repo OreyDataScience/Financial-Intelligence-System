@@ -1,15 +1,34 @@
 import plotly.express as px
 
-# STORE RISK COLOURS
 
-RISK_COLOURS = {
-    "Reliable": "#2ECC71",
-    "Moderate Risk": "#F39C12",
-    "High Risk": "#C0392B",
-    "Critical": "#C0392B"
+# ============================================================
+# OREY ANALYTICS COLOURS
+# ============================================================
+
+OREY_NAVY = "#061A35"
+OREY_BLUE = "#1479D2"
+OREY_LIGHT_BLUE = "#48A7F8"
+OREY_GREEN = "#2ECC71"
+OREY_ORANGE = "#F39C12"
+OREY_RED = "#C0392B"
+OREY_PURPLE = "#8E44AD"
+OREY_GREY = "#7F8C8D"
+
+
+# ============================================================
+# STORE RISK COLOURS
+# ============================================================
+
+DISPLAY_RISK_COLOURS = {
+    "Reliable": OREY_GREEN,
+    "Moderate Risk": OREY_ORANGE,
+    "High Risk": OREY_RED
 }
 
+
+# ============================================================
 # STORE LABEL
+# ============================================================
 
 def create_store_label(row):
 
@@ -18,33 +37,41 @@ def create_store_label(row):
         f"{row['StoreLocation']}"
     )
 
+
+# ============================================================
 # NORMALISE RISK VALUES
+# ============================================================
 
 def normalise_risk(value):
 
     value = str(value).strip().lower()
 
-    if value in ["low", "reliable"]:
+    if value in [
+        "low",
+        "reliable"
+    ]:
         return "Reliable"
 
-    elif value in ["medium", "moderate", "moderate risk"]:
+    elif value in [
+        "medium",
+        "moderate",
+        "moderate risk"
+    ]:
         return "Moderate Risk"
 
-    elif value in ["high", "critical", "high risk"]:
+    elif value in [
+        "high",
+        "critical",
+        "high risk"
+    ]:
         return "High Risk"
 
-    else:
-        return "High Risk"
+    return "High Risk"
 
-# DISPLAY RISK COLOURS
 
-DISPLAY_RISK_COLOURS = {
-    "Reliable": "#2ECC71",
-    "Moderate Risk": "#F39C12",
-    "High Risk": "#C0392B"
-}
-
+# ============================================================
 # TOP STORES BY REVENUE
+# ============================================================
 
 def top_stores_chart(stores):
 
@@ -63,8 +90,9 @@ def top_stores_chart(stores):
         axis=1
     )
 
-    top["Risk_Display"] = top["Store_Risk"].apply(
-        normalise_risk
+    top["Risk_Display"] = (
+        top["Store_Risk"]
+        .apply(normalise_risk)
     )
 
     fig = px.bar(
@@ -76,7 +104,9 @@ def top_stores_chart(stores):
         template="plotly_white",
         color_discrete_map=DISPLAY_RISK_COLOURS,
         category_orders={
-            "StoreLabel": top["StoreLabel"].tolist(),
+            "StoreLabel": top[
+                "StoreLabel"
+            ].tolist(),
             "Risk_Display": [
                 "Reliable",
                 "Moderate Risk",
@@ -89,66 +119,69 @@ def top_stores_chart(stores):
         texttemplate="R %{text:,.0f}",
         textposition="outside",
         textfont=dict(
-            size=12
+            size=11
+        ),
+        hovertemplate=(
+            "<b>%{x}</b><br>"
+            "Revenue: R %{y:,.2f}"
+            "<extra></extra>"
         )
     )
 
     fig.update_layout(
-        title="Top 10 Stores by Revenue",
-        height=430,
+        title=dict(
+            text="Top 10 Stores by Revenue",
+            font=dict(
+                size=20,
+                color=OREY_NAVY
+            ),
+            x=0
+        ),
+
+        height=400,
+
+        font=dict(
+            family="Arial",
+            color=OREY_NAVY
+        ),
+
+        paper_bgcolor="white",
+        plot_bgcolor="white",
+
         xaxis_title="Store",
         yaxis_title="Revenue (R)",
+
         legend_title="Store Risk",
+
         margin=dict(
             l=60,
-            r=40,
-            t=70,
-            b=110
+            r=30,
+            t=65,
+            b=105
         ),
-        xaxis=dict(
-            tickangle=0,
-            tickmode="array",
-            tickvals=top["StoreLabel"].tolist(),
-            ticktext=top["StoreLabel"].tolist(),
-            categoryorder="array",
-            categoryarray=top["StoreLabel"].tolist()
-        ),
-        yaxis=dict(
-            range=[0, 2500000],
-            tickmode="array",
-            tickvals=[
-                0,
-                250000,
-                500000,
-                750000,
-                1000000,
-                1250000,
-                1500000,
-                1750000,
-                2000000,
-                2250000,
-                2500000
-            ],
-            ticktext=[
-                "0",
-                "250K",
-                "500K",
-                "750K",
-                "1M",
-                "1.25M",
-                "1.5M",
-                "1.75M",
-                "2M",
-                "2.25M",
-                "2.5M"
-            ],
-            separatethousands=True
-        )
+
+        hovermode="x unified"
+    )
+
+    fig.update_xaxes(
+        showgrid=False,
+        linecolor="#D9E1EA",
+        tickangle=0
+    )
+
+    fig.update_yaxes(
+        gridcolor="#E9EEF5",
+        zeroline=False,
+        separatethousands=True,
+        tickformat="~s"
     )
 
     return fig
 
+
+# ============================================================
 # TOP STORES BY PROFIT
+# ============================================================
 
 def store_profit_chart(stores):
 
@@ -167,8 +200,9 @@ def store_profit_chart(stores):
         axis=1
     )
 
-    top["Risk_Display"] = top["Store_Risk"].apply(
-        normalise_risk
+    top["Risk_Display"] = (
+        top["Store_Risk"]
+        .apply(normalise_risk)
     )
 
     fig = px.bar(
@@ -180,7 +214,9 @@ def store_profit_chart(stores):
         template="plotly_white",
         color_discrete_map=DISPLAY_RISK_COLOURS,
         category_orders={
-            "StoreLabel": top["StoreLabel"].tolist(),
+            "StoreLabel": top[
+                "StoreLabel"
+            ].tolist(),
             "Risk_Display": [
                 "Reliable",
                 "Moderate Risk",
@@ -193,60 +229,69 @@ def store_profit_chart(stores):
         texttemplate="R %{text:,.0f}",
         textposition="outside",
         textfont=dict(
-            size=12
+            size=11
+        ),
+        hovertemplate=(
+            "<b>%{x}</b><br>"
+            "Profit: R %{y:,.2f}"
+            "<extra></extra>"
         )
     )
 
     fig.update_layout(
-        title="Top 10 Stores by Profit",
-        height=430,
+        title=dict(
+            text="Top 10 Stores by Profit",
+            font=dict(
+                size=20,
+                color=OREY_NAVY
+            ),
+            x=0
+        ),
+
+        height=400,
+
+        font=dict(
+            family="Arial",
+            color=OREY_NAVY
+        ),
+
+        paper_bgcolor="white",
+        plot_bgcolor="white",
+
         xaxis_title="Store",
         yaxis_title="Profit (R)",
+
         legend_title="Store Risk",
+
         margin=dict(
             l=60,
-            r=40,
-            t=70,
-            b=110
+            r=30,
+            t=65,
+            b=105
         ),
-        xaxis=dict(
-            tickangle=0,
-            tickmode="array",
-            tickvals=top["StoreLabel"].tolist(),
-            ticktext=top["StoreLabel"].tolist(),
-            categoryorder="array",
-            categoryarray=top["StoreLabel"].tolist()
-        ),
-        yaxis=dict(
-            range=[0, 700000],
-            tickmode="array",
-            tickvals=[
-                0,
-                100000,
-                200000,
-                300000,
-                400000,
-                500000,
-                600000,
-                700000
-            ],
-            ticktext=[
-                "0",
-                "100K",
-                "200K",
-                "300K",
-                "400K",
-                "500K",
-                "600K",
-                "700K"
-            ],
-            separatethousands=True
-        )
+
+        hovermode="x unified"
+    )
+
+    fig.update_xaxes(
+        showgrid=False,
+        linecolor="#D9E1EA",
+        tickangle=0
+    )
+
+    fig.update_yaxes(
+        gridcolor="#E9EEF5",
+        zeroline=False,
+        separatethousands=True,
+        tickformat="~s"
     )
 
     return fig
 
+
+# ============================================================
 # REVENUE SHARE BY STORE LOCATION
+# ============================================================
 
 def store_revenue_share_chart(stores):
 
@@ -263,12 +308,10 @@ def store_revenue_share_chart(stores):
         )
     )
 
-    # OREY ANALYTICS LOCATION COLOURS
-
     LOCATION_COLOURS = [
-        "#0B4F92",  # Dark Blue
-        "#48A7F8",  # Light Blue
-        "#5B6573"   # Grey
+        OREY_NAVY,
+        OREY_LIGHT_BLUE,
+        "#5B6573"
     ]
 
     fig = px.pie(
@@ -281,8 +324,6 @@ def store_revenue_share_chart(stores):
         color_discrete_sequence=LOCATION_COLOURS
     )
 
-    # OUTSIDE PERCENTAGE LABELS
-
     fig.update_traces(
         textposition="outside",
         texttemplate="%{percent:.1%}",
@@ -292,21 +333,34 @@ def store_revenue_share_chart(stores):
 
         hovertemplate=(
             "<b>%{label}</b><br>"
-            "Revenue: R %{value:,.0f}<br>"
-            "Revenue Share: %{percent}"
+            "Revenue: R %{value:,.2f}<br>"
+            "Revenue Share: %{percent:.1%}"
             "<extra></extra>"
         )
     )
 
-    # LAYOUT
-
     fig.update_layout(
-        height=300,
+        height=320,
 
-        # Remove Plotly legend title
+        font=dict(
+            family="Arial",
+            color=OREY_NAVY
+        ),
+
+        paper_bgcolor="white",
+        plot_bgcolor="white",
+
+        title=dict(
+            text="Revenue Share by Store Location",
+            font=dict(
+                size=20,
+                color=OREY_NAVY
+            ),
+            x=0
+        ),
+
         legend_title_text="",
 
-        # Legend underneath the chart
         legend=dict(
             orientation="h",
             yanchor="top",
@@ -324,23 +378,6 @@ def store_revenue_share_chart(stores):
             t=70,
             b=75
         ),
-
-        # Separate heading above the legend
-        annotations=[
-            dict(
-                text="<b>Store Location</b>",
-                x=0.5,
-                y=-0.05,
-                xref="paper",
-                yref="paper",
-                showarrow=False,
-                xanchor="center",
-                yanchor="top",
-                font=dict(
-                    size=11
-                )
-            )
-        ],
 
         uniformtext=dict(
             minsize=9,
