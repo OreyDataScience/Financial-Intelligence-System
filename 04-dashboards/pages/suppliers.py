@@ -15,17 +15,13 @@ from components.supplier_chart import (
 from scripts.data_loader import suppliers
 from scripts.utils import format_currency
 
-
 register_page(
     __name__,
     path="/suppliers",
     name="Suppliers"
 )
 
-
-# ==========================================================
 # METRICS
-# ==========================================================
 
 total_revenue = suppliers["Revenue"].sum()
 
@@ -43,28 +39,18 @@ high_risk_count = suppliers[
     )
 ].shape[0]
 
-
-# ==========================================================
 # TOP 10 SUPPLIERS REQUIRING MOST ATTENTION
-# ==========================================================
 
 attention_suppliers = top_attention_suppliers(
     suppliers,
     n=10
 )
 
-
-# ==========================================================
 # LAYOUT
-# ==========================================================
 
 layout = dbc.Container(
-
     [
-
-        # ==================================================
         # PAGE HEADER
-        # ==================================================
 
         html.H1(
             "Supplier Risk",
@@ -78,17 +64,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ==================================================
         # KPI CARDS
-        # ==================================================
 
         dbc.Row(
-
             [
-
                 dbc.Col(
-
                     kpi_card(
                         "Supplier Revenue",
                         format_currency(total_revenue),
@@ -103,7 +83,6 @@ layout = dbc.Container(
                 ),
 
                 dbc.Col(
-
                     kpi_card(
                         "Avg Lead Time",
                         f"{avg_lead_time:.2f} days",
@@ -118,7 +97,6 @@ layout = dbc.Container(
                 ),
 
                 dbc.Col(
-
                     kpi_card(
                         "Stock-Out Rate",
                         f"{avg_stockout * 100:.2f}%",
@@ -129,11 +107,9 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 ),
 
                 dbc.Col(
-
                     kpi_card(
                         "High-Risk Suppliers",
                         f"{high_risk_count}",
@@ -144,38 +120,24 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 )
-
             ],
 
             className="g-4"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # SUPPLIER LEAD TIMES
-        # ==================================================
 
         dbc.Row(
-
             [
-
-                # ==================================================
                 # LOWEST LEAD TIMES
-                # ==================================================
 
                 dbc.Col(
-
                     dbc.Card(
-
                         dbc.CardBody(
-
                             [
-
                                 html.H5(
                                     "Supplier Lead Time",
                                     className="mb-0",
@@ -195,7 +157,6 @@ layout = dbc.Container(
                                 dcc.Graph(
 
                                     id="supplier-lowest-lead-time-chart",
-
                                     figure=supplier_lowest_lead_time_chart(
                                         suppliers
                                     ),
@@ -205,34 +166,23 @@ layout = dbc.Container(
                                         "displaylogo": False,
                                         "responsive": True
                                     }
-
                                 )
-
                             ]
-
                         ),
 
                         className="shadow-sm"
-
                     ),
 
                     xs=12,
                     lg=6
-
                 ),
 
-                # ==================================================
                 # HIGHEST LEAD TIMES
-                # ==================================================
 
                 dbc.Col(
-
                     dbc.Card(
-
                         dbc.CardBody(
-
                             [
-
                                 html.H5(
                                     "Supplier Lead Time",
                                     className="mb-0",
@@ -252,7 +202,6 @@ layout = dbc.Container(
                                 dcc.Graph(
 
                                     id="supplier-highest-lead-time-chart",
-
                                     figure=supplier_highest_lead_time_chart(
                                         suppliers
                                     ),
@@ -262,43 +211,29 @@ layout = dbc.Container(
                                         "displaylogo": False,
                                         "responsive": True
                                     }
-
                                 )
-
                             ]
-
                         ),
 
                         className="shadow-sm"
-
                     ),
 
                     xs=12,
                     lg=6
-
                 )
-
             ],
 
             className="g-4"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # SUPPLIER RISK MATRIX
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 dcc.Graph(
-
                     id="supplier-risk-matrix-chart",
-
                     figure=supplier_risk_matrix_chart(
                         suppliers
                     ),
@@ -308,28 +243,19 @@ layout = dbc.Container(
                         "displaylogo": False,
                         "responsive": True
                     }
-
                 )
-
             ),
 
             className="shadow-sm"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # SUPPLIER RISK SUMMARY
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 [
-
                     html.H4(
                         "Supplier Risk Summary",
                         className="mb-1",
@@ -347,17 +273,11 @@ layout = dbc.Container(
                     ),
 
                     dbc.Row(
-
                         [
-
                             dbc.Col(
-
                                 dbc.Card(
-
                                     dbc.CardBody(
-
                                         [
-
                                             html.H6(
                                                 "High-Risk Suppliers",
                                                 style={
@@ -379,28 +299,20 @@ layout = dbc.Container(
                                                     "color": "#000000"
                                                 }
                                             )
-
                                         ]
-
                                     ),
 
                                     className="border-0 shadow-sm"
-
                                 ),
 
                                 xs=12,
                                 md=4
-
                             ),
 
                             dbc.Col(
-
                                 dbc.Card(
-
                                     dbc.CardBody(
-
                                         [
-
                                             html.H6(
                                                 "Average Lead Time",
                                                 style={
@@ -422,28 +334,20 @@ layout = dbc.Container(
                                                     "color": "#000000"
                                                 }
                                             )
-
                                         ]
-
                                     ),
 
                                     className="border-0 shadow-sm"
-
                                 ),
 
                                 xs=12,
                                 md=4
-
                             ),
 
                             dbc.Col(
-
                                 dbc.Card(
-
                                     dbc.CardBody(
-
                                         [
-
                                             html.H6(
                                                 "Average Stock-Out Rate",
                                                 style={
@@ -465,47 +369,32 @@ layout = dbc.Container(
                                                     "color": "#000000"
                                                 }
                                             )
-
                                         ]
-
                                     ),
 
                                     className="border-0 shadow-sm"
-
                                 ),
 
                                 xs=12,
                                 md=4
-
                             )
-
                         ],
 
                         className="g-3"
-
                     )
-
                 ]
-
             ),
 
             className="shadow-sm"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # TOP 10 SUPPLIERS REQUIRING MOST ATTENTION
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 [
-
                     html.H4(
                         "Supplier Attention Intelligence",
                         className="mb-1",
@@ -523,7 +412,6 @@ layout = dbc.Container(
                     ),
 
                     dbc.Table.from_dataframe(
-
                         attention_suppliers[
                             [
                                 "SupplierID",
@@ -535,7 +423,6 @@ layout = dbc.Container(
                             ]
                         ]
                         .assign(
-
                             Attention_Score=lambda df:
                                 df["Attention_Score"].map(
                                     lambda x: f"{x:.1f}/100"
@@ -557,55 +444,33 @@ layout = dbc.Container(
                                     lambda x:
                                     f"{x:.2f}%"
                                 )
-
                         ),
 
                         striped=True,
-
                         hover=True,
-
                         bordered=False,
-
                         size="sm",
-
                         responsive=True
-
                     )
-
                 ]
-
             ),
 
             className="shadow-sm"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # BOTTOM RISK INTELLIGENCE
-        # TWO COLUMNS — EACH = 2 KPI CARDS
-        # ==================================================
 
         dbc.Row(
-
             [
-
-                # ==================================================
                 # SUPPLIER RISK DISTRIBUTION
-                # ==================================================
 
                 dbc.Col(
-
                     dbc.Card(
-
                         dbc.CardBody(
-
                             dcc.Graph(
-
                                 id="supplier-risk-distribution-chart",
-
                                 figure=supplier_risk_distribution_chart(
                                     suppliers
                                 ),
@@ -615,32 +480,22 @@ layout = dbc.Container(
                                     "displaylogo": False,
                                     "responsive": True
                                 }
-
                             )
-
                         ),
 
                         className="shadow-sm"
-
                     ),
 
                     xs=12,
                     lg=6
-
                 ),
 
-                # ==================================================
                 # AVERAGE LEAD TIME BY RISK
-                # ==================================================
 
                 dbc.Col(
-
                     dbc.Card(
-
                         dbc.CardBody(
-
                             dcc.Graph(
-
                                 id="supplier-lead-time-by-risk-chart",
 
                                 figure=supplier_lead_time_by_risk_chart(
@@ -652,28 +507,20 @@ layout = dbc.Container(
                                     "displaylogo": False,
                                     "responsive": True
                                 }
-
                             )
-
                         ),
 
                         className="shadow-sm"
-
                     ),
 
                     xs=12,
                     lg=6
-
                 )
-
             ],
 
             className="g-4"
-
         )
-
     ],
 
     fluid=True
-
 )

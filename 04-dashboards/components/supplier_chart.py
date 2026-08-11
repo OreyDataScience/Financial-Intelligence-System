@@ -1,9 +1,6 @@
 import plotly.express as px
 
-
-# ==========================================================
 # SUPPLIER RISK COLOURS
-# ==========================================================
 
 RISK_COLOURS = {
     "Reliable": "#2ECC71",
@@ -17,10 +14,7 @@ RISK_ORDER = [
     "High Risk"
 ]
 
-
-# ==========================================================
 # NORMALISE RISK VALUES
-# ==========================================================
 
 def normalise_risk(value):
 
@@ -46,26 +40,19 @@ def normalise_risk(value):
     else:
         return "High Risk"
 
-
-# ==========================================================
 # SUPPLIER ATTENTION SCORE
-# ==========================================================
 
 def calculate_supplier_attention_score(suppliers):
 
     data = suppliers.copy()
 
-    # ------------------------------------------------------
     # NORMALISE RISK
-    # ------------------------------------------------------
 
     data["Risk_Display"] = data["Supplier_Risk"].apply(
         normalise_risk
     )
 
-    # ------------------------------------------------------
     # OPERATIONAL CONCERN
-    # ------------------------------------------------------
 
     median_stockout = data["StockOutRate"].median()
 
@@ -119,9 +106,7 @@ def calculate_supplier_attention_score(suppliers):
         axis=1
     )
 
-    # ------------------------------------------------------
     # RISK SCORE — 30%
-    # ------------------------------------------------------
 
     risk_scores = {
         "Reliable": 0,
@@ -133,9 +118,7 @@ def calculate_supplier_attention_score(suppliers):
         risk_scores
     )
 
-    # ------------------------------------------------------
     # STOCK-OUT EXPOSURE SCORE — 30%
-    # ------------------------------------------------------
 
     max_stockout = data["StockOutRate"].max()
 
@@ -150,9 +133,7 @@ def calculate_supplier_attention_score(suppliers):
 
         data["StockOut_Score"] = 0
 
-    # ------------------------------------------------------
     # LEAD-TIME EXPOSURE SCORE — 25%
-    # ------------------------------------------------------
 
     max_lead_time = data["Avg_LeadTime"].max()
 
@@ -167,28 +148,17 @@ def calculate_supplier_attention_score(suppliers):
 
         data["LeadTime_Score"] = 0
 
-    # ------------------------------------------------------
     # OPERATIONAL CONCERN SCORE — 15%
-    # ------------------------------------------------------
 
     concern_scores = {
-
         "Critical supplier exposure": 100,
-
         "High stock-out exposure": 85,
-
         "Extended lead time": 75,
-
         "Monitor supplier reliability": 60,
-
         "Monitor stock availability": 55,
-
         "Monitor delivery time": 50,
-
         "Monitor supplier performance": 40,
-
         "Reliable supplier": 0
-
     }
 
     data["Concern_Score"] = (
@@ -197,23 +167,15 @@ def calculate_supplier_attention_score(suppliers):
         .fillna(0)
     )
 
-    # ------------------------------------------------------
     # FINAL ATTENTION SCORE
-    # ------------------------------------------------------
 
     data["Attention_Score"] = (
-
         data["Risk_Score"] * 0.30
-
         + data["StockOut_Score"] * 0.30
-
         + data["LeadTime_Score"] * 0.25
-
         + data["Concern_Score"] * 0.15
-
     )
 
-    # Keep score strictly between 0 and 100
     data["Attention_Score"] = (
 
         data["Attention_Score"]
@@ -224,15 +186,11 @@ def calculate_supplier_attention_score(suppliers):
         )
 
         .round(1)
-
     )
 
     return data
 
-
-# ==========================================================
 # TOP 10 SUPPLIERS REQUIRING MOST ATTENTION
-# ==========================================================
 
 def top_attention_suppliers(suppliers, n=10):
 
@@ -241,7 +199,6 @@ def top_attention_suppliers(suppliers, n=10):
     )
 
     return (
-
         data
 
         .sort_values(
@@ -252,13 +209,9 @@ def top_attention_suppliers(suppliers, n=10):
         .head(n)
 
         .copy()
-
     )
 
-
-# ==========================================================
 # SUPPLIER RISK MATRIX
-# ==========================================================
 
 def supplier_risk_matrix_chart(suppliers):
 
@@ -273,43 +226,25 @@ def supplier_risk_matrix_chart(suppliers):
     )
 
     fig = px.scatter(
-
         data,
-
         x="Avg_LeadTime",
-
         y="StockOut_Percent",
-
         color="Risk_Display",
-
         size="Revenue",
-
         hover_name="SupplierID",
-
         hover_data={
-
             "Avg_LeadTime": ":.2f",
-
             "StockOut_Percent": ":.2f",
-
             "Revenue": ":,.0f",
-
             "Risk_Display": True,
-
             "Operational_Concern": True,
-
             "Attention_Score": ":.1f"
-
         },
-
         template="plotly_white",
-
         color_discrete_map=RISK_COLOURS,
-
         category_orders={
             "Risk_Display": RISK_ORDER
         }
-
     )
 
     median_lead_time = data["Avg_LeadTime"].median()
@@ -317,83 +252,47 @@ def supplier_risk_matrix_chart(suppliers):
     median_stockout = data["StockOut_Percent"].median()
 
     fig.add_vline(
-
         x=median_lead_time,
-
         line_dash="dash",
-
         line_width=1,
-
         line_color="#7F8C8D",
-
         annotation_text="Median Lead Time",
-
         annotation_position="top"
-
     )
 
     fig.add_hline(
-
         y=median_stockout,
-
         line_dash="dash",
-
         line_width=1,
-
         line_color="#7F8C8D",
-
         annotation_text="Median Stock-Out Rate",
-
         annotation_position="top left"
-
     )
 
     fig.update_layout(
-
         title="Supplier Risk Matrix",
-
         height=430,
-
         xaxis_title="Average Lead Time (Days)",
-
         yaxis_title="Stock-Out Rate (%)",
-
         legend_title_text="",
-
         margin=dict(
-
             l=60,
-
             r=40,
-
             t=75,
-
             b=100
-
         ),
-
         legend=dict(
-
             orientation="h",
-
             yanchor="top",
-
             y=-0.18,
-
             xanchor="center",
-
             x=0.5
-
         )
-
     )
 
     return fig
 
-
-# ==========================================================
 # LOWEST SUPPLIER LEAD TIMES
-# ==========================================================
 
 def supplier_lowest_lead_time_chart(suppliers):
 
@@ -404,7 +303,6 @@ def supplier_lowest_lead_time_chart(suppliers):
     )
 
     lowest = (
-
         data
 
         .sort_values(
@@ -415,97 +313,61 @@ def supplier_lowest_lead_time_chart(suppliers):
         .head(5)
 
         .copy()
-
     )
 
     fig = px.bar(
-
         lowest,
-
         x="SupplierID",
-
         y="Avg_LeadTime",
-
         color="Risk_Display",
-
         text="Avg_LeadTime",
-
         template="plotly_white",
-
         color_discrete_map=RISK_COLOURS,
-
         category_orders={
-
             "Risk_Display": RISK_ORDER,
 
             "SupplierID": lowest[
                 "SupplierID"
             ].tolist()
-
         }
-
     )
 
     fig.update_traces(
-
         texttemplate="%{text:.2f} days",
-
         textposition="outside",
-
         textfont=dict(
             size=10
         )
-
     )
 
     fig.update_layout(
-
         title="Lowest Lead Times",
-
         height=300,
-
         xaxis_title="Supplier",
-
         yaxis_title="Average Lead Time (Days)",
-
         legend_title="Supplier Risk",
-
         margin=dict(
-
             l=50,
-
             r=30,
-
             t=70,
-
             b=80
-
         ),
 
         xaxis=dict(
-
             tickangle=0,
-
             type="category",
-
             tickmode="array",
-
             tickvals=lowest[
                 "SupplierID"
             ].tolist(),
-
             ticktext=lowest[
                 "SupplierID"
             ].tolist(),
-
             categoryorder="array",
-
             categoryarray=lowest[
                 "SupplierID"
             ].tolist()
-
         )
-
     )
 
     for risk in RISK_ORDER:
@@ -513,27 +375,17 @@ def supplier_lowest_lead_time_chart(suppliers):
         if risk not in lowest["Risk_Display"].values:
 
             fig.add_bar(
-
                 x=[None],
-
                 y=[None],
-
                 name=risk,
-
                 marker_color=RISK_COLOURS[risk],
-
                 showlegend=True,
-
                 hoverinfo="skip"
-
             )
 
     return fig
 
-
-# ==========================================================
 # HIGHEST SUPPLIER LEAD TIMES
-# ==========================================================
 
 def supplier_highest_lead_time_chart(suppliers):
 
@@ -544,7 +396,6 @@ def supplier_highest_lead_time_chart(suppliers):
     )
 
     highest = (
-
         data
 
         .sort_values(
@@ -560,97 +411,60 @@ def supplier_highest_lead_time_chart(suppliers):
         )
 
         .copy()
-
     )
 
     fig = px.bar(
-
         highest,
-
         x="SupplierID",
-
         y="Avg_LeadTime",
-
         color="Risk_Display",
-
         text="Avg_LeadTime",
-
         template="plotly_white",
-
         color_discrete_map=RISK_COLOURS,
-
         category_orders={
-
             "Risk_Display": RISK_ORDER,
-
             "SupplierID": highest[
                 "SupplierID"
             ].tolist()
-
         }
-
     )
 
     fig.update_traces(
-
         texttemplate="%{text:.2f} days",
-
         textposition="outside",
-
         textfont=dict(
             size=10
         )
-
     )
 
     fig.update_layout(
-
         title="Highest Lead Times",
-
         height=300,
-
         xaxis_title="Supplier",
-
         yaxis_title="Average Lead Time (Days)",
-
         legend_title="Supplier Risk",
-
         margin=dict(
-
             l=50,
-
             r=30,
-
             t=70,
-
             b=80
-
         ),
 
         xaxis=dict(
-
             tickangle=0,
-
             type="category",
-
             tickmode="array",
-
             tickvals=highest[
                 "SupplierID"
             ].tolist(),
-
             ticktext=highest[
                 "SupplierID"
             ].tolist(),
-
             categoryorder="array",
-
             categoryarray=highest[
                 "SupplierID"
             ].tolist()
-
         )
-
     )
 
     for risk in RISK_ORDER:
@@ -658,27 +472,17 @@ def supplier_highest_lead_time_chart(suppliers):
         if risk not in highest["Risk_Display"].values:
 
             fig.add_bar(
-
                 x=[None],
-
                 y=[None],
-
                 name=risk,
-
                 marker_color=RISK_COLOURS[risk],
-
                 showlegend=True,
-
                 hoverinfo="skip"
-
             )
 
     return fig
 
-
-# ==========================================================
 # SUPPLIER RISK DISTRIBUTION
-# ==========================================================
 
 def supplier_risk_distribution_chart(suppliers):
 
@@ -689,7 +493,6 @@ def supplier_risk_distribution_chart(suppliers):
     )
 
     risk_distribution = (
-
         data["Risk_Display"]
 
         .value_counts()
@@ -700,7 +503,6 @@ def supplier_risk_distribution_chart(suppliers):
         )
 
         .reset_index()
-
     )
 
     risk_distribution.columns = [
@@ -709,39 +511,26 @@ def supplier_risk_distribution_chart(suppliers):
     ]
 
     fig = px.pie(
-
         risk_distribution,
-
         names="Risk",
-
         values="Supplier_Count",
-
         hole=0.55,
-
         template="plotly_white",
-
         color="Risk",
-
         color_discrete_map=RISK_COLOURS,
-
         category_orders={
             "Risk": RISK_ORDER
         }
-
     )
 
     fig.update_traces(
-
         textposition="outside",
-
         texttemplate="%{percent:.1%}",
-
         textfont=dict(
             size=11
         ),
 
         hovertemplate=(
-
             "<b>%{label}</b><br>"
 
             "Suppliers: %{value}<br>"
@@ -749,39 +538,24 @@ def supplier_risk_distribution_chart(suppliers):
             "Share: %{percent}"
 
             "<extra></extra>"
-
         )
-
     )
 
     fig.update_layout(
-
         title="Supplier Risk Distribution",
-
         height=300,
-
         legend_title="Supplier Risk",
-
         margin=dict(
-
             l=10,
-
             r=10,
-
             t=60,
-
             b=20
-
         )
-
     )
 
     return fig
 
-
-# ==========================================================
 # AVERAGE LEAD TIME BY RISK
-# ==========================================================
 
 def supplier_lead_time_by_risk_chart(suppliers):
 
@@ -811,73 +585,44 @@ def supplier_lead_time_by_risk_chart(suppliers):
     )
 
     fig = px.bar(
-
         lead_time,
-
         x="Risk_Display",
-
         y="Avg_LeadTime",
-
         color="Risk_Display",
-
         text="Avg_LeadTime",
-
         template="plotly_white",
-
         color_discrete_map=RISK_COLOURS,
-
         category_orders={
             "Risk_Display": RISK_ORDER
         }
-
     )
 
     fig.update_traces(
-
         texttemplate="%{text:.2f} days",
-
         textposition="outside",
-
         textfont=dict(
             size=10
         )
-
     )
 
     fig.update_layout(
-
         title="Average Lead Time by Risk",
-
         height=300,
-
         xaxis_title="Supplier Risk",
-
         yaxis_title="Average Lead Time (Days)",
-
         showlegend=False,
-
         margin=dict(
-
             l=50,
-
             r=20,
-
             t=60,
-
             b=60
-
         ),
 
         xaxis=dict(
-
             type="category",
-
             categoryorder="array",
-
             categoryarray=RISK_ORDER
-
         )
-
     )
 
     return fig
