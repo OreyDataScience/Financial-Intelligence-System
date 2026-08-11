@@ -14,17 +14,13 @@ from scripts.data_loader import (
     seasonal_risk
 )
 
-
 register_page(
     __name__,
     path="/operational",
     name="Operational Risk"
 )
 
-
-# ==========================================================
 # DATA PREPARATION
-# ==========================================================
 
 data = operational.copy()
 
@@ -36,10 +32,7 @@ previous = (
     else latest
 )
 
-
-# ==========================================================
 # LATEST METRICS
-# ==========================================================
 
 stockout = float(
     latest["StockOutRate"]
@@ -57,10 +50,7 @@ inventory_risk = str(
     latest["Inventory_Risk"]
 )
 
-
-# ==========================================================
 # PREVIOUS METRICS
-# ==========================================================
 
 previous_stockout = float(
     previous["StockOutRate"]
@@ -74,10 +64,7 @@ previous_lead_time = float(
     previous["Avg_LeadTime"]
 )
 
-
-# ==========================================================
 # CHANGE CALCULATIONS
-# ==========================================================
 
 stockout_change = (
     (stockout - previous_stockout)
@@ -93,10 +80,7 @@ lead_time_change = (
     lead_time - previous_lead_time
 )
 
-
-# ==========================================================
 # HISTORICAL EXTREMES
-# ==========================================================
 
 highest_stockout = (
     data["StockOutRate"]
@@ -120,10 +104,7 @@ lowest_lead_time = (
     .min()
 )
 
-
-# ==========================================================
 # RISK COLOUR
-# ==========================================================
 
 risk_lower = inventory_risk.lower()
 
@@ -147,10 +128,7 @@ else:
 
     risk_colour = "#2ECC71"
 
-
-# ==========================================================
 # TREND HELPER
-# ==========================================================
 
 def trend_text(
     change,
@@ -175,10 +153,7 @@ def trend_text(
 
         return f"▼ {change:.2f} vs previous month"
 
-
-# ==========================================================
 # TREND COLOURS
-# ==========================================================
 
 stockout_trend_colour = (
     "#C0392B"
@@ -198,10 +173,7 @@ lead_time_trend_colour = (
     else "#2ECC71"
 )
 
-
-# ==========================================================
 # SEASONAL RISK TABLE
-# ==========================================================
 
 seasonal_columns = [
     "Month_Name",
@@ -214,10 +186,7 @@ seasonal_display = seasonal_risk[
     seasonal_columns
 ].copy()
 
-
-# ==========================================================
 # FORMAT SEASONAL REVENUE EFFECT
-# ==========================================================
 
 def format_revenue_effect(value):
 
@@ -229,10 +198,7 @@ def format_revenue_effect(value):
 
     return f"R{value:,.2f}"
 
-
-# ==========================================================
 # SEASONAL RISK BADGES
-# ==========================================================
 
 def seasonal_badge(risk):
 
@@ -273,9 +239,7 @@ def seasonal_badge(risk):
             className="px-3 py-2"
         )
 
-
 seasonal_rows = []
-
 
 for _, row in seasonal_display.iterrows():
 
@@ -290,11 +254,8 @@ for _, row in seasonal_display.iterrows():
     )
 
     seasonal_rows.append(
-
         html.Tr(
-
             [
-
                 html.Td(
                     row["Month_Name"],
                     style={
@@ -317,25 +278,15 @@ for _, row in seasonal_display.iterrows():
                         row["Strategic_Risk"]
                     )
                 )
-
             ]
-
         )
-
     )
 
-
-# ==========================================================
 # LAYOUT
-# ==========================================================
 
 layout = dbc.Container(
-
     [
-
-        # ==================================================
         # PAGE HEADER
-        # ==================================================
 
         html.H1(
             "Operational Risk",
@@ -349,17 +300,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ==================================================
         # KPI CARDS
-        # ==================================================
 
         dbc.Row(
-
             [
-
                 dbc.Col(
-
                     kpi_card(
                         "Stock-Out Rate",
                         f"{stockout * 100:.2f}%",
@@ -370,11 +315,9 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 ),
 
                 dbc.Col(
-
                     kpi_card(
                         "Return Rate",
                         f"{returns * 100:.2f}%",
@@ -385,11 +328,8 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 ),
-
                 dbc.Col(
-
                     kpi_card(
                         "Average Lead Time",
                         f"{lead_time:.2f} days",
@@ -400,11 +340,8 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 ),
-
                 dbc.Col(
-
                     kpi_card(
                         "Inventory Risk",
                         inventory_risk,
@@ -415,28 +352,19 @@ layout = dbc.Container(
                     xs=12,
                     sm=6,
                     lg=3
-
                 )
-
             ],
 
             className="g-4"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # TREND INSIGHT STRIP
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 [
-
                     html.H5(
                         "Latest Operational Movement",
                         className="mb-3",
@@ -447,13 +375,9 @@ layout = dbc.Container(
                     ),
 
                     dbc.Row(
-
                         [
-
                             dbc.Col(
-
                                 [
-
                                     html.Small(
                                         "Stock-Out Movement",
                                         className="text-muted"
@@ -469,18 +393,14 @@ layout = dbc.Container(
                                                 stockout_trend_colour
                                         }
                                     )
-
                                 ],
 
                                 xs=12,
                                 md=4
-
                             ),
 
                             dbc.Col(
-
                                 [
-
                                     html.Small(
                                         "Return Movement",
                                         className="text-muted"
@@ -496,18 +416,13 @@ layout = dbc.Container(
                                                 return_trend_colour
                                         }
                                     )
-
                                 ],
 
                                 xs=12,
                                 md=4
-
                             ),
-
                             dbc.Col(
-
                                 [
-
                                     html.Small(
                                         "Lead Time Movement",
                                         className="text-muted"
@@ -523,41 +438,26 @@ layout = dbc.Container(
                                                 lead_time_trend_colour
                                         }
                                     )
-
                                 ],
-
                                 xs=12,
                                 md=4
-
                             )
-
                         ],
 
                         className="g-4"
-
                     )
-
                 ]
-
             ),
-
             className="shadow-sm"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # OPERATIONAL RISK TRENDS
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 [
-
                     html.H4(
                         "Operational Risk Trends",
                         className="mb-1",
@@ -587,40 +487,25 @@ layout = dbc.Container(
                             "displaylogo": False,
                             "responsive": True
                         }
-
                     )
-
                 ]
-
             ),
 
             className="shadow-sm"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # LEAD TIME + OPERATIONAL PRESSURE
-        # ==================================================
 
         dbc.Row(
-
             [
-
-                # ==================================================
                 # LEAD TIME
-                # ==================================================
 
                 dbc.Col(
-
                     dbc.Card(
-
                         dbc.CardBody(
-
                             [
-
                                 html.H4(
                                     "Supplier Lead Time",
                                     className="mb-1",
@@ -638,9 +523,7 @@ layout = dbc.Container(
                                 ),
 
                                 dcc.Graph(
-
                                     id="lead-time-chart",
-
                                     figure=lead_time_chart(
                                         operational
                                     ),
@@ -650,35 +533,23 @@ layout = dbc.Container(
                                         "displaylogo": False,
                                         "responsive": True
                                     }
-
                                 )
-
                             ]
-
                         ),
 
                         className="shadow-sm"
-
                     ),
 
                     xs=12,
                     lg=6
-
                 ),
 
-
-                # ==================================================
                 # OPERATIONAL PRESSURE
-                # ==================================================
 
                 dbc.Col(
-
                     dbc.Card(
-
                         dbc.CardBody(
-
                             [
-
                                 html.H4(
                                     "Operational Pressure",
                                     className="mb-1",
@@ -708,41 +579,28 @@ layout = dbc.Container(
                                         "displaylogo": False,
                                         "responsive": True
                                     }
-
                                 )
-
                             ]
-
                         ),
 
                         className="shadow-sm"
-
                     ),
 
                     xs=12,
                     lg=6
-
                 )
-
             ],
 
             className="g-4"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # OPERATIONAL RISK POSITION
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 [
-
                     html.H4(
                         "Operational Risk Position",
                         className="mb-1",
@@ -761,21 +619,13 @@ layout = dbc.Container(
                     ),
 
                     dbc.Row(
-
                         [
-
-                            # ----------------------------------
                             # CURRENT STOCK-OUT
-                            # ----------------------------------
 
                             dbc.Col(
-
                                 dbc.Card(
-
                                     dbc.CardBody(
-
                                         [
-
                                             html.H6(
                                                 "Current Stock-Out Rate",
                                                 style={
@@ -798,32 +648,22 @@ layout = dbc.Container(
                                                     "color": "#000000"
                                                 }
                                             )
-
                                         ]
-
                                     ),
 
                                     className="border-0 shadow-sm"
-
                                 ),
 
                                 xs=12,
                                 md=4
-
                             ),
 
-                            # ----------------------------------
                             # CURRENT RETURNS
-                            # ----------------------------------
 
                             dbc.Col(
-
                                 dbc.Card(
-
                                     dbc.CardBody(
-
                                         [
-
                                             html.H6(
                                                 "Current Return Rate",
                                                 style={
@@ -846,32 +686,22 @@ layout = dbc.Container(
                                                     "color": "#000000"
                                                 }
                                             )
-
                                         ]
-
                                     ),
 
                                     className="border-0 shadow-sm"
-
                                 ),
 
                                 xs=12,
                                 md=4
-
                             ),
 
-                            # ----------------------------------
                             # LEAD TIME
-                            # ----------------------------------
 
                             dbc.Col(
-
                                 dbc.Card(
-
                                     dbc.CardBody(
-
                                         [
-
                                             html.H6(
                                                 "Current Lead Time",
                                                 style={
@@ -895,47 +725,32 @@ layout = dbc.Container(
                                                     "color": "#000000"
                                                 }
                                             )
-
                                         ]
-
                                     ),
 
                                     className="border-0 shadow-sm"
-
                                 ),
 
                                 xs=12,
                                 md=4
-
                             )
-
                         ],
 
                         className="g-3"
-
                     )
-
                 ]
-
             ),
 
             className="shadow-sm"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # RISK INTERPRETATION
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 [
-
                     html.H4(
                         "Risk Interpretation",
                         className="mb-1",
@@ -951,9 +766,7 @@ layout = dbc.Container(
                     ),
 
                     html.Div(
-
                         [
-
                             html.Span(
                                 "Inventory Risk: ",
                                 style={
@@ -968,15 +781,12 @@ layout = dbc.Container(
                                     "color": risk_colour
                                 }
                             )
-
                         ],
 
                         className="mb-2"
-
                     ),
 
                     html.P(
-
                         (
                             "The current stock-out rate is "
                             f"{stockout * 100:.2f}%, while the return "
@@ -986,11 +796,9 @@ layout = dbc.Container(
                         ),
 
                         className="mb-2"
-
                     ),
 
                     html.P(
-
                         (
                             "Management attention should focus on "
                             "inventory availability, supplier delivery "
@@ -999,30 +807,20 @@ layout = dbc.Container(
                         ),
 
                         className="mb-0"
-
                     )
-
                 ]
-
             ),
 
             className="shadow-sm"
-
         ),
 
         html.Br(),
 
-
-        # ==================================================
         # SEASONAL RISK
-        # ==================================================
 
         dbc.Card(
-
             dbc.CardBody(
-
                 [
-
                     html.H4(
                         "Seasonal Risk",
                         className="mb-1",
@@ -1038,15 +836,10 @@ layout = dbc.Container(
                     ),
 
                     dbc.Table(
-
                         [
-
                             html.Thead(
-
                                 html.Tr(
-
                                     [
-
                                         html.Th(
                                             "Month"
                                         ),
@@ -1058,41 +851,25 @@ layout = dbc.Container(
                                         html.Th(
                                             "Strategic Risk"
                                         )
-
                                     ]
-
                                 )
-
                             ),
-
                             html.Tbody(
                                 seasonal_rows
                             )
-
                         ],
-
                         striped=True,
-
                         hover=True,
-
                         bordered=False,
-
                         responsive=True,
-
                         size="sm",
-
                         className="align-middle"
-
                     )
-
                 ]
-
             ),
 
             className="shadow-sm"
-
         )
-
     ],
 
     fluid=True

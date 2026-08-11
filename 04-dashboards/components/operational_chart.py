@@ -1,10 +1,7 @@
 import pandas as pd
 import plotly.graph_objects as go
 
-
-# ==========================================================
 # OREY ANALYTICS COLOUR PALETTE
-# ==========================================================
 
 OREY_NAVY = "#061A35"
 OREY_BLUE = "#1479D2"
@@ -16,10 +13,7 @@ OREY_PURPLE = "#8E44AD"
 OREY_GREY = "#7F8C8D"
 OREY_LIGHT_GREY = "#E9EEF5"
 
-
-# ==========================================================
 # COMMON CHART LAYOUT
-# ==========================================================
 
 def apply_chart_layout(
     fig,
@@ -29,11 +23,8 @@ def apply_chart_layout(
 ):
 
     fig.update_layout(
-
         template="plotly_white",
-
         height=height,
-
         title=dict(
             text=title if title else "",
             font=dict(
@@ -49,9 +40,7 @@ def apply_chart_layout(
         ),
 
         paper_bgcolor="white",
-
         plot_bgcolor="white",
-
         margin=dict(
             l=55,
             r=25,
@@ -60,7 +49,6 @@ def apply_chart_layout(
         ),
 
         hovermode="x unified",
-
         legend=dict(
             orientation="h",
             yanchor="bottom",
@@ -68,29 +56,20 @@ def apply_chart_layout(
             xanchor="left",
             x=0
         )
-
     )
 
     fig.update_xaxes(
-
         showgrid=False,
-
         linecolor="#D9E1EA",
-
         tickfont=dict(
             size=11
         )
-
     )
 
     fig.update_yaxes(
-
         title=yaxis_title,
-
         gridcolor="#E9EEF5",
-
         zeroline=False,
-
         title_font=dict(
             size=12
         ),
@@ -98,23 +77,17 @@ def apply_chart_layout(
         tickfont=dict(
             size=11
         )
-
     )
 
     return fig
 
-
-# ==========================================================
 # OPERATIONAL RISK TRENDS
-# ==========================================================
 
 def operational_risk_chart(operational):
 
     data = operational.copy()
 
-    # ------------------------------------------------------
     # ENSURE CORRECT ORDER
-    # ------------------------------------------------------
 
     try:
 
@@ -130,9 +103,7 @@ def operational_risk_chart(operational):
 
         pass
 
-    # ------------------------------------------------------
     # VALUES
-    # ------------------------------------------------------
 
     stockout = (
         data["StockOutRate"]
@@ -146,25 +117,17 @@ def operational_risk_chart(operational):
         .mul(100)
     )
 
-    # ------------------------------------------------------
     # CHART
-    # ------------------------------------------------------
 
     fig = go.Figure()
 
     # Stock-out rate
     fig.add_trace(
-
         go.Scatter(
-
             x=data["Month"],
-
             y=stockout,
-
             mode="lines+markers",
-
             name="Stock-Out Rate",
-
             line=dict(
                 color=OREY_RED,
                 width=3
@@ -180,24 +143,16 @@ def operational_risk_chart(operational):
                 "Stock-Out Rate: %{y:.2f}%"
                 "<extra></extra>"
             )
-
         )
-
     )
 
     # Return rate
     fig.add_trace(
-
         go.Scatter(
-
             x=data["Month"],
-
             y=returns,
-
             mode="lines+markers",
-
             name="Return Rate",
-
             line=dict(
                 color=OREY_ORANGE,
                 width=3
@@ -213,50 +168,33 @@ def operational_risk_chart(operational):
                 "Return Rate: %{y:.2f}%"
                 "<extra></extra>"
             )
-
         )
-
     )
 
-    # ------------------------------------------------------
     # REFERENCE LINES
-    # ------------------------------------------------------
 
     stockout_median = stockout.median()
 
     fig.add_hline(
-
         y=stockout_median,
-
         line_dash="dash",
-
         line_width=1,
-
         line_color=OREY_GREY,
-
         annotation_text=(
             f"Stock-Out Median: "
             f"{stockout_median:.2f}%"
         ),
 
         annotation_position="top left"
-
     )
 
-    # ------------------------------------------------------
     # LAYOUT
-    # ------------------------------------------------------
 
     apply_chart_layout(
-
         fig,
-
         height=360,
-
         title="Operational Risk Trends",
-
         yaxis_title="Rate (%)"
-
     )
 
     fig.update_yaxes(
@@ -265,10 +203,7 @@ def operational_risk_chart(operational):
 
     return fig
 
-
-# ==========================================================
 # LEAD TIME TREND
-# ==========================================================
 
 def lead_time_chart(operational):
 
@@ -292,22 +227,14 @@ def lead_time_chart(operational):
 
     fig = go.Figure()
 
-    # ------------------------------------------------------
     # LEAD TIME
-    # ------------------------------------------------------
 
     fig.add_trace(
-
         go.Scatter(
-
             x=data["Month"],
-
             y=lead_time,
-
             mode="lines+markers",
-
             name="Average Lead Time",
-
             line=dict(
                 color=OREY_BLUE,
                 width=3
@@ -317,37 +244,25 @@ def lead_time_chart(operational):
                 size=7,
                 color=OREY_BLUE
             ),
-
             fill="tozeroy",
-
             fillcolor="rgba(20,121,210,0.08)",
-
             hovertemplate=(
                 "<b>%{x}</b><br>"
                 "Average Lead Time: %{y:.2f} days"
                 "<extra></extra>"
             )
-
         )
-
     )
 
-    # ------------------------------------------------------
     # MEDIAN REFERENCE
-    # ------------------------------------------------------
 
     median_lead_time = lead_time.median()
 
     fig.add_hline(
-
         y=median_lead_time,
-
         line_dash="dash",
-
         line_width=1,
-
         line_color=OREY_GREY,
-
         annotation_text=(
             f"Median: {median_lead_time:.2f} days"
         ),
@@ -356,28 +271,18 @@ def lead_time_chart(operational):
 
     )
 
-    # ------------------------------------------------------
     # LAYOUT
-    # ------------------------------------------------------
 
     apply_chart_layout(
-
         fig,
-
         height=320,
-
         title="Average Supplier Lead Time",
-
         yaxis_title="Days"
-
     )
 
     return fig
 
-
-# ==========================================================
 # OPERATIONAL RISK PRESSURE
-# ==========================================================
 
 def operational_pressure_chart(operational):
 
@@ -397,9 +302,7 @@ def operational_pressure_chart(operational):
 
         pass
 
-    # ------------------------------------------------------
     # NORMALISATION
-    # ------------------------------------------------------
 
     def min_max(series):
 
@@ -435,33 +338,21 @@ def operational_pressure_chart(operational):
 
     # Equal-weight operational pressure index
     pressure = (
-
         stockout_score * 0.40
-
         +
-
         return_score * 0.25
-
         +
-
         lead_time_score * 0.35
-
     )
 
     fig = go.Figure()
 
     fig.add_trace(
-
         go.Scatter(
-
             x=data["Month"],
-
             y=pressure,
-
             mode="lines+markers",
-
             name="Operational Pressure",
-
             line=dict(
                 color=OREY_PURPLE,
                 width=3
@@ -471,80 +362,50 @@ def operational_pressure_chart(operational):
                 size=7,
                 color=OREY_PURPLE
             ),
-
             fill="tozeroy",
-
             fillcolor="rgba(142,68,173,0.08)",
-
             hovertemplate=(
                 "<b>%{x}</b><br>"
                 "Operational Pressure: %{y:.1f}/100"
                 "<extra></extra>"
             )
-
         )
-
     )
 
-    # ------------------------------------------------------
     # RISK BANDS
-    # ------------------------------------------------------
 
     fig.add_hrect(
-
         y0=0,
         y1=33.3,
-
         fillcolor="rgba(46,204,113,0.08)",
-
         line_width=0,
-
         annotation_text="Lower Pressure",
-
         annotation_position="top left"
-
     )
 
     fig.add_hrect(
-
         y0=33.3,
         y1=66.6,
-
         fillcolor="rgba(243,156,18,0.08)",
-
         line_width=0,
-
         annotation_text="Moderate Pressure",
-
         annotation_position="top left"
-
     )
 
     fig.add_hrect(
-
         y0=66.6,
         y1=100,
-
         fillcolor="rgba(192,57,43,0.08)",
-
         line_width=0,
-
         annotation_text="Higher Pressure",
-
         annotation_position="top left"
-
     )
 
     apply_chart_layout(
-
         fig,
-
         height=320,
-
         title="Operational Pressure Index",
-
         yaxis_title="Pressure Score"
-
     )
 
     fig.update_yaxes(
