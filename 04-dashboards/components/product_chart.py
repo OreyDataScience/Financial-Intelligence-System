@@ -1,9 +1,6 @@
 import plotly.express as px
 
-
-# ============================================================
 # OREY ANALYTICS CATEGORY COLOURS
-# ============================================================
 
 CATEGORY_COLORS = {
     "Food": "#173B63",
@@ -13,16 +10,11 @@ CATEGORY_COLORS = {
     "Home": "#1E8449"
 }
 
-
-# ============================================================
 # TOP PRODUCTS CHART
-# ============================================================
 
 def top_products_chart(products):
 
-    # --------------------------------------------------------
     # TOP 10 PRODUCTS BY REVENUE
-    # --------------------------------------------------------
 
     top = (
         products
@@ -34,10 +26,7 @@ def top_products_chart(products):
         .copy()
     )
 
-
-    # --------------------------------------------------------
     # PRODUCT LABEL
-    # --------------------------------------------------------
 
     top["Product_Category"] = (
         top["ProductName"]
@@ -45,10 +34,7 @@ def top_products_chart(products):
         + top["Category"]
     )
 
-
-    # --------------------------------------------------------
     # CHART
-    # --------------------------------------------------------
 
     fig = px.bar(
         top,
@@ -60,10 +46,7 @@ def top_products_chart(products):
         template="plotly_white"
     )
 
-
-    # --------------------------------------------------------
     # DATA LABELS
-    # --------------------------------------------------------
 
     fig.update_traces(
         texttemplate="R %{text:,.0f}",
@@ -85,10 +68,7 @@ def top_products_chart(products):
         )
     )
 
-
-    # --------------------------------------------------------
     # LAYOUT
-    # --------------------------------------------------------
 
     fig.update_layout(
 
@@ -102,19 +82,12 @@ def top_products_chart(products):
         ),
 
         height=480,
-
         autosize=True,
-
         xaxis_title="Product",
-
         yaxis_title="Revenue (R)",
-
         legend_title="Category",
-
         bargap=0.35,
-
         bargroupgap=0.15,
-
         margin=dict(
             l=60,
             r=40,
@@ -123,9 +96,7 @@ def top_products_chart(products):
         ),
 
         plot_bgcolor="white",
-
         paper_bgcolor="white",
-
         font=dict(
             family="Arial",
             color="#061A35"
@@ -134,47 +105,29 @@ def top_products_chart(products):
         hovermode="x unified"
     )
 
-
-    # --------------------------------------------------------
     # X AXIS
-    # --------------------------------------------------------
 
     fig.update_xaxes(
-
         tickangle=0,
-
         showgrid=False,
-
         automargin=True,
-
         tickfont=dict(
             size=10
         ),
 
         fixedrange=False,
-
         linecolor="#D9E1EA"
     )
 
-
-    # --------------------------------------------------------
     # Y AXIS
-    # --------------------------------------------------------
 
     fig.update_yaxes(
-
         showgrid=True,
-
         gridcolor="#E6EEF7",
-
         zeroline=False,
-
         automargin=True,
-
         separatethousands=True,
-
         tickformat="~s"
     )
-
 
     return fig

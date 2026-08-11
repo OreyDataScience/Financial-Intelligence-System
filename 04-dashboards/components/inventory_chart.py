@@ -1,10 +1,7 @@
 import pandas as pd
 import plotly.express as px
 
-
-# ==========================================================
 # OREY ANALYTICS COLOUR PALETTE
-# ==========================================================
 
 OREY_NAVY = "#061A35"
 OREY_BLUE = "#1479D2"
@@ -16,10 +13,7 @@ OREY_PURPLE = "#8E44AD"
 OREY_GREY = "#7F8C8D"
 OREY_LIGHT_GREY = "#E9EEF5"
 
-
-# ==========================================================
 # COMMON CHART LAYOUT
-# ==========================================================
 
 def apply_inventory_layout(
     fig,
@@ -30,11 +24,8 @@ def apply_inventory_layout(
 ):
 
     fig.update_layout(
-
         template="plotly_white",
-
         height=height,
-
         title=dict(
             text=title if title else "",
             font=dict(
@@ -50,9 +41,7 @@ def apply_inventory_layout(
         ),
 
         paper_bgcolor="white",
-
         plot_bgcolor="white",
-
         margin=dict(
             l=55,
             r=30,
@@ -61,7 +50,6 @@ def apply_inventory_layout(
         ),
 
         hovermode="closest",
-
         legend=dict(
             orientation="h",
             yanchor="bottom",
@@ -69,31 +57,21 @@ def apply_inventory_layout(
             xanchor="left",
             x=0
         )
-
     )
 
     fig.update_xaxes(
-
         title=xaxis_title,
-
         showgrid=False,
-
         linecolor="#D9E1EA",
-
         tickfont=dict(
             size=11
         )
-
     )
 
     fig.update_yaxes(
-
         title=yaxis_title,
-
         gridcolor=OREY_LIGHT_GREY,
-
         zeroline=False,
-
         title_font=dict(
             size=12
         ),
@@ -101,22 +79,16 @@ def apply_inventory_layout(
         tickfont=dict(
             size=11
         )
-
     )
 
     return fig
 
-
-# ==========================================================
 # AVERAGE INVENTORY BY CATEGORY
-# ==========================================================
 
 def inventory_by_category_chart(inventory):
 
     data = (
-
         inventory
-
         .groupby(
             "Category",
             as_index=False
@@ -148,7 +120,6 @@ def inventory_by_category_chart(inventory):
             "Avg_Inventory",
             ascending=True
         )
-
     )
 
     data["StockOutRatePercent"] = (
@@ -156,17 +127,11 @@ def inventory_by_category_chart(inventory):
     )
 
     fig = px.bar(
-
         data,
-
         x="Category",
-
         y="Avg_Inventory",
-
         text="Avg_Inventory",
-
         color="Category",
-
         template="plotly_white",
 
         color_discrete_sequence=[
@@ -178,33 +143,22 @@ def inventory_by_category_chart(inventory):
         ],
 
         hover_data={
-
             "Avg_Inventory": ":,.0f",
-
             "StockOutRatePercent": ":.2f",
-
             "Revenue": ":,.0f",
-
             "Profit": ":,.0f"
-
         }
-
     )
 
     fig.update_traces(
-
         texttemplate="%{text:,.0f}",
-
         textposition="outside",
-
         textfont=dict(
             size=12
         ),
 
         marker_line_width=0,
-
         hovertemplate=(
-
             "<b>%{x}</b><br>"
 
             "Average Inventory: %{y:,.0f}<br>"
@@ -217,23 +171,15 @@ def inventory_by_category_chart(inventory):
             "Profit: R %{customdata[3]:,.0f}"
 
             "<extra></extra>"
-
         )
-
     )
 
     apply_inventory_layout(
-
         fig,
-
         height=390,
-
         title="Average Inventory by Category",
-
         xaxis_title="Category",
-
         yaxis_title="Average Inventory"
-
     )
 
     fig.update_layout(
@@ -242,15 +188,11 @@ def inventory_by_category_chart(inventory):
 
     return fig
 
-
-# ==========================================================
 # REVENUE BY CATEGORY — RANKED BY PROFIT
-# ==========================================================
 
 def inventory_revenue_chart(inventory):
 
     data = (
-
         inventory
 
         .groupby(
@@ -259,7 +201,6 @@ def inventory_revenue_chart(inventory):
         )
 
         .agg(
-
             Revenue=(
                 "Revenue",
                 "sum"
@@ -286,7 +227,6 @@ def inventory_revenue_chart(inventory):
             "Profit",
             ascending=True
         )
-
     )
 
     data["StockOutRatePercent"] = (
@@ -294,17 +234,11 @@ def inventory_revenue_chart(inventory):
     )
 
     fig = px.bar(
-
         data,
-
         x="Category",
-
         y="Revenue",
-
         color="Category",
-
         text="Revenue",
-
         template="plotly_white",
 
         color_discrete_sequence=[
@@ -316,33 +250,22 @@ def inventory_revenue_chart(inventory):
         ],
 
         hover_data={
-
             "Revenue": ":,.0f",
-
             "Profit": ":,.0f",
-
             "Avg_Inventory": ":,.0f",
-
             "StockOutRatePercent": ":.2f"
-
         }
-
     )
 
     fig.update_traces(
-
         texttemplate="R %{text:,.0f}",
-
         textposition="outside",
-
         textfont=dict(
             size=12
         ),
 
         marker_line_width=0,
-
         hovertemplate=(
-
             "<b>%{x}</b><br>"
 
             "Revenue: R %{y:,.0f}<br>"
@@ -356,23 +279,15 @@ def inventory_revenue_chart(inventory):
             "%{customdata[3]:.2f}%"
 
             "<extra></extra>"
-
         )
-
     )
 
     apply_inventory_layout(
-
         fig,
-
         height=390,
-
         title="Revenue by Category — Ranked by Profit",
-
         xaxis_title="Category",
-
         yaxis_title="Revenue (R)"
-
     )
 
     fig.update_layout(

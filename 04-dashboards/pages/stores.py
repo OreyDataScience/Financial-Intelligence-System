@@ -16,25 +16,18 @@ from scripts.data_loader import (
 
 from scripts.utils import format_currency
 
-
 register_page(
     __name__,
     path="/stores",
     name="Stores"
 )
 
-
-# ============================================================
 # METRICS
-# ============================================================
 
 total_revenue = stores["Revenue"].sum()
 
 total_profit = stores["Profit"].sum()
 
-# IMPORTANT:
-# Calculate from full-precision CSV values.
-# Only round when displaying the KPI.
 avg_margin = (
     stores["AvgMargin"].mean()
     * 100
@@ -43,11 +36,6 @@ avg_margin = (
 avg_stockout = (
     stores["StockOutRate"].mean()
 )
-
-
-# ============================================================
-# ADDITIONAL STORE INTELLIGENCE
-# ============================================================
 
 # Highest revenue store
 top_revenue_store = (
@@ -84,10 +72,7 @@ lowest_stockout_store = (
     ]
 )
 
-
-# ============================================================
 # KPI COLOURS
-# ============================================================
 
 profit_colour = (
     "#2ECC71"
@@ -107,10 +92,7 @@ stockout_colour = (
     else "#C0392B"
 )
 
-
-# ============================================================
 # HIGH-RISK STORE TABLE
-# ============================================================
 
 risk_table = high_risk_stores[
     [
@@ -121,7 +103,6 @@ risk_table = high_risk_stores[
     ]
 ].head(10).copy()
 
-
 risk_table["StockOutRate"] = (
     risk_table["StockOutRate"]
     .mul(100)
@@ -130,7 +111,6 @@ risk_table["StockOutRate"] = (
     )
 )
 
-
 risk_table["ReturnRate"] = (
     risk_table["ReturnRate"]
     .mul(100)
@@ -138,7 +118,6 @@ risk_table["ReturnRate"] = (
         lambda x: f"{x:.2f}%"
     )
 )
-
 
 risk_table = risk_table.rename(
     columns={
@@ -149,17 +128,11 @@ risk_table = risk_table.rename(
     }
 )
 
-
-# ============================================================
 # LAYOUT
-# ============================================================
 
 layout = dbc.Container(
     [
-
-        # ====================================================
         # PAGE HEADER
-        # ====================================================
 
         html.H1(
             "Store Performance",
@@ -173,14 +146,10 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # KPI CARDS
-        # ====================================================
 
         dbc.Row(
             [
-
                 dbc.Col(
                     kpi_card(
                         "Revenue",
@@ -235,15 +204,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
-        # STORE PERFORMANCE SNAPSHOT
-        # ====================================================
+        #STORE PERFORMANCE SNAPSHOT
 
         dbc.Card(
             dbc.CardBody(
                 [
-
                     html.H5(
                         "Store Performance Snapshot",
                         className="mb-3",
@@ -255,10 +220,8 @@ layout = dbc.Container(
 
                     dbc.Row(
                         [
-
                             dbc.Col(
                                 [
-
                                     html.Small(
                                         "Highest Revenue",
                                         className="text-muted"
@@ -296,7 +259,6 @@ layout = dbc.Container(
 
                             dbc.Col(
                                 [
-
                                     html.Small(
                                         "Highest Profit",
                                         className="text-muted"
@@ -334,7 +296,6 @@ layout = dbc.Container(
 
                             dbc.Col(
                                 [
-
                                     html.Small(
                                         "Highest Margin",
                                         className="text-muted"
@@ -360,16 +321,13 @@ layout = dbc.Container(
                                             "color": "#061A35"
                                         }
                                     )
-
                                 ],
                                 xs=12,
                                 md=4
                             )
-
                         ],
                         className="g-4"
                     )
-
                 ]
             ),
             className="shadow-sm"
@@ -377,15 +335,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # REVENUE PERFORMANCE
-        # ====================================================
 
         dbc.Card(
             dbc.CardBody(
                 [
-
                     html.H4(
                         "Store Revenue Performance",
                         className="mb-1",
@@ -415,7 +369,6 @@ layout = dbc.Container(
                             "responsive": True
                         }
                     )
-
                 ]
             ),
             className="shadow-sm"
@@ -423,15 +376,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # PROFIT PERFORMANCE
-        # ====================================================
 
         dbc.Card(
             dbc.CardBody(
                 [
-
                     html.H4(
                         "Store Profit Performance",
                         className="mb-1",
@@ -461,7 +410,6 @@ layout = dbc.Container(
                             "responsive": True
                         }
                     )
-
                 ]
             ),
             className="shadow-sm"
@@ -469,15 +417,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # OPERATIONAL POSITION
-        # ====================================================
 
         dbc.Card(
             dbc.CardBody(
                 [
-
                     html.H4(
                         "Store Operational Position",
                         className="mb-1",
@@ -494,12 +438,10 @@ layout = dbc.Container(
 
                     dbc.Row(
                         [
-
                             dbc.Col(
                                 dbc.Card(
                                     dbc.CardBody(
                                         [
-
                                             html.H6(
                                                 "Highest Stock-Out Rate",
                                                 style={
@@ -526,7 +468,6 @@ layout = dbc.Container(
                                                     "fontWeight": "600"
                                                 }
                                             )
-
                                         ]
                                     ),
                                     className="border-0 shadow-sm"
@@ -539,7 +480,6 @@ layout = dbc.Container(
                                 dbc.Card(
                                     dbc.CardBody(
                                         [
-
                                             html.H6(
                                                 "Lowest Stock-Out Rate",
                                                 style={
@@ -566,7 +506,6 @@ layout = dbc.Container(
                                                     "fontWeight": "600"
                                                 }
                                             )
-
                                         ]
                                     ),
                                     className="border-0 shadow-sm"
@@ -574,11 +513,9 @@ layout = dbc.Container(
                                 xs=12,
                                 md=6
                             )
-
                         ],
                         className="g-3"
                     )
-
                 ]
             ),
             className="shadow-sm"
@@ -586,19 +523,14 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # HIGH-RISK STORES + REVENUE SHARE
-        # ====================================================
 
         dbc.Row(
             [
-
                 dbc.Col(
                     dbc.Card(
                         dbc.CardBody(
                             [
-
                                 html.H4(
                                     "High-Risk Stores",
                                     className="mb-1",
@@ -627,7 +559,6 @@ layout = dbc.Container(
                                     responsive=True,
                                     className="mb-0"
                                 )
-
                             ]
                         ),
                         className="shadow-sm h-100"
@@ -639,7 +570,6 @@ layout = dbc.Container(
                     dbc.Card(
                         dbc.CardBody(
                             [
-
                                 dcc.Graph(
                                     id="store-revenue-share-chart",
 
@@ -653,7 +583,6 @@ layout = dbc.Container(
                                         "responsive": True
                                     }
                                 )
-
                             ]
                         ),
                         className="shadow-sm h-100"
@@ -664,7 +593,6 @@ layout = dbc.Container(
             ],
             className="g-4"
         )
-
     ],
     fluid=True
 )

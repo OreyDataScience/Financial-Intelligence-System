@@ -7,17 +7,13 @@ from components.charts import revenue_chart
 from scripts.data_loader import monthly, forecast
 from scripts.utils import format_currency
 
-
 register_page(
     __name__,
     path="/revenue",
     name="Revenue"
 )
 
-
-# ==========================================================
 # DATA PREPARATION
-# ==========================================================
 
 data = monthly.copy()
 
@@ -31,10 +27,7 @@ previous = (
 
 forecast_next = forecast.iloc[0]
 
-
-# ==========================================================
 # CURRENT METRICS
-# ==========================================================
 
 revenue = float(
     latest["Revenue"]
@@ -52,10 +45,7 @@ forecast_revenue = float(
     forecast_next["Revenue_Forecast"]
 )
 
-
-# ==========================================================
 # PREVIOUS METRICS
-# ==========================================================
 
 previous_revenue = float(
     previous["Revenue"]
@@ -69,10 +59,7 @@ previous_margin = float(
     previous["Avg_Margin"]
 )
 
-
-# ==========================================================
 # GROWTH CALCULATIONS
-# ==========================================================
 
 if previous_revenue != 0:
 
@@ -102,10 +89,7 @@ margin_change = (
     margin - previous_margin
 ) * 100
 
-
-# ==========================================================
 # FORECAST ANALYSIS
-# ==========================================================
 
 if revenue != 0:
 
@@ -118,10 +102,7 @@ else:
 
     forecast_growth = 0
 
-
-# ==========================================================
 # HISTORICAL REVENUE METRICS
-# ==========================================================
 
 historical_high = float(
     data["Revenue"].max()
@@ -139,10 +120,7 @@ average_monthly_profit = float(
     data["Profit"].mean()
 )
 
-
-# ==========================================================
 # PROFITABILITY METRICS
-# ==========================================================
 
 total_revenue = float(
     data["Revenue"].sum()
@@ -152,10 +130,7 @@ total_profit = float(
     data["Profit"].sum()
 )
 
-
-# ==========================================================
 # DYNAMIC COLOURS
-# ==========================================================
 
 profit_colour = (
     "#2ECC71"
@@ -181,10 +156,7 @@ margin_colour = (
     else "#C0392B"
 )
 
-
-# ==========================================================
 # TREND TEXT HELPER
-# ==========================================================
 
 def change_text(
     change,
@@ -223,10 +195,7 @@ def change_text(
             "vs previous month"
         )
 
-
-# ==========================================================
 # FORECAST INTERPRETATION
-# ==========================================================
 
 if forecast_growth > 5:
 
@@ -256,10 +225,7 @@ else:
         "stable revenue performance."
     )
 
-
-# ==========================================================
 # PERFORMANCE INTERPRETATION
-# ==========================================================
 
 if growth > 0 and profit > 0:
 
@@ -290,17 +256,11 @@ else:
         "in the latest month."
     )
 
-
-# ==========================================================
 # LAYOUT
-# ==========================================================
 
 layout = dbc.Container(
     [
-
-        # ==================================================
         # HEADER
-        # ==================================================
 
         html.H1(
             "Revenue Intelligence",
@@ -314,14 +274,10 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ==================================================
         # KPI CARDS
-        # ==================================================
 
         dbc.Row(
             [
-
                 # LATEST REVENUE
 
                 dbc.Col(
@@ -338,7 +294,6 @@ layout = dbc.Container(
                     sm=6,
                     lg=3
                 ),
-
 
                 # PROFIT
 
@@ -357,7 +312,6 @@ layout = dbc.Container(
                     lg=3
                 ),
 
-
                 # MARGIN
 
                 dbc.Col(
@@ -373,7 +327,6 @@ layout = dbc.Container(
                     lg=3
                 ),
 
-
                 # GROWTH
 
                 dbc.Col(
@@ -388,7 +341,6 @@ layout = dbc.Container(
                     sm=6,
                     lg=3
                 )
-
             ],
 
             className="g-4"
@@ -396,14 +348,10 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ==================================================
         # SECONDARY KPI ROW
-        # ==================================================
 
         dbc.Row(
             [
-
                 # FORECAST
 
                 dbc.Col(
@@ -420,7 +368,6 @@ layout = dbc.Container(
                     sm=6,
                     lg=3
                 ),
-
 
                 # AVERAGE REVENUE
 
@@ -439,7 +386,6 @@ layout = dbc.Container(
                     lg=3
                 ),
 
-
                 # HISTORICAL HIGH
 
                 dbc.Col(
@@ -456,7 +402,6 @@ layout = dbc.Container(
                     sm=6,
                     lg=3
                 ),
-
 
                 # HISTORICAL LOW
 
@@ -482,10 +427,7 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ==================================================
         # REVENUE + FORECAST CHART
-        # ==================================================
 
         dbc.Card(
             dbc.CardBody(
@@ -531,21 +473,16 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ==================================================
         # CURRENT PERFORMANCE + FORECAST OUTLOOK
-        # ==================================================
 
         dbc.Row(
             [
-
                 # CURRENT PERFORMANCE
 
                 dbc.Col(
                     dbc.Card(
                         dbc.CardBody(
                             [
-
                                 html.H4(
                                     "Current Revenue Performance",
                                     className="mb-1",
@@ -651,7 +588,6 @@ layout = dbc.Container(
                                     performance_message,
                                     className="mb-0"
                                 )
-
                             ]
                         ),
 
@@ -662,14 +598,12 @@ layout = dbc.Container(
                     lg=6
                 ),
 
-
                 # FORECAST OUTLOOK
 
                 dbc.Col(
                     dbc.Card(
                         dbc.CardBody(
                             [
-
                                 html.H4(
                                     "Forecast Outlook",
                                     className="mb-1",
@@ -753,7 +687,6 @@ layout = dbc.Container(
                                     forecast_message,
                                     className="mb-0"
                                 )
-
                             ]
                         ),
 
@@ -763,7 +696,6 @@ layout = dbc.Container(
                     xs=12,
                     lg=6
                 )
-
             ],
 
             className="g-4"
@@ -771,15 +703,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ==================================================
         # HISTORICAL REVENUE POSITION
-        # ==================================================
 
         dbc.Card(
             dbc.CardBody(
                 [
-
                     html.H4(
                         "Historical Revenue Position",
                         className="mb-1",
@@ -799,7 +727,6 @@ layout = dbc.Container(
 
                     dbc.Row(
                         [
-
                             dbc.Col(
                                 [
                                     html.Small(
@@ -865,12 +792,10 @@ layout = dbc.Container(
                                 xs=12,
                                 md=4
                             )
-
                         ],
 
                         className="g-4"
                     )
-
                 ]
             ),
 
@@ -879,15 +804,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ==================================================
         # MANAGEMENT INTERPRETATION
-        # ==================================================
 
         dbc.Card(
             dbc.CardBody(
                 [
-
                     html.H4(
                         "Revenue Interpretation",
                         className="mb-1",
@@ -943,13 +864,11 @@ layout = dbc.Container(
 
                         className="mb-0"
                     )
-
                 ]
             ),
 
             className="shadow-sm"
         )
-
     ],
 
     fluid=True

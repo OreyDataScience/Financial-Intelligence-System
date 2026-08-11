@@ -12,17 +12,13 @@ from scripts.data_loader import (
 
 from scripts.utils import format_currency
 
-
 register_page(
     __name__,
     path="/products",
     name="Products"
 )
 
-
-# ============================================================
 # METRICS
-# ============================================================
 
 total_revenue = (
     products["Revenue"].sum()
@@ -36,18 +32,12 @@ total_units = (
     products["UnitsSold"].sum()
 )
 
-# IMPORTANT:
-# Use full-precision CSV values.
-# Round only when displaying the KPI.
 avg_margin = (
     products["AvgMargin"].mean()
     * 100
 )
 
-
-# ============================================================
 # PRODUCT INTELLIGENCE
-# ============================================================
 
 # Highest revenue product
 
@@ -57,7 +47,6 @@ top_revenue_product = (
     ]
 )
 
-
 # Highest profit product
 
 top_profit_product = (
@@ -65,7 +54,6 @@ top_profit_product = (
         products["Profit"].idxmax()
     ]
 )
-
 
 # Highest margin product
 
@@ -75,7 +63,6 @@ top_margin_product = (
     ]
 )
 
-
 # Lowest margin product
 
 lowest_margin_product = (
@@ -83,7 +70,6 @@ lowest_margin_product = (
         products["AvgMargin"].idxmin()
     ]
 )
-
 
 # Highest return-rate product
 
@@ -93,7 +79,6 @@ highest_return_product = (
     ]
 )
 
-
 # Highest units-sold product
 
 top_units_product = (
@@ -102,10 +87,7 @@ top_units_product = (
     ]
 )
 
-
-# ============================================================
 # KPI COLOURS
-# ============================================================
 
 profit_colour = (
     "#2ECC71"
@@ -119,10 +101,7 @@ margin_colour = (
     else "#C0392B"
 )
 
-
-# ============================================================
 # TABLE DATA
-# ============================================================
 
 top_products_table = top_products[
     [
@@ -133,7 +112,6 @@ top_products_table = top_products[
     ]
 ].head(10).copy()
 
-
 bottom_products_table = bottom_products[
     [
         "ProductName",
@@ -143,10 +121,7 @@ bottom_products_table = bottom_products[
     ]
 ].head(10).copy()
 
-
-# ============================================================
 # FORMAT FINANCIAL VALUES
-# ============================================================
 
 top_products_table["Revenue"] = (
     top_products_table["Revenue"].map(
@@ -159,7 +134,6 @@ top_products_table["Profit"] = (
         lambda x: f"R {x:,.2f}"
     )
 )
-
 
 bottom_products_table["Revenue"] = (
     bottom_products_table["Revenue"].map(
@@ -174,9 +148,7 @@ bottom_products_table["Profit"] = (
 )
 
 
-# ============================================================
 # RENAME TABLE COLUMNS
-# ============================================================
 
 top_products_table = (
     top_products_table.rename(
@@ -188,7 +160,6 @@ top_products_table = (
         }
     )
 )
-
 
 bottom_products_table = (
     bottom_products_table.rename(
@@ -202,16 +173,11 @@ bottom_products_table = (
 )
 
 
-# ============================================================
 # LAYOUT
-# ============================================================
 
 layout = dbc.Container(
     [
-
-        # ====================================================
         # PAGE HEADER
-        # ====================================================
 
         html.H1(
             "Product Analytics",
@@ -225,14 +191,10 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # KPI CARDS
-        # ====================================================
 
         dbc.Row(
             [
-
                 dbc.Col(
                     kpi_card(
                         "Revenue",
@@ -291,15 +253,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # PRODUCT PERFORMANCE SNAPSHOT
-        # ====================================================
 
         dbc.Card(
             dbc.CardBody(
                 [
-
                     html.H5(
                         "Product Performance Snapshot",
                         className="mb-3",
@@ -311,12 +269,10 @@ layout = dbc.Container(
 
                     dbc.Row(
                         [
-
                             # HIGHEST REVENUE
 
                             dbc.Col(
                                 [
-
                                     html.Small(
                                         "Highest Revenue",
                                         className="text-muted"
@@ -352,12 +308,10 @@ layout = dbc.Container(
                                 md=4
                             ),
 
-
                             # HIGHEST PROFIT
 
                             dbc.Col(
                                 [
-
                                     html.Small(
                                         "Highest Profit",
                                         className="text-muted"
@@ -393,12 +347,10 @@ layout = dbc.Container(
                                 md=4
                             ),
 
-
                             # HIGHEST MARGIN
 
                             dbc.Col(
                                 [
-
                                     html.Small(
                                         "Highest Margin",
                                         className="text-muted"
@@ -429,11 +381,9 @@ layout = dbc.Container(
                                 xs=12,
                                 md=4
                             )
-
                         ],
                         className="g-4"
                     )
-
                 ]
             ),
             className="shadow-sm"
@@ -441,15 +391,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # TOP PRODUCTS REVENUE CHART
-        # ====================================================
 
         dbc.Card(
             dbc.CardBody(
                 [
-
                     html.H4(
                         "Product Revenue Performance",
                         className="mb-1",
@@ -479,7 +425,6 @@ layout = dbc.Container(
                             "responsive": True
                         }
                     )
-
                 ]
             ),
             className="shadow-sm"
@@ -487,15 +432,11 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # PRODUCT OPERATIONAL POSITION
-        # ====================================================
 
         dbc.Card(
             dbc.CardBody(
                 [
-
                     html.H4(
                         "Product Operational Position",
                         className="mb-1",
@@ -512,14 +453,12 @@ layout = dbc.Container(
 
                     dbc.Row(
                         [
-
                             # HIGHEST MARGIN
 
                             dbc.Col(
                                 dbc.Card(
                                     dbc.CardBody(
                                         [
-
                                             html.H6(
                                                 "Highest Margin",
                                                 style={
@@ -546,7 +485,6 @@ layout = dbc.Container(
                                                     "fontWeight": "600"
                                                 }
                                             )
-
                                         ]
                                     ),
                                     className="border-0 shadow-sm"
@@ -555,14 +493,12 @@ layout = dbc.Container(
                                 md=4
                             ),
 
-
                             # LOWEST MARGIN
 
                             dbc.Col(
                                 dbc.Card(
                                     dbc.CardBody(
                                         [
-
                                             html.H6(
                                                 "Lowest Margin",
                                                 style={
@@ -589,7 +525,6 @@ layout = dbc.Container(
                                                     "fontWeight": "600"
                                                 }
                                             )
-
                                         ]
                                     ),
                                     className="border-0 shadow-sm"
@@ -598,14 +533,12 @@ layout = dbc.Container(
                                 md=4
                             ),
 
-
                             # HIGHEST RETURNS
 
                             dbc.Col(
                                 dbc.Card(
                                     dbc.CardBody(
                                         [
-
                                             html.H6(
                                                 "Highest Return Rate",
                                                 style={
@@ -632,7 +565,6 @@ layout = dbc.Container(
                                                     "fontWeight": "600"
                                                 }
                                             )
-
                                         ]
                                     ),
                                     className="border-0 shadow-sm"
@@ -640,11 +572,9 @@ layout = dbc.Container(
                                 xs=12,
                                 md=4
                             )
-
                         ],
                         className="g-3"
                     )
-
                 ]
             ),
             className="shadow-sm"
@@ -652,23 +582,16 @@ layout = dbc.Container(
 
         html.Br(),
 
-
-        # ====================================================
         # TOP & BOTTOM PRODUCTS
-        # ====================================================
 
         dbc.Row(
             [
-
-                # =================================================
                 # TOP PRODUCTS
-                # =================================================
 
                 dbc.Col(
                     dbc.Card(
                         dbc.CardBody(
                             [
-
                                 html.H4(
                                     "Top Products",
                                     style={
@@ -695,7 +618,6 @@ layout = dbc.Container(
                                     size="sm",
                                     responsive=True
                                 )
-
                             ]
                         ),
                         className="h-100 shadow-sm"
@@ -703,16 +625,12 @@ layout = dbc.Container(
                     lg=6
                 ),
 
-
-                # =================================================
                 # BOTTOM PRODUCTS
-                # =================================================
 
                 dbc.Col(
                     dbc.Card(
                         dbc.CardBody(
                             [
-
                                 html.H4(
                                     "Bottom Products",
                                     style={
@@ -739,18 +657,15 @@ layout = dbc.Container(
                                     size="sm",
                                     responsive=True
                                 )
-
                             ]
                         ),
                         className="h-100 shadow-sm"
                     ),
                     lg=6
                 )
-
             ],
             className="g-4"
         )
-
     ],
     fluid=True
 )

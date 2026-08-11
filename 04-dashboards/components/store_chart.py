@@ -1,9 +1,6 @@
 import plotly.express as px
 
-
-# ============================================================
 # OREY ANALYTICS COLOURS
-# ============================================================
 
 OREY_NAVY = "#061A35"
 OREY_BLUE = "#1479D2"
@@ -14,10 +11,7 @@ OREY_RED = "#C0392B"
 OREY_PURPLE = "#8E44AD"
 OREY_GREY = "#7F8C8D"
 
-
-# ============================================================
 # STORE RISK COLOURS
-# ============================================================
 
 DISPLAY_RISK_COLOURS = {
     "Reliable": OREY_GREEN,
@@ -25,10 +19,7 @@ DISPLAY_RISK_COLOURS = {
     "High Risk": OREY_RED
 }
 
-
-# ============================================================
 # STORE LABEL
-# ============================================================
 
 def create_store_label(row):
 
@@ -37,10 +28,7 @@ def create_store_label(row):
         f"{row['StoreLocation']}"
     )
 
-
-# ============================================================
 # NORMALISE RISK VALUES
-# ============================================================
 
 def normalise_risk(value):
 
@@ -68,10 +56,7 @@ def normalise_risk(value):
 
     return "High Risk"
 
-
-# ============================================================
 # TOP STORES BY REVENUE
-# ============================================================
 
 def top_stores_chart(stores):
 
@@ -178,10 +163,7 @@ def top_stores_chart(stores):
 
     return fig
 
-
-# ============================================================
 # TOP STORES BY PROFIT
-# ============================================================
 
 def store_profit_chart(stores):
 
@@ -249,7 +231,6 @@ def store_profit_chart(stores):
         ),
 
         height=400,
-
         font=dict(
             family="Arial",
             color=OREY_NAVY
@@ -257,12 +238,9 @@ def store_profit_chart(stores):
 
         paper_bgcolor="white",
         plot_bgcolor="white",
-
         xaxis_title="Store",
         yaxis_title="Profit (R)",
-
         legend_title="Store Risk",
-
         margin=dict(
             l=60,
             r=30,
@@ -288,10 +266,7 @@ def store_profit_chart(stores):
 
     return fig
 
-
-# ============================================================
 # REVENUE SHARE BY STORE LOCATION
-# ============================================================
 
 def store_revenue_share_chart(stores):
 
