@@ -129,7 +129,7 @@ The application consumes the analytical outputs produced by the Retail Intellige
 - Confidence intervals
 
 ### Dashboard Development
--- Python
+- Python
 - Dash
 - Plotly
 - Dash Bootstrap Components
@@ -145,10 +145,10 @@ The application consumes the analytical outputs produced by the Retail Intellige
 - Decision-support dashboards
 
 ### Development Tools
-Visual Studio Code
-Git
-GitHub
-GitHub Codespaces
+- Visual Studio Code
+- Git
+- GitHub
+- GitHub Codespaces
 
 ---
 
