@@ -1,6 +1,5 @@
 import plotly.express as px
 
-
 def segment_revenue_chart(segments):
 
     fig = px.bar(
