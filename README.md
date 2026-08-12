@@ -74,7 +74,7 @@ Key activities include:
 * Outlier identification
 * Data transformation
 * Feature preparation
-* Overall Data Quality Score (Made using the 05-financial-health-scoring-dataset)
+* Overall Data Quality Score
 
 This stage establishes the data foundation for the financial intelligence systems developed throughout the portfolio.
 
