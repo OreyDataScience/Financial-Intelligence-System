@@ -57,3 +57,10 @@ __pycache__/
 # Python virtual environments
 .venv/
 venv/
+
+# Financial Health Scoring datasets
+05-financial-scoring/01-population-model/data/*.csv
+05-financial-scoring/02-individual-assessment/data/*.csv
+
+# Financial Health Scoring generated outputs
+05-financial-scoring/01-population-model/outputs/*.csv

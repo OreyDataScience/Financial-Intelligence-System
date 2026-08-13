@@ -1,0 +1,7 @@
+column,dtype,unique_values
+business_id,str,300
+transaction_date,str,1496
+transaction_type,str,8
+transaction_amount,float64,26083
+transaction_status,str,4
+account_balance_after,float64,23566
