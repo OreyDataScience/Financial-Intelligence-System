@@ -94,7 +94,6 @@ Visualisation areas include:
 * Financial trends
 * Risk indicators
 * Distribution analysis
-* Time-series analysis
 
 The objective is to understand business performance and identify important patterns before applying predictive models or scoring systems.
 
