@@ -1,0 +1,56 @@
+{
+    "model_name": "Orey Financial Health Scorecard",
+    "validation_stage": "06 \u2014 Model Validation, Calibration & Risk Bands",
+    "target": "default_event_12m",
+    "training_rows": 101953,
+    "validation_rows": 34298,
+    "test_rows": 34475,
+    "score_minimum": 300,
+    "score_maximum": 850,
+    "calibration_bins": 10,
+    "score_bands": 10,
+    "train_auc": 0.8264209665206403,
+    "validation_auc": 0.8238981012302687,
+    "test_auc": 0.8251859608255953,
+    "train_gini": 0.6528419330412807,
+    "validation_gini": 0.6477962024605375,
+    "test_gini": 0.6503719216511905,
+    "train_ks": 0.49540277874370575,
+    "validation_ks": 0.4905470962236951,
+    "test_ks": 0.49469054956413144,
+    "train_brier_score": 0.10786671148509605,
+    "validation_brier_score": 0.10867628628220195,
+    "test_brier_score": 0.10754190002743835,
+    "train_score_monotonicity": true,
+    "validation_score_monotonicity": true,
+    "test_score_monotonicity": true,
+    "train_risk_band_monotonicity": true,
+    "validation_risk_band_monotonicity": true,
+    "test_risk_band_monotonicity": true,
+    "validation_test_auc_difference": 0.0012878595953265126,
+    "validation_test_gini_difference": 0.0025757191906530252,
+    "validation_test_ks_difference": 0.004143453340436365,
+    "model_validation_pass": true,
+    "calibration_summary": {
+        "train": {
+            "mean_absolute_calibration_error": 0.002103900843151958,
+            "maximum_absolute_calibration_error": 0.004480035963253637
+        },
+        "validation": {
+            "mean_absolute_calibration_error": 0.0023361611834590338,
+            "maximum_absolute_calibration_error": 0.007237904924920782
+        },
+        "test": {
+            "mean_absolute_calibration_error": 0.00371643970808917,
+            "maximum_absolute_calibration_error": 0.011473600780273041
+        }
+    },
+    "risk_band_cutoffs": {
+        "very_high_risk_max": 580,
+        "high_risk_max": 606,
+        "moderate_risk_max": 629,
+        "low_risk_max": 657
+    },
+    "risk_band_methodology": "Candidate risk bands were derived from validation score quantiles at the 20th, 40th, 60th and 80th percentiles. The resulting bands were evaluated on training, validation and test datasets using observed 12-month default rates. Risk-band monotonicity is defined as non-increasing default rates from Very High Risk through Very Low Risk.",
+    "validation_rule": "Model discrimination, probability calibration, score separation and empirical risk-band performance were evaluated using training, validation and test data. Validation data was used to establish candidate risk thresholds. The test dataset was retained for final out-of-sample evaluation."
+}
