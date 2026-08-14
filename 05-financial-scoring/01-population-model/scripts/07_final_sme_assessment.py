@@ -16,10 +16,7 @@ Important:
       definitions.
 """
 
-# ============================================================================
 # IMPORTS
-# ============================================================================
-
 from pathlib import Path
 from datetime import date
 import json
@@ -32,11 +29,7 @@ import joblib
 
 warnings.filterwarnings("ignore")
 
-
-# ============================================================================
 # PROJECT PATHS
-# ============================================================================
-
 SCRIPT_DIR = Path(__file__).resolve().parent
 MODEL_DIR = SCRIPT_DIR.parent
 
@@ -46,11 +39,7 @@ MODELS_DIR = MODEL_DIR / "models"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-
-# ============================================================================
 # FILE PATHS
-# ============================================================================
-
 MODEL_FILE = (
     MODELS_DIR /
     "financial_health_scorecard.pkl"
@@ -71,23 +60,12 @@ METADATA_FILE = (
     "scorecard_metadata.json"
 )
 
-# Existing validated model-test WoE dataset.
-#
-# This is used because an external SME assessment input file
-# does not yet exist.
-#
-# Once an SME-level input pipeline is available, this can be
-# replaced with the appropriate assessment dataset.
 INPUT_FILE = (
     OUTPUT_DIR /
     "model_test_woe.csv"
 )
 
-
-# ============================================================================
 # CONFIGURATION
-# ============================================================================
-
 TARGET = "default_event_12m"
 
 PROBABILITY_COLUMN = (
@@ -112,31 +90,19 @@ PDO = 20
 SCORE_SCALING_FACTOR = 28.85390081777927
 SCORE_SCALING_OFFSET = 553.5614381022527
 
-
-# ============================================================================
 # VALIDATED EMPIRICAL RISK BANDS
-# ============================================================================
-
 VERY_HIGH_RISK_MAX = 580
 HIGH_RISK_MAX = 606
 MODERATE_RISK_MAX = 629
 LOW_RISK_MAX = 657
 
-
-# ============================================================================
 # HEADER
-# ============================================================================
-
 print("=" * 80)
 print("OREY ANALYTICS — FINANCIAL HEALTH SCORING")
 print("07 — FINAL SME ASSESSMENT")
 print("=" * 80)
 
-
-# ============================================================================
 # LOAD VALIDATED MODEL
-# ============================================================================
-
 print("\nLoading validated scorecard model...")
 
 if not MODEL_FILE.exists():
@@ -154,11 +120,7 @@ print(
     f"{MODEL_FILE}"
 )
 
-
-# ============================================================================
 # LOAD MODEL METADATA
-# ============================================================================
-
 print("\nLoading scorecard metadata...")
 
 if not METADATA_FILE.exists():
@@ -190,11 +152,7 @@ print(
     f"{model_metadata.get('target', TARGET)}"
 )
 
-
-# ============================================================================
 # VALIDATE SCORECARD CONFIGURATION
-# ============================================================================
-
 print("\nValidating scorecard configuration...")
 
 metadata_score_min = model_metadata.get(
@@ -278,11 +236,7 @@ print(
     f"{SCORE_SCALING_OFFSET}"
 )
 
-
-# ============================================================================
 # LOAD COEFFICIENTS
-# ============================================================================
-
 if not COEFFICIENT_FILE.exists():
 
     raise FileNotFoundError(
@@ -299,11 +253,7 @@ print(
     f"{len(coefficients)}"
 )
 
-
-# ============================================================================
 # IDENTIFY VALIDATED WoE FEATURES
-# ============================================================================
-
 SELECTED_WOE_FEATURES = model_metadata.get(
     "selected_woe_features"
 )
@@ -326,11 +276,7 @@ for feature in SELECTED_WOE_FEATURES:
         f"  - {feature}"
     )
 
-
-# ============================================================================
 # VALIDATE MODEL FEATURE COUNT
-# ============================================================================
-
 if hasattr(
     model,
     "n_features_in_"
@@ -353,11 +299,7 @@ if hasattr(
             f"{len(SELECTED_WOE_FEATURES)}"
         )
 
-
-# ============================================================================
 # RISK BAND ASSIGNMENT
-# ============================================================================
-
 def assign_risk_band(score):
 
     if score <= VERY_HIGH_RISK_MAX:
@@ -378,17 +320,12 @@ def assign_risk_band(score):
 
     return "Very Low Risk"
 
-
-# ============================================================================
 # FINANCIAL HEALTH INTERPRETATION
-# ============================================================================
-
 def create_financial_health_status(
     risk_band
 ):
 
     descriptions = {
-
         "Very High Risk":
             "The business demonstrates very high financial "
             "risk and a materially elevated estimated "
@@ -417,11 +354,7 @@ def create_financial_health_status(
 
     return descriptions[risk_band]
 
-
-# ============================================================================
 # PROBABILITY → SCORE CONVERSION
-# ============================================================================
-
 def probability_to_score(
     probability
 ):
@@ -452,11 +385,7 @@ def probability_to_score(
 
     return score
 
-
-# ============================================================================
 # ASSESS SME DATA
-# ============================================================================
-
 def assess_sme(
     sme_data
 ):
@@ -481,18 +410,12 @@ def assess_sme(
             )
         )
 
-    # ------------------------------------------------------------------------
     # SELECT VALIDATED WOE FEATURES
-    # ------------------------------------------------------------------------
-
     X = sme_data[
         SELECTED_WOE_FEATURES
     ].copy()
 
-    # ------------------------------------------------------------------------
     # CHECK MISSING VALUES
-    # ------------------------------------------------------------------------
-
     missing_values = (
         X.isna()
         .sum()
@@ -506,10 +429,7 @@ def assess_sme(
             f"WoE model features: {missing_values:,}"
         )
 
-    # ------------------------------------------------------------------------
     # CHECK INFINITE VALUES
-    # ------------------------------------------------------------------------
-
     infinite_values = np.isinf(
         X.to_numpy(
             dtype=float
@@ -523,10 +443,7 @@ def assess_sme(
             f"WoE model features: {infinite_values:,}"
         )
 
-    # ------------------------------------------------------------------------
     # MODEL PREDICTION
-    # ------------------------------------------------------------------------
-
     print(
         "\nGenerating predicted default probabilities..."
     )
@@ -541,10 +458,7 @@ def assess_sme(
         PROBABILITY_COLUMN
     ] = predicted_probability
 
-    # ------------------------------------------------------------------------
     # CONVERT PROBABILITY TO OREY SCORE
-    # ------------------------------------------------------------------------
-
     print(
         "Converting default probabilities "
         "to Orey Financial Health Scores..."
@@ -561,10 +475,7 @@ def assess_sme(
         .astype(int)
     )
 
-    # ------------------------------------------------------------------------
     # ASSIGN RISK BAND
-    # ------------------------------------------------------------------------
-
     result[
         "risk_band"
     ] = (
@@ -574,10 +485,7 @@ def assess_sme(
         .apply(assign_risk_band)
     )
 
-    # ------------------------------------------------------------------------
     # FINANCIAL HEALTH STATUS
-    # ------------------------------------------------------------------------
-
     result[
         "financial_health_status"
     ] = (
@@ -589,10 +497,7 @@ def assess_sme(
         )
     )
 
-    # ------------------------------------------------------------------------
     # ASSESSMENT METADATA
-    # ------------------------------------------------------------------------
-
     result[
         "assessment_id"
     ] = [
@@ -610,11 +515,7 @@ def assess_sme(
 
     return result
 
-
-# ============================================================================
 # LOAD ASSESSMENT INPUT
-# ============================================================================
-
 print("\n" + "=" * 80)
 print("ASSESSMENT INPUT")
 print("=" * 80)
@@ -649,11 +550,7 @@ print(
     f"{len(sme_data):,}"
 )
 
-
-# ============================================================================
 # RUN FINAL ASSESSMENT
-# ============================================================================
-
 print("\n" + "=" * 80)
 print("RUNNING FINAL SME ASSESSMENT")
 print("=" * 80)
@@ -662,11 +559,7 @@ assessment_output = assess_sme(
     sme_data
 )
 
-
-# ============================================================================
 # SUMMARY
-# ============================================================================
-
 summary_columns = [
     "business_id",
     "assessment_id",
@@ -688,11 +581,7 @@ summary = assessment_output[
     summary_columns
 ].copy()
 
-
-# ============================================================================
 # RISK BAND SUMMARY
-# ============================================================================
-
 risk_band_summary = (
     assessment_output[
         "risk_band"
@@ -716,11 +605,7 @@ risk_band_summary[
     100
 ).round(2)
 
-
-# ============================================================================
 # SCORE SUMMARY
-# ============================================================================
-
 score_summary = {
 
     "minimum_score": int(
@@ -769,11 +654,7 @@ score_summary = {
         )
 }
 
-
-# ============================================================================
 # SAVE FINAL ASSESSMENTS
-# ============================================================================
-
 ASSESSMENT_FILE = (
     OUTPUT_DIR /
     "final_sme_assessments.csv"
@@ -784,11 +665,7 @@ assessment_output.to_csv(
     index=False
 )
 
-
-# ============================================================================
 # SAVE SUMMARY
-# ============================================================================
-
 SUMMARY_FILE = (
     OUTPUT_DIR /
     "sme_scorecard_summary.csv"
@@ -799,11 +676,7 @@ summary.to_csv(
     index=False
 )
 
-
-# ============================================================================
 # SAVE RISK BAND SUMMARY
-# ============================================================================
-
 RISK_SUMMARY_FILE = (
     OUTPUT_DIR /
     "risk_band_summary.csv"
@@ -814,11 +687,7 @@ risk_band_summary.to_csv(
     index=False
 )
 
-
-# ============================================================================
 # SAVE ASSESSMENT METADATA
-# ============================================================================
-
 assessment_metadata = {
 
     "model_name":
@@ -969,11 +838,7 @@ with open(
         indent=4
     )
 
-
-# ============================================================================
 # DISPLAY RESULTS
-# ============================================================================
-
 print("\n" + "=" * 80)
 print("FINAL SME ASSESSMENT RESULTS")
 print("=" * 80)
@@ -1025,11 +890,7 @@ print(
     f"{score_summary['mean_predicted_default_probability']:.2%}"
 )
 
-
-# ============================================================================
 # OUTPUTS
-# ============================================================================
-
 print("\n" + "=" * 80)
 print("ASSESSMENT OUTPUTS SAVED")
 print("=" * 80)
