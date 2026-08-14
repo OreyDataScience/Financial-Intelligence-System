@@ -3,17 +3,14 @@ Orey Analytics
 Financial Health Scoring - Final SME Assessment
 
 Purpose:
-Apply the validated Orey Financial Health Scorecard to
-model-ready WoE SME data and produce final financial
-health scores, default probabilities and risk classifications.
+Apply the validated Orey Financial Health Scorecard to model-ready WoE SME data and 
+produce final financial health scores, default probabilities and risk classifications.
 
 Important:
     - The model is NOT retrained in this stage.
-    - The validated logistic regression model expects the
-      20 selected WoE-transformed features.
+    - Validated logistic regression model expects the 20 selected WoE-transformed features.
     - Score scaling follows the validated scorecard metadata.
-    - Risk bands follow the validated empirical score-band
-      definitions.
+    - Risk bands follow the validated empirical score-band definitions.
 """
 
 # IMPORTS
