@@ -911,6 +911,3 @@ print(
 print("\nModel was NOT retrained.")
 
 print("\nStage 07 complete.")
-
-print("\nNext stage:")
-print("08 — Case Studies")
