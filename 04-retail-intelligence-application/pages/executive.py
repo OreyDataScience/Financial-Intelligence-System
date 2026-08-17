@@ -29,7 +29,7 @@ latest = monthly.iloc[-1]
 
 revenue = latest["Revenue"]
 profit = latest["Profit"]
-margin = latest["Avg_Margin"]
+margin = latest["Avg_Margin"]*100
 stockout = latest["StockOutRate"]
 returns = latest["ReturnRate"]
 
