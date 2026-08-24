@@ -1,2 +1,1 @@
 feature,reason
-fe_transaction_future_leakage_flag,zero variance in training data

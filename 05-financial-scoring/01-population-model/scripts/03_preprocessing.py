@@ -1,21 +1,24 @@
 """
 Orey Analytics
-Financial Health Scoring - Preprocessing & Leakage control
+Financial Health Scoring - Preprocessing & Leakage Control
 
-Purpose: Prepare engineered SME population dataset for credit-risk modelling.
+Purpose:
+Prepare the engineered SME population dataset for WoE, binning and
+credit-risk scorecard development.
 
 Key principles:
     1. The 12-month default event is the modelling target.
-    2. Preprocessing parameters are learned from TRAINING data only.
-    3. Validation and test data are transformed using training-derived values.
-    4. Structural transaction-data missingness is not blindly imputed.
+    2. Preprocessing parameters are learned from training data only.
+    3. Validation and test data use training-derived preprocessing values.
+    4. Structural transaction-data missingness is preserved.
     5. Missingness indicators preserve information about unavailable data.
-    6. Categorical variables are numerically encoded.
-    7. Near-zero-variance predictors are removed.
+    6. Categorical variables remain available for Stage 04 WoE treatment.
+    7. Zero-variance predictors are removed using training data only.
     8. Outcome and administrative variables are excluded from predictors.
+    9. Historical observations must not use future information.
 """
 
-# IMPORTS
+#Imports
 from pathlib import Path
 import json
 import warnings
@@ -24,12 +27,11 @@ import numpy as np
 import pandas as pd
 
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.feature_selection import VarianceThreshold
 
 warnings.filterwarnings("ignore")
 
-# PROJECT PATHS
+#Project paths
 SCRIPT_DIR = Path(__file__).resolve().parent
 MODEL_DIR = SCRIPT_DIR.parent
 
@@ -40,29 +42,9 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 INPUT_FILE = OUTPUT_DIR / "financial_health_panel_engineered.csv"
 
-# CONFIGURATION
+#Configuration
 TARGET = "default_event_12m"
 
-# Transaction aggregates are based on only 300 of the 11,500 businesses therefore have 
-# approx. 97.4% structural missingness and excluded from the primary pop. model at this stage.
-
-TRANSACTION_FEATURES = [
-    "fe_transaction_count",
-    "fe_transaction_amount_mean",
-    "fe_transaction_amount_std",
-    "fe_transaction_amount_total",
-    "fe_transaction_balance_mean",
-    "fe_transaction_balance_min",
-    "fe_bounced_transaction_count",
-    "fe_paid_transaction_count",
-    "fe_reversed_transaction_count_y",
-    "fe_unpaid_transaction_count",
-    "fe_unpaid_transaction_rate",
-    "fe_bounced_transaction_rate",
-    "fe_reversed_transaction_rate",
-]
-
-# Metadata/administrative variables that should never be predictors.
 ADMIN_COLUMNS = [
     "business_id",
     "snapshot_date",
@@ -75,29 +57,18 @@ ADMIN_COLUMNS = [
     "default_date",
 ]
 
-# Target / outcome variable.
 OUTCOME_COLUMNS = [
-    "default_event_12m",
+    TARGET,
 ]
 
-# Historical bureau variables that are potentially legitimate predictors NOT automatically 
-# removed because they are correlated with default. They represent historical credit info 
-# available around scoring obs. and will be evaluated later for predictive power & leakage.
+TRANSACTION_FEATURE_PREFIX = "fe_transaction_"
 
-BUREAU_HISTORY_FEATURES = [
-    "judgments_count",
-    "default_flag_bureau_history",
-    "director_judgments_count",
-]
-
-# Categorical structural variables.
 CATEGORICAL_COLUMNS = [
     "province",
     "industry_sector",
     "legal_entity_type",
 ]
 
-# Important variables where missingness itself can carry information.
 MISSINGNESS_INDICATOR_COLUMNS = [
     "annual_revenue",
     "total_assets",
@@ -122,13 +93,13 @@ MISSINGNESS_INDICATOR_COLUMNS = [
     "fe_director_credit_score",
 ]
 
-# HEADER
+#Header
 print("=" * 80)
 print("OREY ANALYTICS — FINANCIAL HEALTH SCORING")
 print("03 — PREPROCESSING & LEAKAGE CONTROL")
 print("=" * 80)
 
-# LOAD ENGINEERED DATA
+#Load engineered data
 print("\nLoading engineered population dataset...")
 
 df = pd.read_csv(INPUT_FILE)
@@ -136,7 +107,7 @@ df = pd.read_csv(INPUT_FILE)
 print(f"Rows loaded: {len(df):,}")
 print(f"Columns loaded: {len(df.columns):,}")
 
-# BASIC VALIDATION
+#Basic validation
 required_columns = [
     TARGET,
     "model_split",
@@ -156,7 +127,7 @@ if missing_required:
         f"Required columns are missing: {missing_required}"
     )
 
-# TARGET VALIDATION
+#Target validation
 print("\n" + "=" * 80)
 print("TARGET VALIDATION")
 print("=" * 80)
@@ -169,7 +140,6 @@ print(
     .sort_index()
 )
 
-# OUTCOME OBSERVABILITY FILTER
 print("\nFiltering to observations with observable outcomes...")
 
 df = df.loc[
@@ -180,16 +150,15 @@ print(
     f"Observable outcome observations: {len(df):,}"
 )
 
-if df[TARGET].isna().any():
-    raise ValueError(
-        "Observable observations contain missing target values."
-    )
-
-# TARGET STANDARDISATION
 df[TARGET] = pd.to_numeric(
     df[TARGET],
     errors="coerce"
 )
+
+if df[TARGET].isna().any():
+    raise ValueError(
+        "Observable observations contain missing target values."
+    )
 
 df = df.loc[
     df[TARGET].isin([0, 1])
@@ -199,7 +168,11 @@ df[TARGET] = df[TARGET].astype(int)
 
 print("\nFinal target distribution:")
 
-target_counts = df[TARGET].value_counts().sort_index()
+target_counts = (
+    df[TARGET]
+    .value_counts()
+    .sort_index()
+)
 
 print(target_counts)
 
@@ -210,7 +183,7 @@ print(
     f"{target_rate:.2%}"
 )
 
-# MODEL SPLIT VALIDATION
+#Model split validation
 print("\n" + "=" * 80)
 print("MODEL SPLIT VALIDATION")
 print("=" * 80)
@@ -220,11 +193,16 @@ print(
     .value_counts(dropna=False)
 )
 
-VALID_SPLITS = {"train", "validation", "test"}
+VALID_SPLITS = {
+    "train",
+    "validation",
+    "test"
+}
 
-invalid_splits = set(
-    df["model_split"].unique()
-) - VALID_SPLITS
+invalid_splits = (
+    set(df["model_split"].dropna().unique())
+    - VALID_SPLITS
+)
 
 if invalid_splits:
     raise ValueError(
@@ -236,7 +214,7 @@ if df["model_split"].isna().any():
         "Missing model_split values detected."
     )
 
-# BUSINESS-LEVEL SPLIT CHECK
+#Business-level split check
 print("\nChecking business-level split integrity...")
 
 business_split_counts = (
@@ -257,43 +235,49 @@ if businesses_in_multiple_splits > 0:
     print(
         "\nWARNING:"
         "\nSome businesses appear in more than one model split."
-        "\nThis can create entity-level leakage."
+        "\nThe existing population split may be observation-based."
+        "\nThis will be reviewed before final model validation."
     )
 
-# REMOVE TRANSACTION FEATURES
+#Transaction feature control
 print("\n" + "=" * 80)
 print("TRANSACTION FEATURE CONTROL")
 print("=" * 80)
 
 transaction_columns_present = [
     column
-    for column in TRANSACTION_FEATURES
-    if column in df.columns
+    for column in df.columns
+    if column.startswith(
+        TRANSACTION_FEATURE_PREFIX
+    )
 ]
 
 print(
-    f"Transaction-derived features excluded: "
+    f"Transaction-derived features detected: "
     f"{len(transaction_columns_present)}"
 )
 
 for column in transaction_columns_present:
     print(f"  - {column}")
 
+print(
+    "\nTransaction-derived features will remain excluded "
+    "from the primary population scorecard at this stage."
+)
+
 df = df.drop(
     columns=transaction_columns_present,
     errors="ignore"
 )
 
-# REMOVE ADMINISTRATIVE/OUTCOME COLUMNS
+#Remove administrative and outcome variables
 print("\nRemoving administrative and outcome variables...")
 
-columns_to_exclude = (
-    ADMIN_COLUMNS
-    + OUTCOME_COLUMNS
-)
-
 columns_to_exclude = list(
-    dict.fromkeys(columns_to_exclude)
+    dict.fromkeys(
+        ADMIN_COLUMNS
+        + OUTCOME_COLUMNS
+    )
 )
 
 columns_present = [
@@ -312,22 +296,24 @@ print(
     f"{len(columns_present)}"
 )
 
-# CHECK FOR INF/-INF
+#Infinite value control
 print("\nChecking for infinite values...")
 
-numeric_columns = df_model.select_dtypes(
-    include=np.number
-).columns
+numeric_columns_all = (
+    df_model
+    .select_dtypes(include=np.number)
+    .columns
+)
 
 infinity_counts = {}
 
-for column in numeric_columns:
+for column in numeric_columns_all:
 
-    count = np.isinf(
-        df_model[column].to_numpy(
-            dtype=float
-        )
-    ).sum()
+    values = df_model[column].to_numpy(
+        dtype=float
+    )
+
+    count = np.isinf(values).sum()
 
     if count > 0:
         infinity_counts[column] = int(count)
@@ -343,18 +329,17 @@ for column, count in infinity_counts.items():
         f"  - {column}: {count:,}"
     )
 
-# Convert infinity to missing.
 if infinity_counts:
 
-    df_model[numeric_columns] = (
-        df_model[numeric_columns]
+    df_model[numeric_columns_all] = (
+        df_model[numeric_columns_all]
         .replace(
             [np.inf, -np.inf],
             np.nan
         )
     )
 
-# CREATE MISSINGNESS INDICATORS
+#Missingness indicators
 print("\n" + "=" * 80)
 print("MISSINGNESS INDICATORS")
 print("=" * 80)
@@ -388,14 +373,14 @@ print(
 for indicator in created_indicators:
     print(f"  - {indicator}")
 
-# IDENTIFY CATEGORICAL VARIABLES
+#Categorical variables
 categorical_columns = [
     column
     for column in CATEGORICAL_COLUMNS
     if column in df_model.columns
 ]
 
-print("\nCategorical variables:")
+print("\nCategorical variables retained for Stage 04:")
 
 for column in categorical_columns:
 
@@ -405,7 +390,7 @@ for column in categorical_columns:
         f"categories"
     )
 
-# IDENTIFY NUMERICAL VARIABLES
+#Identify numeric variables
 numeric_columns = [
     column
     for column in df_model.columns
@@ -423,63 +408,107 @@ non_numeric_columns = [
 
 if non_numeric_columns:
 
-    print("\nNon-numeric non-categorical columns excluded:")
+    print(
+        "\nNon-numeric non-categorical columns "
+        "excluded:"
+    )
 
     for column in non_numeric_columns:
-        print(f"  - {column}: {df_model[column].dtype}")
+        print(
+            f"  - {column}: "
+            f"{df_model[column].dtype}"
+        )
 
     df_model = df_model.drop(
         columns=non_numeric_columns,
         errors="ignore"
     )
 
+numeric_columns = [
+    column
+    for column in df_model.columns
+    if pd.api.types.is_numeric_dtype(
+        df_model[column]
+    )
+]
+
 print(
-    f"\nNumerical variables before preprocessing: "
+    f"\nNumerical variables available: "
     f"{len(numeric_columns)}"
 )
 
-# SPLIT DATA
+#Split data
 print("\n" + "=" * 80)
 print("TRAIN / VALIDATION / TEST SPLIT")
 print("=" * 80)
 
-train = df_model.loc[
+train_mask = (
     df["model_split"] == "train"
+)
+
+validation_mask = (
+    df["model_split"] == "validation"
+)
+
+test_mask = (
+    df["model_split"] == "test"
+)
+
+train = df_model.loc[
+    train_mask
 ].copy()
 
 validation = df_model.loc[
-    df["model_split"] == "validation"
+    validation_mask
 ].copy()
 
 test = df_model.loc[
-    df["model_split"] == "test"
+    test_mask
 ].copy()
 
-print(f"Training observations:   {len(train):,}")
-print(f"Validation observations: {len(validation):,}")
-print(f"Test observations:       {len(test):,}")
+print(
+    f"Training observations:   {len(train):,}"
+)
 
-# SEPARATE TARGET
-y_train = df.loc[
-    df["model_split"] == "train",
-    TARGET
-].astype(int)
+print(
+    f"Validation observations: {len(validation):,}"
+)
 
-y_validation = df.loc[
-    df["model_split"] == "validation",
-    TARGET
-].astype(int)
+print(
+    f"Test observations:       {len(test):,}"
+)
 
-y_test = df.loc[
-    df["model_split"] == "test",
-    TARGET
-].astype(int)
+#Targets
+y_train = (
+    df.loc[
+        train_mask,
+        TARGET
+    ]
+    .astype(int)
+)
 
+y_validation = (
+    df.loc[
+        validation_mask,
+        TARGET
+    ]
+    .astype(int)
+)
+
+y_test = (
+    df.loc[
+        test_mask,
+        TARGET
+    ]
+    .astype(int)
+)
+
+#Separate predictors
 X_train = train.copy()
 X_validation = validation.copy()
 X_test = test.copy()
 
-# REMOVE TARGET FROM X
+#Remove target if present
 for dataset in [
     X_train,
     X_validation,
@@ -493,7 +522,7 @@ for dataset in [
             inplace=True
         )
 
-# MEDIAN IMPUTATION
+#Numerical imputation
 print("\n" + "=" * 80)
 print("NUMERICAL IMPUTATION")
 print("=" * 80)
@@ -513,16 +542,25 @@ numeric_imputer = SimpleImputer(
     strategy="median"
 )
 
-X_train_numeric = numeric_imputer.fit_transform(
-    X_train[numeric_features]
+X_train_numeric = (
+    numeric_imputer
+    .fit_transform(
+        X_train[numeric_features]
+    )
 )
 
-X_validation_numeric = numeric_imputer.transform(
-    X_validation[numeric_features]
+X_validation_numeric = (
+    numeric_imputer
+    .transform(
+        X_validation[numeric_features]
+    )
 )
 
-X_test_numeric = numeric_imputer.transform(
-    X_test[numeric_features]
+X_test_numeric = (
+    numeric_imputer
+    .transform(
+        X_test[numeric_features]
+    )
 )
 
 X_train_numeric = pd.DataFrame(
@@ -543,89 +581,53 @@ X_test_numeric = pd.DataFrame(
     index=X_test.index
 )
 
-# CATEGORICAL IMPUTATION + ONE-HOT ENCODING
+#Categorical missingness treatment
 print("\n" + "=" * 80)
-print("CATEGORICAL ENCODING")
+print("CATEGORICAL MISSINGNESS")
 print("=" * 80)
 
-if categorical_columns:
+X_train_cat = X_train[
+    categorical_columns
+].copy()
 
-    categorical_imputer = SimpleImputer(
-        strategy="most_frequent"
+X_validation_cat = X_validation[
+    categorical_columns
+].copy()
+
+X_test_cat = X_test[
+    categorical_columns
+].copy()
+
+for column in categorical_columns:
+
+    X_train_cat[column] = (
+        X_train_cat[column]
+        .fillna("Missing")
+        .astype(str)
     )
 
-    X_train_cat = categorical_imputer.fit_transform(
-        X_train[categorical_columns]
+    X_validation_cat[column] = (
+        X_validation_cat[column]
+        .fillna("Missing")
+        .astype(str)
     )
 
-    X_validation_cat = categorical_imputer.transform(
-        X_validation[categorical_columns]
+    X_test_cat[column] = (
+        X_test_cat[column]
+        .fillna("Missing")
+        .astype(str)
     )
 
-    X_test_cat = categorical_imputer.transform(
-        X_test[categorical_columns]
-    )
+print(
+    "Categorical missing values converted "
+    "to explicit 'Missing' category."
+)
 
-    encoder = OneHotEncoder(
-        handle_unknown="ignore",
-        sparse_output=False
-    )
-
-    X_train_cat_encoded = encoder.fit_transform(
-        X_train_cat
-    )
-
-    X_validation_cat_encoded = encoder.transform(
-        X_validation_cat
-    )
-
-    X_test_cat_encoded = encoder.transform(
-        X_test_cat
-    )
-
-    encoded_columns = encoder.get_feature_names_out(
-        categorical_columns
-    )
-
-    X_train_cat_encoded = pd.DataFrame(
-        X_train_cat_encoded,
-        columns=encoded_columns,
-        index=X_train.index
-    )
-
-    X_validation_cat_encoded = pd.DataFrame(
-        X_validation_cat_encoded,
-        columns=encoded_columns,
-        index=X_validation.index
-    )
-
-    X_test_cat_encoded = pd.DataFrame(
-        X_test_cat_encoded,
-        columns=encoded_columns,
-        index=X_test.index
-    )
-
-else:
-
-    encoded_columns = []
-
-    X_train_cat_encoded = pd.DataFrame(
-        index=X_train.index
-    )
-
-    X_validation_cat_encoded = pd.DataFrame(
-        index=X_validation.index
-    )
-
-    X_test_cat_encoded = pd.DataFrame(
-        index=X_test.index
-    )
-
-# COMBINE NUMERICAL + CATEGORICAL FEATURES
+#Combine numerical and categorical data
 X_train_processed = pd.concat(
     [
         X_train_numeric,
-        X_train_cat_encoded
+        X_train_cat
     ],
     axis=1
 )
@@ -633,7 +635,7 @@ X_train_processed = pd.concat(
 X_validation_processed = pd.concat(
     [
         X_validation_numeric,
-        X_validation_cat_encoded
+        X_validation_cat
     ],
     axis=1
 )
@@ -641,108 +643,136 @@ X_validation_processed = pd.concat(
 X_test_processed = pd.concat(
     [
         X_test_numeric,
-        X_test_cat_encoded
+        X_test_cat
     ],
     axis=1
 )
 
-# ALIGN COLUMNS
+#Align columns
 X_validation_processed = (
     X_validation_processed
     .reindex(
-        columns=X_train_processed.columns,
-        fill_value=0
+        columns=X_train_processed.columns
     )
 )
 
 X_test_processed = (
     X_test_processed
     .reindex(
-        columns=X_train_processed.columns,
-        fill_value=0
+        columns=X_train_processed.columns
     )
 )
 
-# NEAR-ZERO-VARIANCE FILTER
+#Zero-variance filtering
 print("\n" + "=" * 80)
-print("NEAR-ZERO-VARIANCE FILTER")
+print("ZERO-VARIANCE FILTER")
 print("=" * 80)
+
+variance_features = [
+    column
+    for column in X_train_processed.columns
+    if column in numeric_features
+]
 
 variance_filter = VarianceThreshold(
     threshold=0.0
 )
 
-X_train_filtered_array = (
+X_train_numeric_filtered = (
     variance_filter.fit_transform(
-        X_train_processed
+        X_train_numeric
     )
 )
 
-X_validation_filtered_array = (
+X_validation_numeric_filtered = (
     variance_filter.transform(
-        X_validation_processed
+        X_validation_numeric
     )
 )
 
-X_test_filtered_array = (
+X_test_numeric_filtered = (
     variance_filter.transform(
-        X_test_processed
+        X_test_numeric
     )
 )
 
-kept_columns = (
-    X_train_processed.columns[
+kept_numeric_columns = (
+    X_train_numeric.columns[
         variance_filter.get_support()
     ]
 )
 
-removed_columns = (
-    X_train_processed.columns[
+removed_numeric_columns = (
+    X_train_numeric.columns[
         ~variance_filter.get_support()
     ]
 )
 
-X_train_processed = pd.DataFrame(
-    X_train_filtered_array,
-    columns=kept_columns,
+X_train_numeric_filtered = pd.DataFrame(
+    X_train_numeric_filtered,
+    columns=kept_numeric_columns,
     index=X_train.index
 )
 
-X_validation_processed = pd.DataFrame(
-    X_validation_filtered_array,
-    columns=kept_columns,
+X_validation_numeric_filtered = pd.DataFrame(
+    X_validation_numeric_filtered,
+    columns=kept_numeric_columns,
     index=X_validation.index
 )
 
-X_test_processed = pd.DataFrame(
-    X_test_filtered_array,
-    columns=kept_columns,
+X_test_numeric_filtered = pd.DataFrame(
+    X_test_numeric_filtered,
+    columns=kept_numeric_columns,
     index=X_test.index
 )
 
-print(
-    f"Features before variance filtering: "
-    f"{len(variance_filter.get_support())}"
+X_train_processed = pd.concat(
+    [
+        X_train_numeric_filtered,
+        X_train_cat
+    ],
+    axis=1
+)
+
+X_validation_processed = pd.concat(
+    [
+        X_validation_numeric_filtered,
+        X_validation_cat
+    ],
+    axis=1
+)
+
+X_test_processed = pd.concat(
+    [
+        X_test_numeric_filtered,
+        X_test_cat
+    ],
+    axis=1
 )
 
 print(
-    f"Features retained: "
-    f"{len(kept_columns)}"
+    f"Numerical features before filtering: "
+    f"{len(numeric_features)}"
 )
 
 print(
-    f"Features removed: "
-    f"{len(removed_columns)}"
+    f"Numerical features retained: "
+    f"{len(kept_numeric_columns)}"
 )
 
-if len(removed_columns) > 0:
+print(
+    f"Numerical features removed: "
+    f"{len(removed_numeric_columns)}"
+)
 
-    print("\nRemoved features:")
+if len(removed_numeric_columns) > 0:
 
-    for column in removed_columns:
+    print("\nRemoved numerical features:")
+
+    for column in removed_numeric_columns:
         print(f"  - {column}")
 
-# FINAL VALIDATION
+#Final validation
 print("\n" + "=" * 80)
 print("FINAL PREPROCESSING VALIDATION")
 print("=" * 80)
@@ -777,9 +807,7 @@ print(
     f"{y_test.mean():.2%}"
 )
 
-print(
-    "\nRemaining missing values:"
-)
+print("\nRemaining missing values:")
 
 print(
     f"Training:   "
@@ -796,38 +824,72 @@ print(
     f"{X_test_processed.isna().sum().sum():,}"
 )
 
-print(
-    "\nRemaining infinite values:"
-)
+print("\nRemaining infinite values:")
 
 print(
     f"Training:   "
-    f"{np.isinf(X_train_processed.to_numpy()).sum():,}"
+    f"{np.isinf(
+        X_train_processed.select_dtypes(
+            include=np.number
+        ).to_numpy()
+    ).sum():,}"
 )
 
 print(
     f"Validation: "
-    f"{np.isinf(X_validation_processed.to_numpy()).sum():,}"
+    f"{np.isinf(
+        X_validation_processed.select_dtypes(
+            include=np.number
+        ).to_numpy()
+    ).sum():,}"
 )
 
 print(
     f"Test:       "
-    f"{np.isinf(X_test_processed.to_numpy()).sum():,}"
+    f"{np.isinf(
+        X_test_processed.select_dtypes(
+            include=np.number
+        ).to_numpy()
+    ).sum():,}"
 )
 
-# SAVING MODEL-READY DATASETS
+#WoE readiness validation
+print("\n" + "=" * 80)
+print("WOE READINESS CHECK")
+print("=" * 80)
+
+print(
+    f"Numerical predictors ready for Stage 04: "
+    f"{len(kept_numeric_columns)}"
+)
+
+print(
+    f"Categorical predictors ready for Stage 04: "
+    f"{len(categorical_columns)}"
+)
+
+print(
+    "\nCategorical variables have NOT been one-hot encoded."
+)
+
+print(
+    "They remain available for categorical grouping "
+    "during WoE and Information Value analysis."
+)
+
+#Save model-ready datasets
 print("\n" + "=" * 80)
 print("SAVING PREPROCESSED DATASETS")
 print("=" * 80)
 
 train_output = X_train_processed.copy()
-train_output[TARGET] = y_train
+train_output[TARGET] = y_train.values
 
 validation_output = X_validation_processed.copy()
-validation_output[TARGET] = y_validation
+validation_output[TARGET] = y_validation.values
 
 test_output = X_test_processed.copy()
-test_output[TARGET] = y_test
+test_output[TARGET] = y_test.values
 
 train_output.to_csv(
     OUTPUT_DIR / "model_train_preprocessed.csv",
@@ -844,87 +906,108 @@ test_output.to_csv(
     index=False
 )
 
-# SAVE FEATURE LIST
-feature_list = pd.DataFrame({
-    "feature": list(X_train_processed.columns)
-})
+#Save feature list
+feature_list = pd.DataFrame(
+    {
+        "feature": list(
+            X_train_processed.columns
+        ),
+        "feature_type": [
+            (
+                "categorical"
+                if column in categorical_columns
+                else "numeric"
+            )
+            for column in X_train_processed.columns
+        ]
+    }
+)
 
 feature_list.to_csv(
     OUTPUT_DIR / "preprocessed_feature_list.csv",
     index=False
 )
 
-# SAVE REMOVED FEATURE LIST
-removed_feature_list = pd.DataFrame({
-    "feature": list(removed_columns),
-    "reason": "zero variance in training data"
-})
+#Save removed feature list
+removed_feature_list = pd.DataFrame(
+    {
+        "feature": list(
+            removed_numeric_columns
+        ),
+        "reason": "zero variance in training data"
+    }
+)
 
 removed_feature_list.to_csv(
     OUTPUT_DIR / "removed_low_variance_features.csv",
     index=False
 )
 
-# SAVE PREPROCESSING METADATA
+#Save preprocessing metadata
 metadata = {
+    "stage": "03_preprocessing",
     "target": TARGET,
-
     "input_file": str(INPUT_FILE),
-
-    "original_rows": int(len(pd.read_csv(INPUT_FILE))),
-
+    "original_rows": int(
+        len(pd.read_csv(INPUT_FILE))
+    ),
     "observable_rows": int(len(df)),
-
-    "train_rows": int(len(X_train_processed)),
-    "validation_rows": int(len(X_validation_processed)),
-    "test_rows": int(len(X_test_processed)),
-
-    "train_default_rate": float(y_train.mean()),
-    "validation_default_rate": float(y_validation.mean()),
-    "test_default_rate": float(y_test.mean()),
-
-    "transaction_features_excluded": transaction_columns_present,
-
-    "missingness_indicators_created": created_indicators,
-
-    "categorical_columns": categorical_columns,
-
-    "encoded_categorical_features": list(encoded_columns),
-
-    "numeric_features_before_filter": len(numeric_features),
-
-    "features_before_variance_filter": int(
-        len(variance_filter.get_support())
+    "train_rows": int(
+        len(X_train_processed)
     ),
-
-    "features_after_variance_filter": int(
-        len(kept_columns)
+    "validation_rows": int(
+        len(X_validation_processed)
     ),
-
-    "features_removed_low_variance": int(
-        len(removed_columns)
+    "test_rows": int(
+        len(X_test_processed)
     ),
-
+    "train_default_rate": float(
+        y_train.mean()
+    ),
+    "validation_default_rate": float(
+        y_validation.mean()
+    ),
+    "test_default_rate": float(
+        y_test.mean()
+    ),
+    "transaction_features_excluded": (
+        transaction_columns_present
+    ),
+    "missingness_indicators_created": (
+        created_indicators
+    ),
+    "categorical_columns": (
+        categorical_columns
+    ),
+    "categorical_encoding": (
+        "Not one-hot encoded; retained for WoE treatment."
+    ),
+    "numeric_features_before_filter": (
+        len(numeric_features)
+    ),
+    "numeric_features_after_filter": (
+        len(kept_numeric_columns)
+    ),
+    "features_removed_zero_variance": (
+        len(removed_numeric_columns)
+    ),
     "remaining_training_missing_values": int(
         X_train_processed.isna().sum().sum()
     ),
-
     "remaining_validation_missing_values": int(
         X_validation_processed.isna().sum().sum()
     ),
-
     "remaining_test_missing_values": int(
         X_test_processed.isna().sum().sum()
     ),
-
     "businesses_in_multiple_splits": int(
         businesses_in_multiple_splits
     ),
-
     "preprocessing_rule": (
-        "Imputation and categorical encoding were fitted "
-        "on training data only."
-    )
+        "Numerical imputation and zero-variance "
+        "filtering were fitted on training data only."
+    ),
+    "woe_ready": True
 }
 
 with open(
@@ -939,7 +1022,7 @@ with open(
         indent=4
     )
 
-# COMPLETION
+#Completion
 print("\n" + "=" * 80)
 print("PREPROCESSING COMPLETE")
 print("=" * 80)
@@ -958,6 +1041,9 @@ print("  - removed_low_variance_features.csv")
 print("  - preprocessing_metadata.json")
 
 print("\nSource datasets were not modified.")
+
+print("\nStage 03 status:")
+print("PASS — preprocessing completed successfully.")
 
 print("\nNext stage:")
 print("04 — WoE, binning and Information Value")
