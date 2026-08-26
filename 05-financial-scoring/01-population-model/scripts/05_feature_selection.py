@@ -2,7 +2,8 @@
 Orey Analytics
 Financial Health Scoring - Feature Selection & Scorecard Modelling
 
-Purpose: Select stable predictors and build a logistic-regression credit scorecard.
+Purpose:
+    Select stable predictors and build a logistic-regression credit scorecard.
 
 Key principles:
     1. Feature selection is performed using training data only.
@@ -75,6 +76,19 @@ print("=" * 80)
 # LOAD DATA
 print("\nLoading WoE datasets...")
 
+required_files = [
+    TRAIN_FILE,
+    VALIDATION_FILE,
+    TEST_FILE,
+    IV_FILE
+]
+
+for file in required_files:
+    if not file.exists():
+        raise FileNotFoundError(
+            f"Required file not found: {file}"
+        )
+
 train = pd.read_csv(TRAIN_FILE)
 validation = pd.read_csv(VALIDATION_FILE)
 test = pd.read_csv(TEST_FILE)
@@ -84,79 +98,47 @@ print(f"Validation observations: {len(validation):,}")
 print(f"Test observations:       {len(test):,}")
 
 # BASIC VALIDATION
-required_files = [
-    TRAIN_FILE,
-    VALIDATION_FILE,
-    TEST_FILE,
-    IV_FILE
-]
+print("\nChecking required columns...")
 
-for file in required_files:
+if TARGET not in train.columns:
+    raise ValueError(
+        f"Required column missing from training data: {TARGET}"
+    )
 
-    if not file.exists():
+if TARGET not in validation.columns:
+    raise ValueError(
+        f"Required column missing from validation data: {TARGET}"
+    )
 
-        raise FileNotFoundError(
-            f"Required file not found: {file}"
-        )
-
-required_columns = [
-    TARGET
-]
-
-for column in required_columns:
-
-    if column not in train.columns:
-        raise ValueError(
-            f"Required column missing from training data: {column}"
-        )
-
-    if column not in validation.columns:
-        raise ValueError(
-            f"Required column missing from validation data: {column}"
-        )
-
-    if column not in test.columns:
-        raise ValueError(
-            f"Required column missing from test data: {column}"
-        )
+if TARGET not in test.columns:
+    raise ValueError(
+        f"Required column missing from test data: {TARGET}"
+    )
 
 # TARGET VALIDATION
 print("\n" + "=" * 80)
 print("TARGET VALIDATION")
 print("=" * 80)
 
-print(
-    f"Training default rate: "
-    f"{train[TARGET].mean():.2%}"
-)
-
-print(
-    f"Validation default rate: "
-    f"{validation[TARGET].mean():.2%}"
-)
-
-print(
-    f"Test default rate: "
-    f"{test[TARGET].mean():.2%}"
-)
-
 for dataset_name, dataset in [
-    ("training", train),
-    ("validation", validation),
-    ("test", test)
+    ("Training", train),
+    ("Validation", validation),
+    ("Test", test)
 ]:
-
     if dataset[TARGET].isna().any():
-
         raise ValueError(
-            f"Missing target values detected in {dataset_name} data."
+            f"Missing target values detected in {dataset_name.lower()} data."
         )
 
     if not dataset[TARGET].isin([0, 1]).all():
-
         raise ValueError(
-            f"Unexpected target values detected in {dataset_name} data."
+            f"Unexpected target values detected in {dataset_name.lower()} data."
         )
+
+    print(
+        f"{dataset_name} default rate: "
+        f"{dataset[TARGET].mean():.2%}"
+    )
 
 # FEATURE ALIGNMENT
 print("\nPredictor features available:")
@@ -167,9 +149,7 @@ woe_feature_columns = [
     if column != TARGET
 ]
 
-print(
-    f"{len(woe_feature_columns)}"
-)
+print(len(woe_feature_columns))
 
 validation_features = [
     column
@@ -184,13 +164,11 @@ test_features = [
 ]
 
 if woe_feature_columns != validation_features:
-
     raise ValueError(
         "Training and validation predictors are not aligned."
     )
 
 if woe_feature_columns != test_features:
-
     raise ValueError(
         "Training and test predictors are not aligned."
     )
@@ -204,24 +182,13 @@ print("\nMapping WoE features to original feature names...")
 woe_feature_map = {}
 
 for column in woe_feature_columns:
-
     if column.startswith("woe_"):
-
-        original_feature = column.replace(
-            "woe_",
-            "",
-            1
-        )
-
+        original_feature = column.replace("woe_", "", 1)
         woe_feature_map[original_feature] = column
-
     else:
-
         woe_feature_map[column] = column
 
-original_feature_columns = list(
-    woe_feature_map.keys()
-)
+original_feature_columns = list(woe_feature_map.keys())
 
 print(
     f"Original features represented in WoE dataset: "
@@ -241,9 +208,7 @@ required_iv_columns = [
 ]
 
 for column in required_iv_columns:
-
     if column not in iv_summary.columns:
-
         raise ValueError(
             f"IV summary is missing required column: {column}"
         )
@@ -285,7 +250,6 @@ print(
 )
 
 if iv_summary.empty:
-
     print("\nExample WoE feature names:")
 
     for feature in woe_feature_columns[:10]:
@@ -332,12 +296,22 @@ print(
     f"{len(iv_removed)}"
 )
 
+if not iv_selected_original:
+    raise ValueError(
+        "No predictors passed the minimum Information Value threshold."
+    )
+
 # CONVERT SELECTED ORIGINAL FEATURES TO WOE FEATURES
 iv_selected_woe = [
     woe_feature_map[feature]
     for feature in iv_selected_original
     if feature in woe_feature_map
 ]
+
+if not iv_selected_woe:
+    raise ValueError(
+        "No WoE predictors were available after IV filtering."
+    )
 
 # SAVE IV FILTER RESULTS
 iv_filter_output = iv_summary.copy()
@@ -371,6 +345,11 @@ X_train_iv = X_train_iv.apply(
     errors="coerce"
 )
 
+if X_train_iv.isna().any().any():
+    raise ValueError(
+        "Missing or non-numeric values detected in IV-selected WoE predictors."
+    )
+
 correlation_matrix = X_train_iv.corr(
     method="spearman"
 ).abs()
@@ -388,7 +367,6 @@ upper_triangle = correlation_matrix.where(
 correlated_features = set()
 
 for column in upper_triangle.columns:
-
     correlated_columns = upper_triangle.index[
         upper_triangle[column] >= CORRELATION_THRESHOLD
     ].tolist()
@@ -397,7 +375,6 @@ for column in upper_triangle.columns:
         continue
 
     for correlated_column in correlated_columns:
-
         original_column = column.replace(
             "woe_",
             "",
@@ -423,22 +400,14 @@ for column in upper_triangle.columns:
         if iv_column.empty or iv_correlated.empty:
             continue
 
-        iv_column = float(
-            iv_column.iloc[0]
-        )
-
-        iv_correlated = float(
-            iv_correlated.iloc[0]
-        )
+        iv_column = float(iv_column.iloc[0])
+        iv_correlated = float(iv_correlated.iloc[0])
 
         if iv_column >= iv_correlated:
-
             correlated_features.add(
                 correlated_column
             )
-
         else:
-
             correlated_features.add(
                 column
             )
@@ -478,15 +447,16 @@ print(
     f"{len(selected_features)}"
 )
 
-if correlated_features:
+if not selected_features:
+    raise ValueError(
+        "No predictors remained after correlation filtering."
+    )
 
+if correlated_features:
     print("\nRemoved redundant features:")
 
     for feature in sorted(correlated_features):
-
-        print(
-            f"  - {feature}"
-        )
+        print(f"  - {feature}")
 
 # SAVE SELECTED FEATURES
 selected_feature_output = pd.DataFrame({
@@ -520,29 +490,13 @@ print("\n" + "=" * 80)
 print("BUILDING SCORECARD MODEL DATA")
 print("=" * 80)
 
-X_train = train[
-    selected_features
-].copy()
+X_train = train[selected_features].copy()
+X_validation = validation[selected_features].copy()
+X_test = test[selected_features].copy()
 
-X_validation = validation[
-    selected_features
-].copy()
-
-X_test = test[
-    selected_features
-].copy()
-
-y_train = train[
-    TARGET
-].astype(int)
-
-y_validation = validation[
-    TARGET
-].astype(int)
-
-y_test = test[
-    TARGET
-].astype(int)
+y_train = train[TARGET].astype(int)
+y_validation = validation[TARGET].astype(int)
+y_test = test[TARGET].astype(int)
 
 # CHECK MODEL INPUTS
 for dataset_name, dataset in [
@@ -550,16 +504,13 @@ for dataset_name, dataset in [
     ("validation", X_validation),
     ("test", X_test)
 ]:
-
     missing_values = int(
         dataset.isna().sum().sum()
     )
 
     infinite_values = int(
         np.isinf(
-            dataset.to_numpy(
-                dtype=float
-            )
+            dataset.to_numpy(dtype=float)
         ).sum()
     )
 
@@ -574,13 +525,11 @@ for dataset_name, dataset in [
     )
 
     if missing_values > 0:
-
         raise ValueError(
             f"Missing values detected in {dataset_name} predictors."
         )
 
     if infinite_values > 0:
-
         raise ValueError(
             f"Infinite values detected in {dataset_name} predictors."
         )
@@ -649,7 +598,7 @@ coefficients.to_csv(
     index=False
 )
 
-# PREDICT DEFAULT PROBABILITIES
+# MODEL PERFORMANCE
 print("\n" + "=" * 80)
 print("MODEL PERFORMANCE")
 print("=" * 80)
@@ -684,7 +633,6 @@ def calculate_metrics(
     probability,
     prediction
 ):
-
     tn, fp, fn, tp = confusion_matrix(
         y_true,
         prediction,
@@ -812,7 +760,6 @@ offset = (
 def probability_to_score(
     probability
 ):
-
     probability = np.clip(
         probability,
         1e-6,
@@ -917,7 +864,6 @@ for dataset_name, scores in [
     ("Validation", validation_score),
     ("Test", test_score)
 ]:
-
     print(
         f"{dataset_name}: "
         f"minimum={scores.min():.0f}, "
@@ -939,7 +885,6 @@ with open(
     model_file,
     "wb"
 ) as file:
-
     pickle.dump(
         model,
         file
@@ -1003,7 +948,6 @@ with open(
     "w",
     encoding="utf-8"
 ) as file:
-
     json.dump(
         metadata,
         file,
@@ -1030,16 +974,10 @@ print(
     f"{test_metrics['auc']:.4f}"
 )
 
-print(
-    "\nOutputs saved to:"
-)
-
-print(
-    OUTPUT_DIR
-)
+print("\nOutputs saved to:")
+print(OUTPUT_DIR)
 
 print("\nGenerated files:")
-
 print("  - feature_selection_iv_results.csv")
 print("  - selected_features.csv")
 print("  - scorecard_model_coefficients.csv")
@@ -1051,10 +989,7 @@ print("  - model_test_scores.csv")
 print("  - scorecard_metadata.json")
 
 print("\nModel saved to:")
-
-print(
-    model_file
-)
+print(model_file)
 
 print("\nSource datasets were not modified.")
 
