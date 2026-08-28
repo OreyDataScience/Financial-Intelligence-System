@@ -1,0 +1,150 @@
+{
+    "model_name": "Orey Financial Health Scorecard",
+    "developer": "Orey Analytics",
+    "model_purpose": "Predicts 12-month SME default risk from bank-transaction cash-flow behaviour, business bureau data and director bureau data, and translates the resulting score into risk bands and indicative lending decisions for alternative lenders.",
+    "model_type": "Logistic Regression",
+    "target": "default_event_12m",
+    "score_range": {
+        "minimum": 300,
+        "maximum": 850
+    },
+    "final_features": [
+        "fe_free_cash_to_expenses",
+        "fe_negative_balance_days",
+        "fe_operational_distress_events",
+        "fe_business_credit_score",
+        "fe_balance_to_monthly_expenses",
+        "fe_director_credit_score",
+        "fe_business_credit_utilization",
+        "credit_volatility_90d",
+        "num_fees_90d",
+        "free_cash_flow",
+        "fe_reversed_transaction_count",
+        "fe_min_balance_to_expenses",
+        "fe_debt_to_assets",
+        "judgments_count",
+        "fe_business_arrears_days",
+        "director_credit_utilization",
+        "fe_liabilities_to_annual_revenue",
+        "default_flag_bureau_history",
+        "director_judgments_count",
+        "fe_cash_flow_trend"
+    ],
+    "number_of_features": 20,
+    "population": {
+        "training_rows": 119034,
+        "validation_rows": 25892,
+        "test_rows": 25800,
+        "total_scored_rows": 170726
+    },
+    "performance": {
+        "train_auc": 0.8269559468480943,
+        "validation_auc": 0.8227713799015359,
+        "test_auc": 0.8229554419069846,
+        "train_gini": 0.6539118936961885,
+        "validation_gini": 0.6455427598030719,
+        "test_gini": 0.6459108838139691,
+        "train_ks": 0.4950476053017579,
+        "validation_ks": 0.4913924658075086,
+        "test_ks": 0.49804967494582425,
+        "validation_calibration_error": 0.006103629649887235,
+        "test_calibration_error": 0.0065145065157277415
+    },
+    "risk_bands": [
+        {
+            "risk_band": "Very High Risk",
+            "minimum_score": 300,
+            "maximum_score": 582
+        },
+        {
+            "risk_band": "High Risk",
+            "minimum_score": 583,
+            "maximum_score": 608
+        },
+        {
+            "risk_band": "Moderate Risk",
+            "minimum_score": 609,
+            "maximum_score": 631
+        },
+        {
+            "risk_band": "Low Risk",
+            "minimum_score": 632,
+            "maximum_score": 660
+        },
+        {
+            "risk_band": "Very Low Risk",
+            "minimum_score": 661,
+            "maximum_score": 850
+        }
+    ],
+    "lending_decision_policy": {
+        "Very High Risk": {
+            "lending_decision": "Decline",
+            "indicative_pricing_tier": "N/A",
+            "indicative_monthly_rate": "N/A",
+            "facility_limit_guidance": "No facility offered",
+            "monitoring_frequency": "N/A",
+            "rationale": "Score falls in the lowest empirical band, where observed default rates are highest and materially above portfolio average."
+        },
+        "High Risk": {
+            "lending_decision": "Refer for manual underwriting",
+            "indicative_pricing_tier": "Tier D",
+            "indicative_monthly_rate": "5.5% - 7.0%",
+            "facility_limit_guidance": "Reduced limit, short tenor, with additional bureau/affordability checks",
+            "monitoring_frequency": "Monthly",
+            "rationale": "Elevated observed default rate. Suitable for manual review with compensating controls rather than automatic approval or decline."
+        },
+        "Moderate Risk": {
+            "lending_decision": "Approve with conditions",
+            "indicative_pricing_tier": "Tier C",
+            "indicative_monthly_rate": "4.0% - 5.5%",
+            "facility_limit_guidance": "Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",
+            "monitoring_frequency": "Monthly",
+            "rationale": "Around portfolio-average risk. Approvable with standard affordability-linked conditions."
+        },
+        "Low Risk": {
+            "lending_decision": "Approve",
+            "indicative_pricing_tier": "Tier B",
+            "indicative_monthly_rate": "2.75% - 4.0%",
+            "facility_limit_guidance": "Standard limit, standard tenor",
+            "monitoring_frequency": "Quarterly",
+            "rationale": "Below-average observed default rate, consistent with standard-terms lending."
+        },
+        "Very Low Risk": {
+            "lending_decision": "Approve \u2014 preferred terms",
+            "indicative_pricing_tier": "Tier A",
+            "indicative_monthly_rate": "2.0% - 2.75%",
+            "facility_limit_guidance": "Higher limit eligible, longer tenor eligible",
+            "monitoring_frequency": "Quarterly",
+            "rationale": "Lowest observed default rate band. Eligible for preferred pricing and larger facility sizes."
+        }
+    },
+    "validation_criteria": {
+        "validation_auc_pass": true,
+        "test_auc_pass": true,
+        "validation_gini_pass": true,
+        "test_gini_pass": true,
+        "validation_ks_pass": true,
+        "test_ks_pass": true,
+        "validation_calibration_pass": true,
+        "test_calibration_pass": true,
+        "stability_auc_pass": true,
+        "stability_gini_pass": true,
+        "stability_ks_pass": true,
+        "validation_risk_monotonic": true,
+        "test_risk_monotonic": true
+    },
+    "model_validation_pass": true,
+    "approved_for_production": true,
+    "governance_notes": "Identifiers were excluded from model training and re-attached post-hoc for reporting only, using a verified positional join back to the Stage 02 engineered panel. The lending decision policy is a separate, editable business-rules layer and is not part of the statistical model. Risk-band cutoffs were derived on the validation set only (Stage 06) and applied unchanged here.",
+    "pipeline_stages": [
+        "01 - Data audit",
+        "02 - Feature engineering",
+        "03 - Preprocessing and leakage control",
+        "04 - WoE binning and Information Value",
+        "05 - Feature selection and scorecard modelling",
+        "06 - Model validation, calibration and risk bands",
+        "07 - Final score, SME assessment and lending decisions"
+    ],
+    "next_stage": "08 - Score new/unscored applicants from the applicant scoring population and reason-code individual assessments using scorecard_feature_points.csv."
+}
