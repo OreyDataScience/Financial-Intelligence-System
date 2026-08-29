@@ -1,0 +1,21 @@
+{
+    "stage": "10_fairness_disparate_impact_review",
+    "evaluation_population": "validation + test splits (out-of-sample)",
+    "evaluation_population_size": 51692,
+    "segments_reviewed": [
+        "province",
+        "industry_sector",
+        "legal_entity_type",
+        "business_maturity"
+    ],
+    "min_reliable_group_size": 30,
+    "adverse_impact_ratio_thresholds": {
+        "material_below": 0.7,
+        "borderline_below": 0.8,
+        "methodology_note": "The 80%/four-fifths rule is a US EEOC screening heuristic applied here for analytical convenience. It is not a South African legal standard. See PEPUDA and the National Credit Act for the applicable South African framework, and consult qualified legal counsel for any compliance determination."
+    },
+    "groups_material_disparity": [],
+    "groups_borderline": [],
+    "scope_limitation": "This dataset contains no owner/director demographic attributes (race, gender, disability, etc.), which are the actual protected characteristics under South African anti-discrimination and credit law. Province, industry sector and legal entity type were used as the best available proxies for a first-pass screen. This is not a substitute for a fairness audit against real demographic data, and passing this screen is not a compliance determination.",
+    "no_model_changes_made": true
+}
