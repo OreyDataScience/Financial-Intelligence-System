@@ -8,34 +8,32 @@ Purpose:
 Take the Stage 05 scorecard outputs and the Stage 06 validation decision and
 turn them into a finished, business-facing product:
 
-    1. Re-attach business identifiers to the train/validation/test scores
-       (identifiers were intentionally excluded from the modelling matrices
-       in Stage 03 to keep them out of the model, but are required again now
-       for reporting and for handing scores back to underwriters).
-    2. Apply the empirically-derived risk bands from Stage 06 consistently
-       across the full scored population.
-    3. Translate risk bands into an indicative lending decision and pricing
-       tier — the layer alternative lenders actually act on.
-    4. Summarise the scored portfolio (by risk band, province, industry and
-       model split) for monitoring and reporting.
-    5. Produce one consolidated "Orey Financial Health Assessment" file per
-       SME observation, and a model card documenting the full pipeline for
-       governance and audit.
+    1. Re-attach business identifiers to the train/validation/test scores.
+    2. Apply the empirically-derived risk bands from Stage 06 consistently.
+    3. Translate risk bands into an indicative lending decision and policy tier.
+    4. Summarise the scored portfolio by risk band, province, industry,
+       legal entity type and model split.
+    5. Produce a consolidated "Orey Financial Health Assessment" file per
+       outcome-observable SME observation.
+    6. Produce a model card documenting the full pipeline for governance
+       and audit.
+    7. Perform final integrity checks before outputs are accepted.
 
 Key principles:
     1. No model is retrained here. Stage 05's scorecard and Stage 06's
        validated risk bands are used as-is.
-    2. The Stage 06 model_validation_pass decision gates whether this stage's
-       outputs are flagged as approved for production decisioning.
-    3. Identifiers are re-attached using a position-based join back to the
-       Stage 02 engineered panel, filtered and split exactly as Stage 03 did.
-       This is verified before use — row counts and target values must match
-       between the reconstructed identifiers and the Stage 05 score files,
-       or the script stops rather than risk a silent mis-join.
+    2. Stage 06's model_validation_pass decision gates the statistical
+       validation status of this stage's outputs.
+    3. Identifiers are re-attached using the established positional
+       relationship to the Stage 02 engineered panel, with row count,
+       target, identifier and duplicate checks before use.
     4. Source datasets and upstream stage outputs are never modified.
-    5. The lending decision policy (bands -> decisions -> pricing tiers) is
-       an explicit, editable business-rules layer, kept separate from the
-       statistical model so it can be revised without retraining.
+    5. The lending decision policy is an explicit, editable business-rules
+       layer kept separate from the statistical model.
+    6. Pricing ranges are illustrative Orey Analytics policy assumptions
+       and are not model-derived interest rates or live lending offers.
+    7. Statistical validation passing does not by itself constitute formal
+       production approval; governance review remains a separate control.
 """
 
 # IMPORTS
@@ -82,6 +80,12 @@ IDENTIFIER_COLUMNS = [
     "annual_revenue"
 ]
 
+MODEL_SPLITS = [
+    "train",
+    "validation",
+    "test"
+]
+
 RISK_BAND_ORDER = [
     "Very High Risk",
     "High Risk",
@@ -92,9 +96,10 @@ RISK_BAND_ORDER = [
 
 # LENDING DECISION POLICY
 # This is a business-rules layer sitting on top of the statistical model.
-# Bands and cutoffs come from Stage 06; decisions and pricing tiers are
-# Orey Analytics' indicative policy and are intentionally easy to revise
-# without touching the model itself.
+# Risk-band boundaries come from Stage 06.
+# Lending decisions, pricing ranges and facility guidance are illustrative
+# Orey Analytics policy assumptions and can be revised without retraining.
+
 LENDING_DECISION_POLICY = {
     "Very High Risk": {
         "lending_decision": "Decline",
@@ -193,10 +198,18 @@ print("Required files confirmed.")
 # LOAD STAGE 06 VALIDATION DECISION
 print("\nLoading Stage 06 validation decision...")
 
-with open(VALIDATION_METADATA_FILE, "r", encoding="utf-8") as file:
+with open(
+    VALIDATION_METADATA_FILE,
+    "r",
+    encoding="utf-8"
+) as file:
     validation_metadata = json.load(file)
 
-with open(SCORECARD_METADATA_FILE, "r", encoding="utf-8") as file:
+with open(
+    SCORECARD_METADATA_FILE,
+    "r",
+    encoding="utf-8"
+) as file:
     scorecard_metadata = json.load(file)
 
 model_validation_pass = bool(
@@ -204,33 +217,89 @@ model_validation_pass = bool(
 )
 
 print(
-    f"Model validation status: "
+    f"Model statistical validation status: "
     f"{'PASS' if model_validation_pass else 'REVIEW REQUIRED'}"
 )
 
 if not model_validation_pass:
     print(
         "\nWARNING: The model did not pass all Stage 06 validation "
-        "criteria. Outputs will still be produced for review, but will "
-        "be clearly flagged as NOT APPROVED for automated production "
-        "lending decisions."
+        "criteria. Outputs will still be produced for review, but "
+        "they are NOT approved for automated production decisioning."
     )
 
 # LOAD RISK BAND DEFINITIONS
 print("\nLoading Stage 06 risk band definitions...")
 
-risk_band_definitions = pd.read_csv(RISK_BAND_DEFINITIONS_FILE)
+risk_band_definitions = pd.read_csv(
+    RISK_BAND_DEFINITIONS_FILE
+)
 
-print(risk_band_definitions.to_string(index=False))
+print(
+    risk_band_definitions.to_string(index=False)
+)
+
+# VALIDATE RISK BAND DEFINITIONS
+print("\nValidating risk-band definitions...")
+
+required_band_columns = {
+    "risk_band",
+    "minimum_score",
+    "maximum_score"
+}
+
+missing_band_columns = (
+    required_band_columns
+    - set(risk_band_definitions.columns)
+)
+
+if missing_band_columns:
+    raise ValueError(
+        "Risk-band definitions are missing required columns: "
+        f"{sorted(missing_band_columns)}"
+    )
+
+missing_bands = (
+    set(RISK_BAND_ORDER)
+    - set(risk_band_definitions["risk_band"])
+)
+
+if missing_bands:
+    raise ValueError(
+        "Risk-band definitions are missing required bands: "
+        f"{sorted(missing_bands)}"
+    )
+
+if risk_band_definitions["risk_band"].duplicated().any():
+    raise ValueError(
+        "Duplicate risk-band definitions detected."
+    )
+
+if (
+    risk_band_definitions["minimum_score"]
+    > risk_band_definitions["maximum_score"]
+).any():
+    raise ValueError(
+        "One or more risk bands have minimum_score greater "
+        "than maximum_score."
+    )
 
 band_bounds = {
-    row["risk_band"]: (row["minimum_score"], row["maximum_score"])
+    row["risk_band"]: (
+        row["minimum_score"],
+        row["maximum_score"]
+    )
     for _, row in risk_band_definitions.iterrows()
 }
 
+print("Risk-band definitions validated.")
 
+# RISK BAND ASSIGNMENT
 def assign_risk_band(score):
-    """Assign a risk band using Stage 06's validation-derived cutoffs."""
+    """Assign a risk band using Stage 06 validation-derived cutoffs."""
+
+    if pd.isna(score):
+        return "Unclassified"
 
     for band in RISK_BAND_ORDER:
         minimum_score, maximum_score = band_bounds[band]
@@ -240,8 +309,7 @@ def assign_risk_band(score):
 
     return "Unclassified"
 
-
-# LOAD SCORECARD OUTPUTS
+# LOAD STAGE 05 SCORECARD OUTPUTS
 print("\nLoading Stage 05 scorecard outputs...")
 
 train_scores = pd.read_csv(TRAIN_SCORE_FILE)
@@ -252,37 +320,79 @@ print(f"Training scores:   {len(train_scores):,}")
 print(f"Validation scores: {len(validation_scores):,}")
 print(f"Test scores:       {len(test_scores):,}")
 
-# RE-ATTACH BUSINESS IDENTIFIERS
-print("\n" + "=" * 80)
-print("RE-ATTACHING BUSINESS IDENTIFIERS")
-print("=" * 80)
+# VALIDATE SCORECARD OUTPUT STRUCTURE
+print("\nValidating Stage 05 score outputs...")
 
-print(
-    "\nStage 03 deliberately excluded business identifiers from the "
-    "modelling matrices. Identifiers are reconstructed here from the "
-    "Stage 02 engineered panel, applying the identical filter and split "
-    "logic Stage 03 used, then verified before being trusted."
+required_score_columns = {
+    TARGET,
+    PROBABILITY_COLUMN,
+    SCORE_COLUMN
+}
+
+for split_name, scores in {
+    "train": train_scores,
+    "validation": validation_scores,
+    "test": test_scores
+}.items():
+
+    missing_columns = (
+        required_score_columns
+        - set(scores.columns)
+    )
+
+    if missing_columns:
+        raise ValueError(
+            f"{split_name} score file is missing required columns: "
+            f"{sorted(missing_columns)}"
+        )
+
+print("Stage 05 score outputs validated.")
+
+# RE-ATTACH BUSINESS IDENTIFIERS
+print("\nRe-attaching business identifiers...")
+
+engineered = pd.read_csv(
+    ENGINEERED_FILE
 )
 
-engineered = pd.read_csv(ENGINEERED_FILE)
+required_engineered_columns = set(
+    IDENTIFIER_COLUMNS
+    + [
+        TARGET,
+        "outcome_observable",
+        "model_split"
+    ]
+)
+
+missing_engineered_columns = (
+    required_engineered_columns
+    - set(engineered.columns)
+)
+
+if missing_engineered_columns:
+    raise ValueError(
+        "Engineered panel is missing required columns: "
+        f"{sorted(missing_engineered_columns)}"
+    )
 
 engineered_observable = engineered.loc[
     engineered["outcome_observable"] == True
 ].copy()
 
-split_masks = {
-    "train": engineered_observable["model_split"] == "train",
-    "validation": engineered_observable["model_split"] == "validation",
-    "test": engineered_observable["model_split"] == "test"
-}
+print(
+    f"Outcome-observable observations available: "
+    f"{len(engineered_observable):,}"
+)
 
 identifier_frames = {}
 
-for split_name, mask in split_masks.items():
+for split_name in MODEL_SPLITS:
 
     identifiers = (
-        engineered_observable
-        .loc[mask, IDENTIFIER_COLUMNS + [TARGET]]
+        engineered_observable.loc[
+            engineered_observable["model_split"] == split_name,
+            IDENTIFIER_COLUMNS + [TARGET]
+        ]
         .reset_index(drop=True)
     )
 
@@ -293,36 +403,87 @@ for split_name, mask in split_masks.items():
         f"{len(identifiers):,}"
     )
 
-
+# IDENTIFIER RE-ATTACHMENT
 def attach_identifiers(scores, identifiers, split_name):
     """
-    Positionally join reconstructed identifiers back onto a Stage 05
-    score file, after verifying the two frames are alignable.
+    Re-attach identifiers to Stage 05 scores using the established
+    positional relationship between the Stage 05 score files and the
+    reconstructed Stage 02 population.
     """
 
     if len(scores) != len(identifiers):
         raise ValueError(
             f"Row count mismatch for {split_name}: "
             f"{len(scores)} scores vs {len(identifiers)} identifiers. "
-            "Identifier re-attachment cannot be trusted."
+            "Identifier re-attachment aborted."
         )
 
-    scores_reset = scores.reset_index(drop=True)
-    identifiers_reset = identifiers.reset_index(drop=True)
+    scores_reset = (
+        scores
+        .reset_index(drop=True)
+        .copy()
+    )
+
+    identifiers_reset = (
+        identifiers
+        .reset_index(drop=True)
+        .copy()
+    )
+
+    score_targets = pd.to_numeric(
+        scores_reset[TARGET],
+        errors="coerce"
+    )
+
+    identifier_targets = pd.to_numeric(
+        identifiers_reset[TARGET],
+        errors="coerce"
+    )
 
     target_mismatches = int(
         (
-            scores_reset[TARGET].astype(int)
-            != identifiers_reset[TARGET].astype(int)
-        ).sum()
+            score_targets != identifier_targets
+        )
+        .fillna(
+            score_targets.isna()
+            != identifier_targets.isna()
+        )
+        .sum()
     )
 
     if target_mismatches > 0:
         raise ValueError(
             f"{target_mismatches} target mismatches detected while "
-            f"re-attaching identifiers for {split_name}. Row order "
-            "between Stage 05 scores and the reconstructed identifiers "
-            "does not line up — identifier re-attachment aborted."
+            f"re-attaching identifiers for {split_name}. "
+            "Row order between Stage 05 scores and reconstructed "
+            "identifiers does not line up."
+        )
+
+    if identifiers_reset["business_id"].isna().any():
+        raise ValueError(
+            f"Missing business_id values detected in the "
+            f"{split_name} identifier frame."
+        )
+
+    if identifiers_reset["snapshot_date"].isna().any():
+        raise ValueError(
+            f"Missing snapshot_date values detected in the "
+            f"{split_name} identifier frame."
+        )
+
+    duplicate_count = int(
+        identifiers_reset.duplicated(
+            subset=[
+                "business_id",
+                "snapshot_date"
+            ]
+        ).sum()
+    )
+
+    if duplicate_count > 0:
+        raise ValueError(
+            f"{duplicate_count} duplicate business/snapshot observations "
+            f"detected in the {split_name} identifier frame."
         )
 
     combined = pd.concat(
@@ -333,10 +494,17 @@ def attach_identifiers(scores, identifiers, split_name):
         axis=1
     )
 
-    combined.insert(0, "model_split", split_name)
+    combined.insert(
+        0,
+        "model_split",
+        split_name
+    )
+
+    print(
+        f"{split_name.capitalize()} identifier alignment verified."
+    )
 
     return combined
-
 
 train_combined = attach_identifiers(
     train_scores,
@@ -356,30 +524,131 @@ test_combined = attach_identifiers(
     "test"
 )
 
-print("\nIdentifier re-attachment verified for all three splits.")
-
-# COMBINE FULL SCORED POPULATION
-print("\n" + "=" * 80)
-print("BUILDING FINAL SCORED POPULATION")
-print("=" * 80)
+# BUILD FINAL OBSERVABLE SCORED POPULATION
+print("\nBuilding final observable scored population...")
 
 scored_population = pd.concat(
-    [train_combined, validation_combined, test_combined],
+    [
+        train_combined,
+        validation_combined,
+        test_combined
+    ],
     ignore_index=True
 )
 
-print(f"Total scored observations: {len(scored_population):,}")
+print(
+    f"Total outcome-observable scored observations: "
+    f"{len(scored_population):,}"
+)
 
-duplicate_ids = int(
-    scored_population.duplicated(
-        subset=["business_id", "snapshot_date"]
+# FINAL SCORE AND PROBABILITY INTEGRITY CHECKS
+print("\nValidating score and probability ranges...")
+
+probability_numeric = pd.to_numeric(
+    scored_population[PROBABILITY_COLUMN],
+    errors="coerce"
+)
+
+score_numeric = pd.to_numeric(
+    scored_population[SCORE_COLUMN],
+    errors="coerce"
+)
+
+missing_probabilities = int(
+    probability_numeric.isna().sum()
+)
+
+missing_scores = int(
+    score_numeric.isna().sum()
+)
+
+if missing_probabilities > 0:
+    raise ValueError(
+        f"{missing_probabilities:,} missing or non-numeric "
+        "predicted default probabilities detected."
+    )
+
+if missing_scores > 0:
+    raise ValueError(
+        f"{missing_scores:,} missing or non-numeric "
+        "Orey Financial Health scores detected."
+    )
+
+probability_out_of_range = int(
+    (
+        (probability_numeric < 0)
+        |
+        (probability_numeric > 1)
     ).sum()
 )
 
-print(f"Duplicate business/snapshot rows: {duplicate_ids:,}")
+if probability_out_of_range > 0:
+    raise ValueError(
+        f"{probability_out_of_range:,} predicted default "
+        "probabilities fall outside [0, 1]."
+    )
+
+score_minimum = scorecard_metadata.get(
+    "score_minimum"
+)
+
+score_maximum = scorecard_metadata.get(
+    "score_maximum"
+)
+
+if score_minimum is not None:
+    score_below_minimum = int(
+        (score_numeric < float(score_minimum)).sum()
+    )
+else:
+    score_below_minimum = 0
+
+if score_maximum is not None:
+    score_above_maximum = int(
+        (score_numeric > float(score_maximum)).sum()
+    )
+else:
+    score_above_maximum = 0
+
+if score_below_minimum > 0:
+    raise ValueError(
+        f"{score_below_minimum:,} scores fall below the "
+        "Stage 05 documented score minimum."
+    )
+
+if score_above_maximum > 0:
+    raise ValueError(
+        f"{score_above_maximum:,} scores exceed the "
+        "Stage 05 documented score maximum."
+    )
+
+print("Score and probability ranges validated.")
+
+# CHECK DUPLICATE SME OBSERVATIONS
+duplicate_ids = int(
+    scored_population.duplicated(
+        subset=[
+            "business_id",
+            "snapshot_date"
+        ]
+    ).sum()
+)
+
+print(
+    f"Duplicate business/snapshot rows: {duplicate_ids:,}"
+)
+
+if duplicate_ids > 0:
+    raise ValueError(
+        "Duplicate business/snapshot observations detected "
+        "in the final scored population."
+    )
 
 # APPLY FINAL RISK BANDS
-print("\nApplying Stage 06 risk bands to the full scored population...")
+print(
+    "\nApplying Stage 06 risk bands to the full "
+    "outcome-observable scored population..."
+)
 
 scored_population["risk_band"] = (
     scored_population[SCORE_COLUMN]
@@ -387,28 +656,52 @@ scored_population["risk_band"] = (
 )
 
 unclassified = int(
-    (scored_population["risk_band"] == "Unclassified").sum()
+    (
+        scored_population["risk_band"]
+        == "Unclassified"
+    ).sum()
 )
 
 if unclassified > 0:
-    print(
-        f"\nWARNING: {unclassified} observations fell outside the "
-        "defined risk band ranges and were marked 'Unclassified'. "
-        "These should be investigated before use."
+    raise ValueError(
+        f"{unclassified:,} observations fell outside the "
+        "Stage 06 defined risk-band ranges. "
+        "Risk-band assignment cannot be accepted."
     )
 
 scored_population["risk_band"] = pd.Categorical(
     scored_population["risk_band"],
-    categories=RISK_BAND_ORDER + ["Unclassified"],
+    categories=RISK_BAND_ORDER,
     ordered=True
 )
+
+print("Risk-band assignment completed successfully.")
+
+# VALIDATE LENDING POLICY COVERAGE
+print("\nValidating lending decision policy...")
+
+missing_policy_bands = (
+    set(RISK_BAND_ORDER)
+    - set(LENDING_DECISION_POLICY.keys())
+)
+
+if missing_policy_bands:
+    raise ValueError(
+        "Lending decision policy does not define all risk bands: "
+        f"{sorted(missing_policy_bands)}"
+    )
+
+print("All five risk bands have corresponding policy definitions.")
 
 # APPLY LENDING DECISION POLICY
 print("\nApplying lending decision policy...")
 
 decision_policy_df = pd.DataFrame(
     [
-        {"risk_band": band, **policy}
+        {
+            "risk_band": band,
+            **policy
+        }
         for band, policy in LENDING_DECISION_POLICY.items()
     ]
 )
@@ -419,21 +712,34 @@ decision_policy_df["risk_band"] = pd.Categorical(
     ordered=True
 )
 
-decision_policy_df = decision_policy_df.sort_values(
-    "risk_band"
-).reset_index(drop=True)
+decision_policy_df = (
+    decision_policy_df
+    .sort_values("risk_band")
+    .reset_index(drop=True)
+)
 
 scored_population = scored_population.merge(
     decision_policy_df,
     on="risk_band",
-    how="left"
+    how="left",
+    validate="many_to_one"
 )
 
-scored_population["model_approved_for_production"] = (
-    model_validation_pass
+# STATISTICAL VALIDATION AND GOVERNANCE STATUS
+scored_population[
+    "statistical_validation_pass"
+] = model_validation_pass
+
+scored_population[
+    "production_governance_status"
+] = (
+    "Statistical validation passed — governance review required"
+    if model_validation_pass
+    else
+    "Not approved — statistical validation review required"
 )
 
-# COLUMN ORDER
+# FINAL COLUMN ORDER
 final_columns = [
     "business_id",
     "snapshot_date",
@@ -452,22 +758,25 @@ final_columns = [
     "indicative_monthly_rate",
     "facility_limit_guidance",
     "monitoring_frequency",
-    "model_approved_for_production"
+    "statistical_validation_pass",
+    "production_governance_status"
 ]
 
-scored_population = scored_population[final_columns]
+scored_population = scored_population[
+    final_columns
+]
 
 # PORTFOLIO RISK SUMMARY
-print("\n" + "=" * 80)
-print("PORTFOLIO RISK SUMMARY")
-print("=" * 80)
-
+print("\nGenerating portfolio risk summary...")
 
 def summarise_by_band(dataset, dataset_name):
 
     summary = (
         dataset
-        .groupby("risk_band", observed=False)
+        .groupby(
+            "risk_band",
+            observed=False
+        )
         .agg(
             observations=(TARGET, "size"),
             defaults=(TARGET, "sum"),
@@ -479,17 +788,21 @@ def summarise_by_band(dataset, dataset_name):
     )
 
     summary["population_share"] = (
-        summary["observations"] / len(dataset)
+        summary["observations"]
+        / len(dataset)
     )
 
-    summary.insert(0, "population", dataset_name)
+    summary.insert(
+        0,
+        "population",
+        dataset_name
+    )
 
     return summary
 
-
 portfolio_summary_overall = summarise_by_band(
     scored_population,
-    "full_scored_population"
+    "outcome_observable_scored_population"
 )
 
 portfolio_summary_by_split = pd.concat(
@@ -500,26 +813,89 @@ portfolio_summary_by_split = pd.concat(
             ],
             split
         )
-        for split in ["train", "validation", "test"]
+        for split in MODEL_SPLITS
     ],
     ignore_index=True
 )
 
 portfolio_risk_summary = pd.concat(
-    [portfolio_summary_overall, portfolio_summary_by_split],
+    [
+        portfolio_summary_overall,
+        portfolio_summary_by_split
+    ],
     ignore_index=True
 )
 
-print(portfolio_risk_summary.to_string(index=False))
+print(
+    portfolio_risk_summary.to_string(
+        index=False
+    )
+)
+
+# POPULATION SHARE INTEGRITY CHECK
+overall_population_share = (
+    portfolio_summary_overall[
+        "population_share"
+    ].sum()
+)
+
+if not np.isclose(
+    overall_population_share,
+    1.0,
+    atol=1e-9
+):
+    raise ValueError(
+        "Overall risk-band population shares do not sum to 100%."
+    )
+
+print("Overall risk-band population shares sum to 100%.")
+
+# RISK-BAND DEFAULT-RATE ORDER CHECK
+print("\nChecking empirical risk-band ordering...")
+
+band_default_rates = (
+    portfolio_summary_overall[
+        [
+            "risk_band",
+            "observed_default_rate"
+        ]
+    ]
+    .dropna()
+)
+
+if len(band_default_rates) >= 2:
+
+    default_rates = (
+        band_default_rates[
+            "observed_default_rate"
+        ].to_numpy()
+    )
+
+    decreasing_sequence = np.all(
+        np.diff(default_rates) <= 1e-12
+    )
+
+    if not decreasing_sequence:
+        print(
+            "WARNING: Observed default rates are not monotonic "
+            "across all risk bands. This does not automatically "
+            "invalidate the model, but should be reviewed as part "
+            "of model monitoring."
+        )
+    else:
+        print(
+            "Risk-band empirical default-rate ordering is monotonic."
+        )
 
 # LENDING DECISION SUMMARY
-print("\n" + "=" * 80)
-print("LENDING DECISION SUMMARY")
-print("=" * 80)
+print("\nGenerating lending decision summary...")
 
 decision_summary = (
     scored_population
-    .groupby("lending_decision", observed=False)
+    .groupby(
+        "lending_decision",
+        observed=False
+    )
     .agg(
         observations=(TARGET, "size"),
         observed_default_rate=(TARGET, "mean")
@@ -528,46 +904,65 @@ decision_summary = (
 )
 
 decision_summary["population_share"] = (
-    decision_summary["observations"] / len(scored_population)
+    decision_summary["observations"]
+    / len(scored_population)
 )
 
-print(decision_summary.to_string(index=False))
+print(
+    decision_summary.to_string(
+        index=False
+    )
+)
 
-# PORTFOLIO SEGMENT SUMMARY (PROVINCE / INDUSTRY)
-print("\n" + "=" * 80)
-print("PORTFOLIO SEGMENT SUMMARY")
-print("=" * 80)
-
+# PORTFOLIO SEGMENT SUMMARY
+print("\nGenerating portfolio segment summary...")
 
 def summarise_by_segment(dataset, segment_column):
 
     summary = (
         dataset
-        .groupby(segment_column, observed=True)
+        .groupby(
+            segment_column,
+            observed=True
+        )
         .agg(
             observations=(TARGET, "size"),
             observed_default_rate=(TARGET, "mean"),
             mean_score=(SCORE_COLUMN, "mean")
         )
         .reset_index()
-        .rename(columns={segment_column: "segment_value"})
+        .rename(
+            columns={
+                segment_column: "segment_value"
+            }
+        )
     )
 
-    summary.insert(0, "segment_type", segment_column)
+    summary.insert(
+        0,
+        "segment_type",
+        segment_column
+    )
 
-    summary = summary.sort_values(
+    return summary.sort_values(
         "observations",
         ascending=False
     )
 
-    return summary
-
-
 segment_summary = pd.concat(
     [
-        summarise_by_segment(scored_population, "province"),
-        summarise_by_segment(scored_population, "industry_sector"),
-        summarise_by_segment(scored_population, "legal_entity_type")
+        summarise_by_segment(
+            scored_population,
+            "province"
+        ),
+        summarise_by_segment(
+            scored_population,
+            "industry_sector"
+        ),
+        summarise_by_segment(
+            scored_population,
+            "legal_entity_type"
+        )
     ],
     ignore_index=True
 )
@@ -579,10 +974,17 @@ print(
     .to_string(index=False)
 )
 
+# POLICY GOVERNANCE NOTE
+policy_governance_note = (
+    "Indicative pricing ranges, facility guidance, monitoring frequency "
+    "and lending decisions are illustrative Orey Analytics business-policy "
+    "assumptions. They are not estimated by the statistical scorecard and "
+    "do not constitute live lending offers, regulated credit pricing or "
+    "formal credit policy."
+)
+
 # SAVE OUTPUTS
-print("\n" + "=" * 80)
-print("SAVING FINAL OUTPUTS")
-print("=" * 80)
+print("\nSaving final outputs...")
 
 scored_population.to_csv(
     OUTPUT_DIR / "final_scored_population.csv",
@@ -638,7 +1040,9 @@ model_card = {
         "training_rows": int(len(train_combined)),
         "validation_rows": int(len(validation_combined)),
         "test_rows": int(len(test_combined)),
-        "total_scored_rows": int(len(scored_population))
+        "total_observable_scored_rows": int(
+            len(scored_population)
+        )
     },
     "performance": {
         "train_auc": validation_metadata.get("train_auc"),
@@ -657,22 +1061,45 @@ model_card = {
             "test_calibration_error"
         )
     },
-    "risk_bands": risk_band_definitions.to_dict(orient="records"),
+    "risk_bands": risk_band_definitions.to_dict(
+        orient="records"
+    ),
     "lending_decision_policy": LENDING_DECISION_POLICY,
+    "policy_governance_note": policy_governance_note,
     "validation_criteria": validation_metadata.get(
         "validation_criteria"
     ),
-    "model_validation_pass": model_validation_pass,
-    "approved_for_production": model_validation_pass,
+    "statistical_validation_pass": model_validation_pass,
+    "production_governance_status": (
+        "Statistical validation passed — "
+        "governance review required"
+        if model_validation_pass
+        else
+        "Not approved — statistical validation review required"
+    ),
     "governance_notes": (
         "Identifiers were excluded from model training and re-attached "
-        "post-hoc for reporting only, using a verified positional join "
-        "back to the Stage 02 engineered panel. The lending decision "
-        "policy is a separate, editable business-rules layer and is not "
-        "part of the statistical model. Risk-band cutoffs were derived "
-        "on the validation set only (Stage 06) and applied unchanged "
-        "here."
+        "post-hoc for reporting only, using a verified positional "
+        "relationship back to the Stage 02 engineered panel. "
+        "The lending decision policy is a separate editable business-"
+        "rules layer and is not part of the statistical model. "
+        "Risk-band cutoffs were derived on the validation set only "
+        "(Stage 06) and applied unchanged here. "
+        "Passing statistical validation does not by itself constitute "
+        "formal production approval."
     ),
+    "integrity_checks": {
+        "duplicate_business_snapshot_rows": duplicate_ids,
+        "unclassified_risk_band_rows": unclassified,
+        "missing_probability_rows": missing_probabilities,
+        "missing_score_rows": missing_scores,
+        "probability_out_of_range_rows": probability_out_of_range,
+        "score_below_documented_minimum": score_below_minimum,
+        "score_above_documented_maximum": score_above_maximum,
+        "overall_population_share": float(
+            overall_population_share
+        )
+    },
     "pipeline_stages": [
         "01 - Data audit",
         "02 - Feature engineering",
@@ -680,12 +1107,12 @@ model_card = {
         "04 - WoE binning and Information Value",
         "05 - Feature selection and scorecard modelling",
         "06 - Model validation, calibration and risk bands",
-        "07 - Final score, SME assessment and lending decisions"
+        "07 - Final score, SME assessment and lending policy"
     ],
     "next_stage": (
         "08 - Score new/unscored applicants from the applicant scoring "
-        "population and reason-code individual assessments using "
-        "scorecard_feature_points.csv."
+        "population and generate individual SME assessments and "
+        "reason codes using scorecard_feature_points.csv."
     )
 }
 
@@ -694,7 +1121,12 @@ with open(
     "w",
     encoding="utf-8"
 ) as file:
-    json.dump(model_card, file, indent=4, default=str)
+    json.dump(
+        model_card,
+        file,
+        indent=4,
+        default=str
+    )
 
 # COMPLETION
 print("\n" + "=" * 80)
@@ -702,23 +1134,70 @@ print("FINAL SCORING & SME ASSESSMENT COMPLETE")
 print("=" * 80)
 
 print(
-    f"\nProduction approval status: "
-    f"{'APPROVED' if model_validation_pass else 'NOT APPROVED — REVIEW REQUIRED'}"
+    "\nStatistical validation status: "
+    f"{'PASS' if model_validation_pass else 'NOT PASSED — REVIEW REQUIRED'}"
 )
 
-print(f"\nTotal SME observations scored: {len(scored_population):,}")
+print("\nProduction governance status:")
 
-print("\nRisk band distribution (full scored population):")
+print(
+    "  Statistical validation passed — governance review required"
+    if model_validation_pass
+    else
+    "  Not approved — statistical validation review required"
+)
+
+print(
+    f"\nTotal outcome-observable SME observations scored: "
+    f"{len(scored_population):,}"
+)
+
+print("\nRisk band distribution:")
+
 print(
     portfolio_summary_overall[
-        ["risk_band", "observations", "population_share", "observed_default_rate"]
+        [
+            "risk_band",
+            "observations",
+            "population_share",
+            "observed_default_rate"
+        ]
     ].to_string(index=False)
 )
 
+print("\nFinal integrity checks:")
+
+print(
+    f"  Duplicate business/snapshot rows: "
+    f"{duplicate_ids:,}"
+)
+
+print(
+    f"  Unclassified risk-band rows: "
+    f"{unclassified:,}"
+)
+
+print(
+    f"  Missing probabilities: "
+    f"{missing_probabilities:,}"
+)
+
+print(
+    f"  Missing scores: "
+    f"{missing_scores:,}"
+)
+
+print(
+    f"  Probability out-of-range rows: "
+    f"{probability_out_of_range:,}"
+)
+
 print("\nOutputs saved to:")
+
 print(OUTPUT_DIR)
 
 print("\nGenerated files:")
+
 print("  - final_scored_population.csv")
 print("  - sme_financial_health_assessment.csv")
 print("  - lending_decision_policy.csv")
@@ -727,9 +1206,12 @@ print("  - lending_decision_summary.csv")
 print("  - portfolio_segment_summary.csv")
 print("  - orey_financial_health_model_card.json")
 
-print("\nSource datasets and upstream stage outputs were not modified.")
+print(
+    "\nSource datasets and upstream stage outputs were not modified."
+)
 
 print("\nNext stage:")
+
 print(
     "08 — Score new applicants and generate per-SME reason codes "
     "from scorecard_feature_points.csv"

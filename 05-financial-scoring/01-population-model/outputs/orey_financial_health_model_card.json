@@ -35,7 +35,7 @@
         "training_rows": 119034,
         "validation_rows": 25892,
         "test_rows": 25800,
-        "total_scored_rows": 170726
+        "total_observable_scored_rows": 170726
     },
     "performance": {
         "train_auc": 0.8269559468480943,
@@ -119,6 +119,7 @@
             "rationale": "Lowest observed default rate band. Eligible for preferred pricing and larger facility sizes."
         }
     },
+    "policy_governance_note": "Indicative pricing ranges, facility guidance, monitoring frequency and lending decisions are illustrative Orey Analytics business-policy assumptions. They are not estimated by the statistical scorecard and do not constitute live lending offers, regulated credit pricing or formal credit policy.",
     "validation_criteria": {
         "validation_auc_pass": true,
         "test_auc_pass": true,
@@ -134,9 +135,19 @@
         "validation_risk_monotonic": true,
         "test_risk_monotonic": true
     },
-    "model_validation_pass": true,
-    "approved_for_production": true,
-    "governance_notes": "Identifiers were excluded from model training and re-attached post-hoc for reporting only, using a verified positional join back to the Stage 02 engineered panel. The lending decision policy is a separate, editable business-rules layer and is not part of the statistical model. Risk-band cutoffs were derived on the validation set only (Stage 06) and applied unchanged here.",
+    "statistical_validation_pass": true,
+    "production_governance_status": "Statistical validation passed \u2014 governance review required",
+    "governance_notes": "Identifiers were excluded from model training and re-attached post-hoc for reporting only, using a verified positional relationship back to the Stage 02 engineered panel. The lending decision policy is a separate editable business-rules layer and is not part of the statistical model. Risk-band cutoffs were derived on the validation set only (Stage 06) and applied unchanged here. Passing statistical validation does not by itself constitute formal production approval.",
+    "integrity_checks": {
+        "duplicate_business_snapshot_rows": 0,
+        "unclassified_risk_band_rows": 0,
+        "missing_probability_rows": 0,
+        "missing_score_rows": 0,
+        "probability_out_of_range_rows": 0,
+        "score_below_documented_minimum": 0,
+        "score_above_documented_maximum": 0,
+        "overall_population_share": 1.0
+    },
     "pipeline_stages": [
         "01 - Data audit",
         "02 - Feature engineering",
@@ -144,7 +155,7 @@
         "04 - WoE binning and Information Value",
         "05 - Feature selection and scorecard modelling",
         "06 - Model validation, calibration and risk bands",
-        "07 - Final score, SME assessment and lending decisions"
+        "07 - Final score, SME assessment and lending policy"
     ],
-    "next_stage": "08 - Score new/unscored applicants from the applicant scoring population and reason-code individual assessments using scorecard_feature_points.csv."
+    "next_stage": "08 - Score new/unscored applicants from the applicant scoring population and generate individual SME assessments and reason codes using scorecard_feature_points.csv."
 }
