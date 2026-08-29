@@ -1215,4 +1215,5 @@ print("\nNext stage:")
 print(
     "08 — Score new applicants and generate per-SME reason codes "
     "from scorecard_feature_points.csv"
+    "continuing on 02-individual-assessment folder"
 )
