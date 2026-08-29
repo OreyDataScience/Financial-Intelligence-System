@@ -492,5 +492,5 @@ print("\nNext stage:")
 print(
     "11 — Recalibration trigger policy: formalize the PSI/CSI thresholds "
     "from Stage 09 and the fairness flags from Stage 10 into a single "
-    "governance escalation process."
+    "governance escalation process. Continuing on 03-governance."
 )
