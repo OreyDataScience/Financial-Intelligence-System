@@ -1,0 +1,21 @@
+feature,csi,stability,training_bins,applicant_bins
+fe_min_balance_to_expenses,5.622323992325915,Material shift — investigate,10,4
+fe_balance_to_monthly_expenses,4.355074181649521,Material shift — investigate,10,5
+fe_business_arrears_days,1.6743720383162215,Material shift — investigate,11,11
+fe_negative_balance_days,1.6391948978955604,Material shift — investigate,8,8
+credit_volatility_90d,1.4356899923128914,Material shift — investigate,10,10
+fe_debt_to_assets,1.319203680265716,Material shift — investigate,9,8
+fe_liabilities_to_annual_revenue,1.0992555649704345,Material shift — investigate,9,9
+fe_cash_flow_trend,0.9877483494632273,Material shift — investigate,11,11
+director_credit_utilization,0.5108419135765442,Material shift — investigate,9,9
+fe_business_credit_utilization,0.46837411029289766,Material shift — investigate,11,11
+fe_operational_distress_events,0.23392782790780628,Moderate shift — monitor,8,8
+free_cash_flow,0.1963399782750815,Moderate shift — monitor,10,10
+fe_director_credit_score,0.14969194049859866,Moderate shift — monitor,9,9
+fe_business_credit_score,0.10218460904972701,Moderate shift — monitor,11,11
+judgments_count,0.07681833869980616,Stable,2,2
+num_fees_90d,0.05895444909993647,Stable,7,7
+fe_free_cash_to_expenses,0.05568278341188388,Stable,10,10
+director_judgments_count,0.03688492284989071,Stable,2,2
+fe_reversed_transaction_count,0.017982873559360582,Stable,4,4
+default_flag_bureau_history,0.008782620531514445,Stable,2,2

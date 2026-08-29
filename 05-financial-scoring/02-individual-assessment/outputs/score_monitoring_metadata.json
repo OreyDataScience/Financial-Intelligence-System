@@ -1,0 +1,47 @@
+{
+    "stage": "09_score_monitoring",
+    "applicants_monitored": 250,
+    "training_population_size": 119034,
+    "score_psi": 0.19106797561302147,
+    "score_psi_interpretation": "Moderate shift \u2014 monitor",
+    "score_bin_edges": [
+        -Infinity,
+        560.0,
+        579.0,
+        593.0,
+        605.0,
+        617.0,
+        629.0,
+        641.0,
+        656.0,
+        676.0,
+        Infinity
+    ],
+    "features_monitored": 20,
+    "features_material_shift": [
+        "fe_min_balance_to_expenses",
+        "fe_balance_to_monthly_expenses",
+        "fe_business_arrears_days",
+        "fe_negative_balance_days",
+        "credit_volatility_90d",
+        "fe_debt_to_assets",
+        "fe_liabilities_to_annual_revenue",
+        "fe_cash_flow_trend",
+        "director_credit_utilization",
+        "fe_business_credit_utilization"
+    ],
+    "features_moderate_shift": [
+        "fe_operational_distress_events",
+        "free_cash_flow",
+        "fe_director_credit_score",
+        "fe_business_credit_score"
+    ],
+    "psi_thresholds": {
+        "stable_below": 0.1,
+        "moderate_below": 0.25,
+        "material_at_or_above": 0.25
+    },
+    "baseline_population": "Training split only (the population the scorecard's bins and coefficients were fitted on), not validation or test.",
+    "methodology": "PSI/CSI = sum((actual_pct - expected_pct) * ln(actual_pct / expected_pct)) over Stage 04's saved bins. No bins, mappings or model parameters were refit.",
+    "no_retraining_performed": true
+}
