@@ -1,13 +1,13 @@
 """
 Orey Analytics
-Financial Health Scoring — Population Model
+Financial Health Scoring — Individual Assessment
 
 Stage 08 — Applicant Scoring & Reason Codes
 
 Purpose:
 Score the SME applicant population (new deals, no known outcome yet) using
-the trained Stage 05 scorecard, and produce underwriter- and applicant-
-facing reason codes explaining each score.
+the trained Stage 05 scorecard, and produce underwriter- and applicant-facing
+reason codes explaining each score.
 
 This stage does NOT retrain or refit anything. Every transformation applied
 to applicants — feature engineering, missing-value treatment, WoE binning,
@@ -19,43 +19,34 @@ Pipeline replayed here:
     1. Feature engineering (Stage 02 ratio/structure formulas only —
        transaction-level features are excluded, exactly as Stage 03
        excluded them from the primary scorecard).
-    2. Missing-value treatment, using training medians and categorical
-       fill rules reconstructed from the Stage 02 engineered panel's
-       training split (Stage 03 fit these on training data but did not
-       persist the fitted values, so they are rebuilt here from the same
-       filter/split logic and are byte-for-byte reproducible).
-    3. Column alignment to Stage 03's final preprocessed feature schema.
-    4. WoE transformation using Stage 04's saved bin edges and WoE
-       mappings (woe_binning_definitions.json, woe_mappings.json).
-       Unseen applicant values receive neutral WoE, exactly as Stage 04
-       treated unseen validation/test values.
-    5. Scoring using the Stage 05 pickled logistic regression and its
-       saved score-scaling factor/offset.
+    2. Missing-value treatment, using training medians reconstructed from
+       the Stage 02 engineered panel's training split.
+    3. Column alignment to the selected scorecard feature schema.
+    4. WoE transformation using Stage 04's saved bin edges and WoE mappings.
+    5. Scoring using the Stage 05 pickled logistic regression and saved
+       score-scaling factor/offset.
     6. Risk-band assignment using Stage 06's validation-derived cutoffs.
     7. Lending decision policy, matching Stage 07's business-rules layer.
-    8. Reason codes: per-applicant point contributions derived from
-       scorecard_feature_points.csv, ranked to surface the top adverse
-       and top protective factors behind each score.
+    8. Reason codes derived directly from the fitted scorecard's own
+       feature-points table.
 
 Key principles:
     1. No model is retrained. No bin edges, WoE values or coefficients are
        recomputed from applicant data.
-    2. Applicants are new, unscored deals — there is no outcome to
-       validate against, so this stage produces scores and explanations,
-       not performance metrics.
+    2. Applicants are new, unscored deals — there is no outcome to validate
+       against, so this stage produces scores and explanations, not
+       performance metrics.
     3. Any applicant feature engineering, imputation or WoE step that
-       cannot be completed exactly as it was for training data is treated
-       as a hard error rather than an approximation.
+       cannot be completed exactly as required by the fitted scorecard is
+       treated as a hard error rather than an approximation.
     4. Source datasets and upstream stage outputs are never modified.
     5. Reason codes are derived directly from the fitted scorecard's own
-       points table — no separate explanation model is introduced.
+       points table.
 
 Folder layout:
-    This stage lives in a separate phase folder from the population
-    model build (02-individual-assessment), since applicant scoring is a
-    repeatable production activity while the population model itself is
-    only built/retrained periodically. It reads Stage 01-07 artifacts
-    from a sibling 01-population-model folder and never writes to it.
+    This stage lives in a separate phase folder from the population model
+    build (02-individual-assessment). It reads Stage 01–07 artifacts from
+    the sibling 01-population-model folder and writes its own outputs here.
 """
 
 # IMPORTS
@@ -69,31 +60,7 @@ import pandas as pd
 
 warnings.filterwarnings("ignore")
 
-#===========================================================================
 # PROJECT PATHS
-#===========================================================================
-# This stage lives in a separate phase folder from the population model
-# (individual/applicant assessment is a distinct, repeatable production
-# consumer of a model that is only trained once). It therefore reads
-# Stages 01-07's artifacts from the population-model folder, and writes
-# its own outputs into its own folder.
-#
-# Assumed folder layout (siblings under one parent, e.g. "Financial
-# Health Scoring/"):
-#
-#   01-population-model/
-#       data/        <- historical panel data
-#       outputs/     <- Stage 01-07 CSV/JSON outputs (read here)
-#       models/      <- financial_health_scorecard.pkl (read here)
-#       scripts/     <- 01_...py ... 07_...py
-#   02-individual-assessment/
-#       data/        <- applicant population file goes here
-#       outputs/     <- Stage 08 outputs are written here
-#       scripts/     <- this script
-#
-# If your folder names differ, only POPULATION_MODEL_FOLDER_NAME below
-# needs to change.
-
 SCRIPT_DIR = Path(__file__).resolve().parent
 ASSESSMENT_DIR = SCRIPT_DIR.parent
 PHASE_DIR = ASSESSMENT_DIR.parent
@@ -101,11 +68,9 @@ PHASE_DIR = ASSESSMENT_DIR.parent
 POPULATION_MODEL_FOLDER_NAME = "01-population-model"
 POPULATION_MODEL_DIR = PHASE_DIR / POPULATION_MODEL_FOLDER_NAME
 
-# Inputs — read from the population model phase (never written to)
 POPULATION_OUTPUT_DIR = POPULATION_MODEL_DIR / "outputs"
 POPULATION_MODELS_DIR = POPULATION_MODEL_DIR / "models"
 
-# Outputs — this phase's own data/outputs
 DATA_DIR = ASSESSMENT_DIR / "data"
 OUTPUT_DIR = ASSESSMENT_DIR / "outputs"
 
@@ -132,24 +97,22 @@ SCORECARD_METADATA_FILE = (
 SCORECARD_POINTS_FILE = (
     POPULATION_OUTPUT_DIR / "scorecard_feature_points.csv"
 )
+
 FEATURE_METADATA_FILE = POPULATION_OUTPUT_DIR / "feature_metadata.csv"
-MODEL_FILE = POPULATION_MODELS_DIR / "financial_health_scorecard.pkl"
+
+MODEL_FILE = (
+    POPULATION_MODELS_DIR / "financial_health_scorecard.pkl"
+)
 
 RISK_BAND_DEFINITIONS_FILE = (
     POPULATION_OUTPUT_DIR / "risk_band_definitions.csv"
 )
 
-#===========================================================================
 # CONFIGURATION
-#===========================================================================
-
 TARGET = "default_event_12m"
 PROBABILITY_COLUMN = "predicted_default_probability"
 SCORE_COLUMN = "orey_financial_health_score"
 
-# Replicated from Stage 03 — required to rebuild training-consistent
-# imputation and column selection, since the fitted imputer itself was
-# not persisted.
 ADMIN_COLUMNS = [
     "business_id",
     "snapshot_date",
@@ -203,7 +166,7 @@ IDENTIFIER_COLUMNS = [
     "industry_sector",
     "legal_entity_type",
     "business_age_years",
-    "annual_revenue"
+    "annual_revenue",
 ]
 
 RISK_BAND_ORDER = [
@@ -211,11 +174,9 @@ RISK_BAND_ORDER = [
     "High Risk",
     "Moderate Risk",
     "Low Risk",
-    "Very Low Risk"
+    "Very Low Risk",
 ]
 
-# Raw applicant-population columns required to reproduce Stage 02's
-# non-transaction (categories 1-9) feature engineering.
 REQUIRED_RAW_COLUMNS = [
     "business_id",
     "snapshot_date",
@@ -256,19 +217,19 @@ REQUIRED_RAW_COLUMNS = [
     "director_judgments_count",
     "business_age_years",
     "num_directors",
+    "num_fees_90d",                 # add
+    "default_flag_bureau_history",  # add
 ]
 
 REASON_CODES_PER_APPLICANT = 5
 
-# Lending decision policy — kept identical to Stage 07 so applicants and
-# the historical portfolio are treated under the same business rules.
 LENDING_DECISION_POLICY = {
     "Very High Risk": {
         "lending_decision": "Decline",
         "indicative_pricing_tier": "N/A",
         "indicative_monthly_rate": "N/A",
         "facility_limit_guidance": "No facility offered",
-        "monitoring_frequency": "N/A"
+        "monitoring_frequency": "N/A",
     },
     "High Risk": {
         "lending_decision": "Refer for manual underwriting",
@@ -278,7 +239,7 @@ LENDING_DECISION_POLICY = {
             "Reduced limit, short tenor, with additional bureau/"
             "affordability checks"
         ),
-        "monitoring_frequency": "Monthly"
+        "monitoring_frequency": "Monthly",
     },
     "Moderate Risk": {
         "lending_decision": "Approve with conditions",
@@ -288,14 +249,14 @@ LENDING_DECISION_POLICY = {
             "Standard limit with tighter covenant (e.g. minimum balance, "
             "revenue-linked repayment)"
         ),
-        "monitoring_frequency": "Monthly"
+        "monitoring_frequency": "Monthly",
     },
     "Low Risk": {
         "lending_decision": "Approve",
         "indicative_pricing_tier": "Tier B",
         "indicative_monthly_rate": "2.75% - 4.0%",
         "facility_limit_guidance": "Standard limit, standard tenor",
-        "monitoring_frequency": "Quarterly"
+        "monitoring_frequency": "Quarterly",
     },
     "Very Low Risk": {
         "lending_decision": "Approve — preferred terms",
@@ -304,8 +265,8 @@ LENDING_DECISION_POLICY = {
         "facility_limit_guidance": (
             "Higher limit eligible, longer tenor eligible"
         ),
-        "monitoring_frequency": "Quarterly"
-    }
+        "monitoring_frequency": "Quarterly",
+    },
 }
 
 # HEADER
@@ -314,10 +275,7 @@ print("OREY ANALYTICS — FINANCIAL HEALTH SCORING")
 print("08 — APPLICANT SCORING & REASON CODES")
 print("=" * 80)
 
-#===========================================================================
 # CHECK REQUIRED FILES
-#===========================================================================
-
 print("\nChecking required files...")
 
 if not POPULATION_MODEL_DIR.exists():
@@ -337,7 +295,7 @@ required_files = [
     SCORECARD_METADATA_FILE,
     SCORECARD_POINTS_FILE,
     MODEL_FILE,
-    RISK_BAND_DEFINITIONS_FILE
+    RISK_BAND_DEFINITIONS_FILE,
 ]
 
 for file in required_files:
@@ -348,19 +306,24 @@ for file in required_files:
 
 print("Required files confirmed.")
 
-#===========================================================================
 # LOAD SAVED PIPELINE ARTIFACTS
-#===========================================================================
-
 print("\nLoading saved pipeline artifacts...")
 
 with open(SCORECARD_METADATA_FILE, "r", encoding="utf-8") as file:
     scorecard_metadata = json.load(file)
 
-with open(WOE_BINNING_DEFINITIONS_FILE, "r", encoding="utf-8") as file:
+with open(
+    WOE_BINNING_DEFINITIONS_FILE,
+    "r",
+    encoding="utf-8",
+) as file:
     binning_metadata = json.load(file)
 
-with open(WOE_MAPPINGS_FILE, "r", encoding="utf-8") as file:
+with open(
+    WOE_MAPPINGS_FILE,
+    "r",
+    encoding="utf-8",
+) as file:
     woe_mappings = json.load(file)
 
 with open(MODEL_FILE, "rb") as file:
@@ -370,27 +333,49 @@ preprocessed_feature_list = pd.read_csv(
     PREPROCESSED_FEATURE_LIST_FILE
 )
 
-scorecard_points = pd.read_csv(SCORECARD_POINTS_FILE)
+scorecard_points = pd.read_csv(
+    SCORECARD_POINTS_FILE
+)
 
-risk_band_definitions = pd.read_csv(RISK_BAND_DEFINITIONS_FILE)
+risk_band_definitions = pd.read_csv(
+    RISK_BAND_DEFINITIONS_FILE
+)
 
-selected_original_features = scorecard_metadata["selected_features"]
-selected_woe_features = scorecard_metadata["selected_woe_features"]
+selected_original_features = scorecard_metadata[
+    "selected_features"
+]
 
-score_min = float(scorecard_metadata["score_minimum"])
-score_max = float(scorecard_metadata["score_maximum"])
-scaling_factor = float(scorecard_metadata["score_scaling_factor"])
-scaling_offset = float(scorecard_metadata["score_scaling_offset"])
+selected_woe_features = scorecard_metadata[
+    "selected_woe_features"
+]
+
+score_min = float(
+    scorecard_metadata["score_minimum"]
+)
+
+score_max = float(
+    scorecard_metadata["score_maximum"]
+)
+
+scaling_factor = float(
+    scorecard_metadata["score_scaling_factor"]
+)
+
+scaling_offset = float(
+    scorecard_metadata["score_scaling_offset"]
+)
 
 feature_descriptions = {}
 
 if FEATURE_METADATA_FILE.exists():
-    feature_metadata_table = pd.read_csv(FEATURE_METADATA_FILE)
+    feature_metadata_table = pd.read_csv(
+        FEATURE_METADATA_FILE
+    )
 
     feature_descriptions = dict(
         zip(
             feature_metadata_table["feature"],
-            feature_metadata_table["description"]
+            feature_metadata_table["description"],
         )
     )
 
@@ -399,8 +384,55 @@ print(
     "final features."
 )
 
+# Validate the selected scorecard features against Stage 03's
+# preprocessed feature schema. The full Stage 03 schema may contain
+# additional features that are not part of the final scorecard.
+preprocessed_features = preprocessed_feature_list[
+    "feature"
+].tolist()
+
+missing_from_preprocessed_schema = [
+    feature
+    for feature in selected_original_features
+    if feature not in preprocessed_features
+]
+
+if missing_from_preprocessed_schema:
+    raise ValueError(
+        "Selected scorecard features are missing from the Stage 03 "
+        "preprocessed feature schema: "
+        f"{missing_from_preprocessed_schema}"
+    )
+
+selected_feature_metadata = (
+    preprocessed_feature_list
+    .set_index("feature")
+    .loc[selected_original_features]
+)
+
+selected_categorical_columns = (
+    selected_feature_metadata
+    .loc[
+        selected_feature_metadata["feature_type"] == "categorical"
+    ]
+    .index
+    .tolist()
+)
+
+selected_numeric_columns = (
+    selected_feature_metadata
+    .loc[
+        selected_feature_metadata["feature_type"] == "numeric"
+    ]
+    .index
+    .tolist()
+)
+
 band_bounds = {
-    row["risk_band"]: (row["minimum_score"], row["maximum_score"])
+    row["risk_band"]: (
+        row["minimum_score"],
+        row["maximum_score"],
+    )
     for _, row in risk_band_definitions.iterrows()
 }
 
@@ -408,22 +440,25 @@ band_bounds = {
 def assign_risk_band(score):
     for band in RISK_BAND_ORDER:
         minimum_score, maximum_score = band_bounds[band]
+
         if minimum_score <= score <= maximum_score:
             return band
+
     return "Unclassified"
 
 
-#===========================================================================
 # LOAD APPLICANT POPULATION
-#===========================================================================
-
 print("\n" + "=" * 80)
 print("LOADING APPLICANT POPULATION")
 print("=" * 80)
 
-applicants = pd.read_csv(APPLICANT_FILE)
+applicants = pd.read_csv(
+    APPLICANT_FILE
+)
 
-print(f"Applicant observations: {len(applicants):,}")
+print(
+    f"Applicant observations: {len(applicants):,}"
+)
 
 missing_raw_columns = [
     column
@@ -434,12 +469,16 @@ missing_raw_columns = [
 if missing_raw_columns:
     raise ValueError(
         "Applicant population is missing columns required to "
-        f"reproduce Stage 02 feature engineering: {missing_raw_columns}"
+        f"reproduce Stage 02 feature engineering: "
+        f"{missing_raw_columns}"
     )
 
 duplicate_applicants = int(
     applicants.duplicated(
-        subset=["business_id", "snapshot_date"]
+        subset=[
+            "business_id",
+            "snapshot_date",
+        ]
     ).sum()
 )
 
@@ -449,12 +488,12 @@ if duplicate_applicants > 0:
         "detected in the applicant population."
     )
 
-print("Required raw columns confirmed. No duplicate applicants detected.")
+print(
+    "Required raw columns confirmed. "
+    "No duplicate applicants detected."
+)
 
-#===========================================================================
 # FEATURE ENGINEERING (STAGE 02 CATEGORIES 1-9, REPLAYED)
-#===========================================================================
-
 print("\n" + "=" * 80)
 print("APPLICANT FEATURE ENGINEERING")
 print("=" * 80)
@@ -467,169 +506,274 @@ print(
 
 
 def safe_divide(numerator, denominator):
-    numerator = pd.to_numeric(numerator, errors="coerce")
-    denominator = pd.to_numeric(denominator, errors="coerce")
-    return numerator.div(denominator.replace(0, np.nan))
+    numerator = pd.to_numeric(
+        numerator,
+        errors="coerce",
+    )
+
+    denominator = pd.to_numeric(
+        denominator,
+        errors="coerce",
+    )
+
+    return numerator.div(
+        denominator.replace(0, np.nan)
+    )
 
 
 def engineer_core_features(df):
     """
-    Reproduce Stage 02's categories 1-9 (cash-flow, liquidity, debt
-    serviceability, profitability, leverage, operational distress,
-    business bureau, director risk and business structure). Formulas
-    are unchanged from Stage 02.
+    Reproduce Stage 02's categories 1-9.
+
+    Formulas are unchanged from Stage 02.
     """
 
     df = df.copy()
 
     # 1. Cash-flow stability
-    df["fe_credit_volatility"] = df["credit_volatility_90d"]
-    df["fe_cash_flow_trend"] = df["cash_flow_trend_90d"]
+    df["fe_credit_volatility"] = (
+        df["credit_volatility_90d"]
+    )
+
+    df["fe_cash_flow_trend"] = (
+        df["cash_flow_trend_90d"]
+    )
+
     df["fe_min_to_avg_balance"] = safe_divide(
-        df["min_balance_90d"], df["avg_balance_90d"]
+        df["min_balance_90d"],
+        df["avg_balance_90d"],
     )
+
     df["fe_weekly_credits_to_fixed_debits"] = safe_divide(
-        df["avg_weekly_credits_90d"] * 4.33, df["fixed_monthly_debits"]
+        df["avg_weekly_credits_90d"] * 4.33,
+        df["fixed_monthly_debits"],
     )
+
     df["fe_credit_growth_90_vs_180"] = (
-        safe_divide(df["total_credits_90d"] * 2, df["total_credits_180d"])
+        safe_divide(
+            df["total_credits_90d"] * 2,
+            df["total_credits_180d"],
+        )
         - 1
     )
+
     df["fe_credit_growth_180_vs_365"] = (
-        safe_divide(df["total_credits_180d"] * 2, df["total_credits_365d"])
+        safe_divide(
+            df["total_credits_180d"] * 2,
+            df["total_credits_365d"],
+        )
         - 1
     )
 
     # 2. Liquidity
     df["fe_balance_to_monthly_expenses"] = safe_divide(
-        df["avg_balance_90d"], df["monthly_expenses"]
+        df["avg_balance_90d"],
+        df["monthly_expenses"],
     )
+
     df["fe_min_balance_to_expenses"] = safe_divide(
-        df["min_balance_90d"], df["monthly_expenses"]
+        df["min_balance_90d"],
+        df["monthly_expenses"],
     )
+
     df["fe_negative_balance_frequency"] = (
         df["negative_balance_frequency_90d"]
     )
-    df["fe_negative_balance_days"] = df["negative_balance_days_90d"]
+
+    df["fe_negative_balance_days"] = (
+        df["negative_balance_days_90d"]
+    )
 
     # 3. Debt serviceability
     df["fe_free_cash_after_fixed_debits"] = (
-        df["free_cash_flow"] - df["fixed_monthly_debits"]
+        df["free_cash_flow"]
+        - df["fixed_monthly_debits"]
     )
+
     df["fe_free_cash_margin"] = safe_divide(
-        df["free_cash_flow"], df["monthly_revenue"]
+        df["free_cash_flow"],
+        df["monthly_revenue"],
     )
+
     df["fe_fixed_debit_burden"] = safe_divide(
-        df["fixed_monthly_debits"], df["monthly_revenue"]
+        df["fixed_monthly_debits"],
+        df["monthly_revenue"],
     )
+
     df["fe_fixed_debits_to_credits"] = safe_divide(
-        df["fixed_monthly_debits"], df["total_credits_90d"] / 3
+        df["fixed_monthly_debits"],
+        df["total_credits_90d"] / 3,
     )
-    df["fe_dscr"] = df["debt_service_coverage_ratio"]
+
+    df["fe_dscr"] = (
+        df["debt_service_coverage_ratio"]
+    )
 
     # 4. Profitability
     df["fe_operating_margin"] = safe_divide(
-        df["monthly_revenue"] - df["monthly_expenses"], df["monthly_revenue"]
+        df["monthly_revenue"]
+        - df["monthly_expenses"],
+        df["monthly_revenue"],
     )
+
     df["fe_expense_to_revenue"] = safe_divide(
-        df["monthly_expenses"], df["monthly_revenue"]
+        df["monthly_expenses"],
+        df["monthly_revenue"],
     )
+
     df["fe_free_cash_to_expenses"] = safe_divide(
-        df["free_cash_flow"], df["monthly_expenses"]
+        df["free_cash_flow"],
+        df["monthly_expenses"],
     )
 
     # 5. Balance sheet / leverage
     df["fe_debt_to_assets"] = safe_divide(
-        df["total_liabilities"], df["total_assets"]
+        df["total_liabilities"],
+        df["total_assets"],
     )
+
     df["fe_debt_to_equity"] = safe_divide(
-        df["total_liabilities"], df["total_equity"]
+        df["total_liabilities"],
+        df["total_equity"],
     )
+
     df["fe_equity_to_assets"] = safe_divide(
-        df["total_equity"], df["total_assets"]
+        df["total_equity"],
+        df["total_assets"],
     )
+
     df["fe_liabilities_to_annual_revenue"] = safe_divide(
-        df["total_liabilities"], df["annual_revenue"]
+        df["total_liabilities"],
+        df["annual_revenue"],
     )
+
     df["fe_debt_exposure_to_revenue"] = safe_divide(
-        df["existing_debt_exposure"], df["annual_revenue"]
+        df["existing_debt_exposure"],
+        df["annual_revenue"],
     )
 
     # 6. Operational distress
-    df["fe_bounced_payment_count"] = df["num_bounced_payments_90d"]
+    df["fe_bounced_payment_count"] = (
+        df["num_bounced_payments_90d"]
+    )
+
     df["fe_reversed_transaction_count"] = (
         df["num_reversed_transactions_90d"]
     )
-    df["fe_debit_order_count"] = df["num_debit_orders_90d"]
+
+    df["fe_debit_order_count"] = (
+        df["num_debit_orders_90d"]
+    )
+
     df["fe_operational_distress_events"] = (
-        df["num_bounced_payments_90d"] + df["num_reversed_transactions_90d"]
+        df["num_bounced_payments_90d"]
+        + df["num_reversed_transactions_90d"]
     )
+
     df["fe_distress_to_debit_orders"] = safe_divide(
-        df["fe_operational_distress_events"], df["num_debit_orders_90d"]
+        df["fe_operational_distress_events"],
+        df["num_debit_orders_90d"],
     )
+
     df["fe_fees_to_credits"] = safe_divide(
-        df["total_fees_90d"], df["total_credits_90d"]
+        df["total_fees_90d"],
+        df["total_credits_90d"],
     )
 
     # 7. Business bureau
-    df["fe_business_credit_score"] = df["credit_score_business"]
-    df["fe_business_credit_utilization"] = df["credit_utilization_business"]
-    df["fe_business_arrears_days"] = df["arrears_days_bureau"]
-    df["fe_business_judgments"] = df["judgments_count"]
-    df["fe_business_credit_facilities"] = df["num_credit_facilities"]
+    df["fe_business_credit_score"] = (
+        df["credit_score_business"]
+    )
+
+    df["fe_business_credit_utilization"] = (
+        df["credit_utilization_business"]
+    )
+
+    df["fe_business_arrears_days"] = (
+        df["arrears_days_bureau"]
+    )
+
+    df["fe_business_judgments"] = (
+        df["judgments_count"]
+    )
+
+    df["fe_business_credit_facilities"] = (
+        df["num_credit_facilities"]
+    )
+
     df["fe_bureau_debt_to_revenue"] = safe_divide(
-        df["existing_debt_exposure"], df["annual_revenue"]
+        df["existing_debt_exposure"],
+        df["annual_revenue"],
     )
 
     # 8. Director risk
-    df["fe_director_credit_score"] = df["director_credit_score"]
-    df["fe_director_credit_utilization"] = df["director_credit_utilization"]
-    df["fe_director_judgments"] = df["director_judgments_count"]
+    df["fe_director_credit_score"] = (
+        df["director_credit_score"]
+    )
+
+    df["fe_director_credit_utilization"] = (
+        df["director_credit_utilization"]
+    )
+
+    df["fe_director_judgments"] = (
+        df["director_judgments_count"]
+    )
+
     df["fe_business_vs_director_utilization"] = (
-        df["credit_utilization_business"] - df["director_credit_utilization"]
+        df["credit_utilization_business"]
+        - df["director_credit_utilization"]
     )
 
     # 9. Business structure
-    df["fe_business_age"] = df["business_age_years"]
-    df["fe_num_directors"] = df["num_directors"]
+    df["fe_business_age"] = (
+        df["business_age_years"]
+    )
+
+    df["fe_num_directors"] = (
+        df["num_directors"]
+    )
+
     df["fe_revenue_per_director"] = safe_divide(
-        df["monthly_revenue"], df["num_directors"]
+        df["monthly_revenue"],
+        df["num_directors"],
     )
 
     return df
 
 
-applicants_engineered = engineer_core_features(applicants)
+applicants_engineered = engineer_core_features(
+    applicants
+)
 
 engineered_feature_count = sum(
     1
     for column in applicants_engineered.columns
     if column.startswith("fe_")
-    and not column.startswith(TRANSACTION_FEATURE_PREFIX)
+    and not column.startswith(
+        TRANSACTION_FEATURE_PREFIX
+    )
 )
 
 print(
-    f"Non-transaction engineered features created: "
+    "Non-transaction engineered features created: "
     f"{engineered_feature_count}"
 )
 
-#===========================================================================
 # REBUILD TRAINING-CONSISTENT IMPUTATION VALUES
-#===========================================================================
-
 print("\n" + "=" * 80)
 print("REBUILDING TRAINING-CONSISTENT IMPUTATION VALUES")
 print("=" * 80)
 
 print(
-    "\nStage 03 fit numerical imputation on training data only, but did "
-    "not persist the fitted median values. They are reconstructed here "
-    "from the Stage 02 engineered panel using the identical filter, "
-    "split and column-exclusion logic, and are therefore reproducible "
-    "exactly."
+    "\nStage 03 fit numerical imputation on training data only, "
+    "but did not persist the fitted median values. They are "
+    "reconstructed here from the Stage 02 engineered panel using "
+    "the identical training filter and feature construction logic."
 )
 
-engineered = pd.read_csv(ENGINEERED_FILE)
+engineered = pd.read_csv(
+    ENGINEERED_FILE
+)
 
 engineered_observable = engineered.loc[
     engineered["outcome_observable"] == True
@@ -639,45 +783,60 @@ train_raw = engineered_observable.loc[
     engineered_observable["model_split"] == "train"
 ].copy()
 
-print(f"Training observations reconstructed: {len(train_raw):,}")
+print(
+    f"Training observations reconstructed: {len(train_raw):,}"
+)
 
 transaction_columns_present = [
     column
     for column in train_raw.columns
-    if column.startswith(TRANSACTION_FEATURE_PREFIX)
+    if column.startswith(
+        TRANSACTION_FEATURE_PREFIX
+    )
 ]
 
 train_raw = train_raw.drop(
-    columns=transaction_columns_present, errors="ignore"
+    columns=transaction_columns_present,
+    errors="ignore",
 )
 
 columns_to_exclude = list(
-    dict.fromkeys(ADMIN_COLUMNS + OUTCOME_COLUMNS)
+    dict.fromkeys(
+        ADMIN_COLUMNS + OUTCOME_COLUMNS
+    )
 )
 
 train_raw = train_raw.drop(
     columns=[
-        column for column in columns_to_exclude
+        column
+        for column in columns_to_exclude
         if column in train_raw.columns
     ],
-    errors="ignore"
+    errors="ignore",
 )
 
 for column in MISSINGNESS_INDICATOR_COLUMNS:
     if column not in train_raw.columns:
         continue
+
     train_raw[f"{column}_missing"] = (
-        train_raw[column].isna().astype(int)
+        train_raw[column]
+        .isna()
+        .astype(int)
     )
 
 categorical_columns = [
-    column for column in CATEGORICAL_COLUMNS if column in train_raw.columns
+    column
+    for column in CATEGORICAL_COLUMNS
+    if column in train_raw.columns
 ]
 
 numeric_columns_train = [
     column
     for column in train_raw.columns
-    if pd.api.types.is_numeric_dtype(train_raw[column])
+    if pd.api.types.is_numeric_dtype(
+        train_raw[column]
+    )
     and column not in categorical_columns
 ]
 
@@ -687,116 +846,134 @@ training_medians = (
 )
 
 print(
-    f"Training medians reconstructed for "
+    "Training medians reconstructed for "
     f"{training_medians.notna().sum()} numeric features."
 )
 
-#===========================================================================
 # APPLY MISSINGNESS INDICATORS TO APPLICANTS
-#===========================================================================
-
 for column in MISSINGNESS_INDICATOR_COLUMNS:
     if column not in applicants_engineered.columns:
         continue
+
     applicants_engineered[f"{column}_missing"] = (
-        applicants_engineered[column].isna().astype(int)
+        applicants_engineered[column]
+        .isna()
+        .astype(int)
     )
 
-#===========================================================================
-# ALIGN TO FINAL PREPROCESSED FEATURE SCHEMA
-#===========================================================================
-
+# ALIGN TO SELECTED SCORECARD FEATURE SCHEMA
 print("\n" + "=" * 80)
-print("ALIGNING TO FINAL PREPROCESSED FEATURE SCHEMA")
+print("ALIGNING TO FINAL SCORECARD FEATURE SCHEMA")
 print("=" * 80)
 
-final_feature_columns = preprocessed_feature_list["feature"].tolist()
-
-final_categorical_columns = (
-    preprocessed_feature_list
-    .loc[
-        preprocessed_feature_list["feature_type"] == "categorical",
-        "feature"
-    ]
-    .tolist()
-)
-
-final_numeric_columns = (
-    preprocessed_feature_list
-    .loc[
-        preprocessed_feature_list["feature_type"] == "numeric",
-        "feature"
-    ]
-    .tolist()
+print(
+    "\nThe Stage 03 preprocessed schema contains all model-ready "
+    "features, while the final scorecard uses only its selected "
+    "features. Applicant scoring therefore aligns directly to "
+    "the selected scorecard feature list."
 )
 
 missing_from_applicants = [
     column
-    for column in final_feature_columns
+    for column in selected_original_features
     if column not in applicants_engineered.columns
 ]
 
 if missing_from_applicants:
     raise ValueError(
-        "Applicant feature engineering did not reproduce all required "
-        f"model features: {missing_from_applicants}"
+        "Applicant feature engineering did not reproduce all "
+        "required scorecard features: "
+        f"{missing_from_applicants}"
     )
 
-applicants_model_ready = applicants_engineered[final_feature_columns].copy()
+applicants_model_ready = applicants_engineered[
+    selected_original_features
+].copy()
 
 # Numeric imputation using reconstructed training medians
-for column in final_numeric_columns:
-
+for column in selected_numeric_columns:
     if column not in training_medians.index:
         raise ValueError(
-            f"No reconstructed training median available for "
-            f"required numeric feature: {column}"
+            "No reconstructed training median available for "
+            f"required numeric scorecard feature: {column}"
         )
 
-    applicants_model_ready[column] = applicants_model_ready[column].fillna(
-        training_medians[column]
-    )
-
-# Categorical missingness treatment, matching Stage 03
-for column in final_categorical_columns:
     applicants_model_ready[column] = (
-        applicants_model_ready[column].fillna("Missing").astype(str)
+        applicants_model_ready[column]
+        .fillna(training_medians[column])
     )
 
-remaining_missing = int(
-    applicants_model_ready[final_numeric_columns].isna().sum().sum()
+# Categorical missingness treatment
+for column in selected_categorical_columns:
+    applicants_model_ready[column] = (
+        applicants_model_ready[column]
+        .fillna("Missing")
+        .astype(str)
+    )
+
+remaining_missing_numeric = int(
+    applicants_model_ready[selected_numeric_columns]
+    .isna()
+    .sum()
+    .sum()
 )
 
-if remaining_missing > 0:
+if remaining_missing_numeric > 0:
     raise ValueError(
-        f"{remaining_missing} missing numeric values remain after "
-        "imputation. Applicant scoring cannot proceed."
+        f"{remaining_missing_numeric} missing numeric values "
+        "remain after imputation. Applicant scoring cannot proceed."
     )
 
-print("Applicant feature matrix aligned and imputed successfully.")
+remaining_missing_selected = int(
+    applicants_model_ready
+    .isna()
+    .sum()
+    .sum()
+)
 
-#===========================================================================
+if remaining_missing_selected > 0:
+    raise ValueError(
+        f"{remaining_missing_selected} missing values remain "
+        "in the selected scorecard feature matrix."
+    )
+
+print(
+    "Applicant scorecard feature matrix aligned and "
+    "imputed successfully."
+)
+
+print(
+    f"Selected scorecard features aligned: "
+    f"{len(selected_original_features)}"
+)
+
 # WoE TRANSFORMATION (STAGE 04 ARTIFACTS, REPLAYED)
-#===========================================================================
-
 print("\n" + "=" * 80)
 print("APPLYING TRAINED WoE TRANSFORMATION")
 print("=" * 80)
 
 
-def transform_applicants_to_woe(dataset, mappings, metadata, feature_list):
+def transform_applicants_to_woe(
+    dataset,
+    mappings,
+    metadata,
+    feature_list,
+):
     """
-    Apply Stage 04's saved bin edges and WoE mappings. No target
-    information is used, and no bins or mappings are refit.
+    Apply Stage 04's saved bin edges and WoE mappings.
+
+    No target information is used and no bins or mappings
+    are refit.
     """
 
-    transformed = pd.DataFrame(index=dataset.index)
+    transformed = pd.DataFrame(
+        index=dataset.index
+    )
 
     for feature in feature_list:
-
         if feature not in metadata:
             raise ValueError(
-                f"No saved WoE binning definition found for "
+                "No saved WoE binning definition found for "
                 f"required feature: {feature}"
             )
 
@@ -806,29 +983,55 @@ def transform_applicants_to_woe(dataset, mappings, metadata, feature_list):
 
         if feature_type == "quantile":
             bin_edges = feature_metadata["bin_edges"]
-            bins = pd.cut(values, bins=bin_edges, include_lowest=True)
+
+            bins = pd.cut(
+                values,
+                bins=bin_edges,
+                include_lowest=True,
+            )
+
             bins = bins.astype(object)
             bins[values.isna()] = "MISSING"
             bins = bins.astype(str)
+
         else:
             bins = (
-                values.where(values.notna(), "MISSING").astype(str)
+                values
+                .where(values.notna(), "MISSING")
+                .astype(str)
+            )
+
+        if feature not in mappings:
+            raise ValueError(
+                f"No saved WoE mapping found for required "
+                f"feature: {feature}"
             )
 
         mapping = mappings[feature]
-        transformed_values = bins.map(mapping)
 
-        unseen_count = int(transformed_values.isna().sum())
+        transformed_values = bins.map(
+            mapping
+        )
+
+        unseen_count = int(
+            transformed_values.isna().sum()
+        )
 
         if unseen_count > 0:
             print(
-                f"  {feature}: {unseen_count:,} applicant values fell "
-                "outside the training bins and received neutral WoE."
+                f"  {feature}: {unseen_count:,} applicant values "
+                "fell outside the training bins/categories and "
+                "received neutral WoE."
             )
 
-        transformed_values = transformed_values.fillna(0.0)
+        transformed_values = (
+            transformed_values
+            .fillna(0.0)
+        )
 
-        transformed[f"woe_{feature}"] = transformed_values.astype(float)
+        transformed[
+            f"woe_{feature}"
+        ] = transformed_values.astype(float)
 
     return transformed
 
@@ -837,7 +1040,7 @@ applicants_woe = transform_applicants_to_woe(
     applicants_model_ready,
     woe_mappings,
     binning_metadata,
-    selected_original_features
+    selected_original_features,
 )
 
 missing_woe_columns = [
@@ -848,150 +1051,233 @@ missing_woe_columns = [
 
 if missing_woe_columns:
     raise ValueError(
-        f"WoE transformation did not produce required columns: "
-        f"{missing_woe_columns}"
+        "WoE transformation did not produce required "
+        f"columns: {missing_woe_columns}"
     )
 
-X_applicants = applicants_woe[selected_woe_features].copy()
+X_applicants = applicants_woe[
+    selected_woe_features
+].copy()
 
 if X_applicants.isna().sum().sum() > 0:
     raise ValueError(
-        "Missing values detected in the applicant WoE feature matrix."
+        "Missing values detected in the applicant "
+        "WoE feature matrix."
     )
 
 print(
-    f"\nApplicant WoE feature matrix ready: {X_applicants.shape}"
+    f"\nApplicant WoE feature matrix ready: "
+    f"{X_applicants.shape}"
 )
 
-#===========================================================================
 # SCORE APPLICANTS
-#===========================================================================
-
 print("\n" + "=" * 80)
 print("SCORING APPLICANTS")
 print("=" * 80)
 
-applicant_probability = model.predict_proba(X_applicants)[:, 1]
+applicant_probability = (
+    model.predict_proba(X_applicants)[:, 1]
+)
 
 
 def probability_to_score(probability):
-    probability = np.clip(probability, 1e-6, 1 - 1e-6)
-    odds = (1 - probability) / probability
-    score = scaling_offset + scaling_factor * np.log(odds)
-    return np.clip(score, score_min, score_max)
+    probability = np.clip(
+        probability,
+        1e-6,
+        1 - 1e-6,
+    )
+
+    odds = (
+        (1 - probability)
+        / probability
+    )
+
+    score = (
+        scaling_offset
+        + scaling_factor * np.log(odds)
+    )
+
+    return np.clip(
+        score,
+        score_min,
+        score_max,
+    )
 
 
-applicant_score = probability_to_score(applicant_probability)
+applicant_score = probability_to_score(
+    applicant_probability
+)
 
 print(
-    f"Applicant score range: "
+    "Applicant score range: "
     f"minimum={applicant_score.min():.0f}, "
     f"median={np.median(applicant_score):.0f}, "
     f"maximum={applicant_score.max():.0f}"
 )
 
-#===========================================================================
 # BUILD APPLICANT ASSESSMENT
-#===========================================================================
+applicant_assessment = applicants_engineered[
+    IDENTIFIER_COLUMNS
+].copy()
 
-applicant_assessment = applicants_engineered[IDENTIFIER_COLUMNS].copy()
+applicant_assessment[
+    PROBABILITY_COLUMN
+] = applicant_probability
 
-applicant_assessment[PROBABILITY_COLUMN] = applicant_probability
-applicant_assessment[SCORE_COLUMN] = (
-    applicant_score.round().astype(int)
-)
+applicant_assessment[
+    SCORE_COLUMN
+] = applicant_score.round().astype(int)
 
-applicant_assessment["risk_band"] = (
-    applicant_assessment[SCORE_COLUMN].apply(assign_risk_band)
-)
+applicant_assessment[
+    "risk_band"
+] = applicant_assessment[
+    SCORE_COLUMN
+].apply(assign_risk_band)
 
 unclassified = int(
-    (applicant_assessment["risk_band"] == "Unclassified").sum()
+    (
+        applicant_assessment["risk_band"]
+        == "Unclassified"
+    ).sum()
 )
 
 if unclassified > 0:
     raise ValueError(
-        f"{unclassified} applicants fell outside the defined risk-band "
-        "ranges. Risk-band assignment cannot be accepted."
+        f"{unclassified} applicants fell outside the defined "
+        "risk-band ranges. Risk-band assignment cannot be accepted."
     )
 
 applicant_assessment["risk_band"] = pd.Categorical(
     applicant_assessment["risk_band"],
     categories=RISK_BAND_ORDER,
-    ordered=True
+    ordered=True,
 )
 
 decision_policy_df = pd.DataFrame(
     [
-        {"risk_band": band, **policy}
+        {
+            "risk_band": band,
+            **policy,
+        }
         for band, policy in LENDING_DECISION_POLICY.items()
     ]
 )
 
 decision_policy_df["risk_band"] = pd.Categorical(
-    decision_policy_df["risk_band"], categories=RISK_BAND_ORDER, ordered=True
+    decision_policy_df["risk_band"],
+    categories=RISK_BAND_ORDER,
+    ordered=True,
 )
 
 applicant_assessment = applicant_assessment.merge(
-    decision_policy_df, on="risk_band", how="left", validate="many_to_one"
+    decision_policy_df,
+    on="risk_band",
+    how="left",
+    validate="many_to_one",
 )
 
-#===========================================================================
 # REASON CODES
-#===========================================================================
-
 print("\n" + "=" * 80)
 print("GENERATING REASON CODES")
 print("=" * 80)
 
 print(
-    "\nPer-applicant point contributions are derived directly from the "
-    "fitted scorecard's own points table (points_at_woe_1 x the "
-    "applicant's WoE value for that feature). Positive contributions "
-    "are protective (raise the score); negative contributions are "
-    "adverse (lower the score)."
+    "\nPer-applicant point contributions are derived directly "
+    "from the fitted scorecard's own points table. Positive "
+    "contributions are protective and negative contributions "
+    "are adverse."
 )
 
-points_lookup = scorecard_points.set_index("feature")
+required_points_columns = {
+    "feature",
+    "points_at_woe_1",
+}
+
+missing_points_columns = (
+    required_points_columns
+    - set(scorecard_points.columns)
+)
+
+if missing_points_columns:
+    raise ValueError(
+        "Scorecard points table is missing required columns: "
+        f"{sorted(missing_points_columns)}"
+    )
+
+points_lookup = scorecard_points.set_index(
+    "feature"
+)
+
+missing_points_features = [
+    feature
+    for feature in selected_original_features
+    if feature not in points_lookup.index
+]
+
+if missing_points_features:
+    raise ValueError(
+        "Scorecard points table is missing selected features: "
+        f"{missing_points_features}"
+    )
 
 reason_records = []
 
 for row_position, business_id in enumerate(
     applicant_assessment["business_id"]
 ):
-
     contributions = []
 
     for feature in selected_original_features:
-
         woe_column = f"woe_{feature}"
-        woe_value = X_applicants.iloc[row_position][woe_column]
 
-        points_at_woe_1 = float(
-            points_lookup.loc[feature, "points_at_woe_1"]
+        woe_value = (
+            X_applicants
+            .iloc[row_position][woe_column]
         )
 
-        contribution = points_at_woe_1 * woe_value
+        points_at_woe_1 = float(
+            points_lookup.loc[
+                feature,
+                "points_at_woe_1",
+            ]
+        )
+
+        contribution = (
+            points_at_woe_1
+            * woe_value
+        )
 
         contributions.append(
             {
                 "feature": feature,
                 "woe_value": float(woe_value),
-                "point_contribution": float(contribution)
+                "point_contribution": float(
+                    contribution
+                ),
             }
         )
 
-    contributions_df = pd.DataFrame(contributions).sort_values(
-        "point_contribution"
+    contributions_df = (
+        pd.DataFrame(contributions)
+        .sort_values(
+            "point_contribution"
+        )
     )
 
-    adverse_factors = contributions_df.head(REASON_CODES_PER_APPLICANT)
+    adverse_factors = (
+        contributions_df
+        .head(REASON_CODES_PER_APPLICANT)
+    )
+
     protective_factors = (
-        contributions_df.tail(REASON_CODES_PER_APPLICANT).iloc[::-1]
+        contributions_df
+        .tail(REASON_CODES_PER_APPLICANT)
+        .iloc[::-1]
     )
 
     for rank, (_, factor_row) in enumerate(
-        adverse_factors.iterrows(), start=1
+        adverse_factors.iterrows(),
+        start=1,
     ):
         reason_records.append(
             {
@@ -1000,14 +1286,18 @@ for row_position, business_id in enumerate(
                 "rank": rank,
                 "feature": factor_row["feature"],
                 "description": feature_descriptions.get(
-                    factor_row["feature"], ""
+                    factor_row["feature"],
+                    "",
                 ),
-                "point_contribution": factor_row["point_contribution"]
+                "point_contribution": (
+                    factor_row["point_contribution"]
+                ),
             }
         )
 
     for rank, (_, factor_row) in enumerate(
-        protective_factors.iterrows(), start=1
+        protective_factors.iterrows(),
+        start=1,
     ):
         reason_records.append(
             {
@@ -1016,141 +1306,211 @@ for row_position, business_id in enumerate(
                 "rank": rank,
                 "feature": factor_row["feature"],
                 "description": feature_descriptions.get(
-                    factor_row["feature"], ""
+                    factor_row["feature"],
+                    "",
                 ),
-                "point_contribution": factor_row["point_contribution"]
+                "point_contribution": (
+                    factor_row["point_contribution"]
+                ),
             }
         )
 
-reason_codes = pd.DataFrame(reason_records)
+reason_codes = pd.DataFrame(
+    reason_records
+)
 
 print(
-    f"Reason codes generated for {applicant_assessment.shape[0]:,} "
-    f"applicants ({REASON_CODES_PER_APPLICANT} adverse + "
+    f"Reason codes generated for "
+    f"{applicant_assessment.shape[0]:,} applicants "
+    f"({REASON_CODES_PER_APPLICANT} adverse + "
     f"{REASON_CODES_PER_APPLICANT} protective factors each)."
 )
 
-#===========================================================================
 # PORTFOLIO-LEVEL APPLICANT SUMMARY
-#===========================================================================
-
 print("\n" + "=" * 80)
 print("APPLICANT RISK BAND SUMMARY")
 print("=" * 80)
 
 applicant_band_summary = (
     applicant_assessment
-    .groupby("risk_band", observed=False)
+    .groupby(
+        "risk_band",
+        observed=False,
+    )
     .agg(
         applicants=("business_id", "size"),
-        mean_score=(SCORE_COLUMN, "mean"),
-        mean_predicted_probability=(PROBABILITY_COLUMN, "mean")
+        mean_score=(
+            SCORE_COLUMN,
+            "mean",
+        ),
+        mean_predicted_probability=(
+            PROBABILITY_COLUMN,
+            "mean",
+        ),
     )
     .reindex(RISK_BAND_ORDER)
     .reset_index()
 )
 
-applicant_band_summary["population_share"] = (
-    applicant_band_summary["applicants"] / len(applicant_assessment)
+applicant_band_summary[
+    "population_share"
+] = (
+    applicant_band_summary["applicants"]
+    / len(applicant_assessment)
 )
 
-print(applicant_band_summary.to_string(index=False))
+print(
+    applicant_band_summary.to_string(
+        index=False
+    )
+)
 
 decision_summary = (
     applicant_assessment
-    .groupby("lending_decision", observed=False)
-    .agg(applicants=("business_id", "size"))
+    .groupby(
+        "lending_decision",
+        observed=False,
+    )
+    .agg(
+        applicants=("business_id", "size")
+    )
     .reset_index()
 )
 
-decision_summary["population_share"] = (
-    decision_summary["applicants"] / len(applicant_assessment)
+decision_summary[
+    "population_share"
+] = (
+    decision_summary["applicants"]
+    / len(applicant_assessment)
 )
 
-print("\nApplicant lending decision summary:")
-print(decision_summary.to_string(index=False))
+print(
+    "\nApplicant lending decision summary:"
+)
 
-#===========================================================================
+print(
+    decision_summary.to_string(
+        index=False
+    )
+)
+
 # SAVE OUTPUTS
-#===========================================================================
-
 print("\n" + "=" * 80)
 print("SAVING OUTPUTS")
 print("=" * 80)
 
 applicant_assessment.to_csv(
-    OUTPUT_DIR / "applicant_scored_population.csv", index=False
+    OUTPUT_DIR / "applicant_scored_population.csv",
+    index=False,
 )
 
 reason_codes.to_csv(
-    OUTPUT_DIR / "applicant_reason_codes.csv", index=False
+    OUTPUT_DIR / "applicant_reason_codes.csv",
+    index=False,
 )
 
 applicant_band_summary.to_csv(
-    OUTPUT_DIR / "applicant_risk_band_summary.csv", index=False
+    OUTPUT_DIR / "applicant_risk_band_summary.csv",
+    index=False,
 )
 
 decision_summary.to_csv(
-    OUTPUT_DIR / "applicant_lending_decision_summary.csv", index=False
+    OUTPUT_DIR / "applicant_lending_decision_summary.csv",
+    index=False,
 )
 
 applicant_scoring_metadata = {
     "stage": "08_applicant_scoring_and_reason_codes",
-    "applicants_scored": int(len(applicant_assessment)),
+    "applicants_scored": int(
+        len(applicant_assessment)
+    ),
     "final_features_used": selected_original_features,
-    "number_of_final_features": len(selected_original_features),
+    "selected_woe_features": selected_woe_features,
+    "number_of_final_features": len(
+        selected_original_features
+    ),
     "score_minimum": score_min,
     "score_maximum": score_max,
-    "reason_codes_per_applicant": REASON_CODES_PER_APPLICANT,
+    "reason_codes_per_applicant": (
+        REASON_CODES_PER_APPLICANT
+    ),
     "unseen_value_handling": (
-        "Applicant values falling outside the training-derived bins "
-        "received neutral WoE (0.0), matching Stage 04's treatment of "
-        "unseen validation/test categories."
+        "Applicant values falling outside the training-derived "
+        "bins or categories received neutral WoE (0.0), matching "
+        "the Stage 04 unseen-value treatment."
     ),
     "imputation_rule": (
         "Numeric features were imputed using training medians "
-        "reconstructed from the Stage 02 engineered panel's training "
-        "split, replaying Stage 03's exact filter and column logic. "
-        "Categorical features were filled with 'Missing', matching "
-        "Stage 03."
+        "reconstructed from the Stage 02 engineered panel's "
+        "training split. Categorical features were filled with "
+        "'Missing'."
+    ),
+    "feature_alignment_rule": (
+        "Applicant scoring was aligned directly to the final "
+        "selected scorecard features rather than requiring "
+        "reproduction of every feature present in the Stage 03 "
+        "preprocessed feature schema."
     ),
     "reason_code_methodology": (
-        "Per-feature point contribution = points_at_woe_1 x the "
-        "applicant's WoE value for that feature, using Stage 05's "
-        "scorecard_feature_points.csv. Contributions are ranked per "
-        "applicant to surface the largest adverse (score-reducing) and "
-        "protective (score-increasing) factors."
+        "Per-feature point contribution = points_at_woe_1 x "
+        "the applicant's WoE value for that feature, using "
+        "Stage 05's scorecard_feature_points.csv. Contributions "
+        "are ranked per applicant to surface the largest adverse "
+        "(score-reducing) and protective (score-increasing) factors."
     ),
-    "no_retraining_performed": True
+    "no_retraining_performed": True,
 }
 
 with open(
-    OUTPUT_DIR / "applicant_scoring_metadata.json", "w", encoding="utf-8"
+    OUTPUT_DIR / "applicant_scoring_metadata.json",
+    "w",
+    encoding="utf-8",
 ) as file:
-    json.dump(applicant_scoring_metadata, file, indent=4, default=str)
+    json.dump(
+        applicant_scoring_metadata,
+        file,
+        indent=4,
+        default=str,
+    )
 
 # COMPLETION
 print("\n" + "=" * 80)
 print("APPLICANT SCORING & REASON CODES COMPLETE")
 print("=" * 80)
 
-print(f"\nApplicants scored: {len(applicant_assessment):,}")
+print(
+    f"\nApplicants scored: "
+    f"{len(applicant_assessment):,}"
+)
 
 print("\nOutputs saved to:")
 print(OUTPUT_DIR)
 
 print("\nGenerated files:")
-print("  - applicant_scored_population.csv")
-print("  - applicant_reason_codes.csv")
-print("  - applicant_risk_band_summary.csv")
-print("  - applicant_lending_decision_summary.csv")
-print("  - applicant_scoring_metadata.json")
+print(
+    "  - applicant_scored_population.csv"
+)
+print(
+    "  - applicant_reason_codes.csv"
+)
+print(
+    "  - applicant_risk_band_summary.csv"
+)
+print(
+    "  - applicant_lending_decision_summary.csv"
+)
+print(
+    "  - applicant_scoring_metadata.json"
+)
 
-print("\nSource datasets and upstream stage outputs were not modified.")
+print(
+    "\nSource datasets and upstream stage outputs "
+    "were not modified."
+)
 
 print("\nNext stage:")
 print(
-    "09 — Score monitoring: track applicant score distribution and "
-    "population stability against the training population over time "
-    "(PSI / characteristic stability)."
+    "09 — Score monitoring: track applicant score distribution "
+    "and population stability against the training population "
+    "over time (PSI / characteristic stability)."
 )

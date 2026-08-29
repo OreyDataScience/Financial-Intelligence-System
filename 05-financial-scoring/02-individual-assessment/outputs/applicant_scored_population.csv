@@ -1,0 +1,251 @@
+business_id,snapshot_date,province,industry_sector,legal_entity_type,business_age_years,annual_revenue,predicted_default_probability,orey_financial_health_score,risk_band,lending_decision,indicative_pricing_tier,indicative_monthly_rate,facility_limit_guidance,monitoring_frequency
+APP-00001,2026-08-28,Gauteng,Wholesale Trade,Sole Proprietor,20.7,2278333.53,0.24515858778417046,586,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00002,2026-08-14,Western Cape,Hospitality & Food Service,NPO,3.2,3542803.27,0.04743542375549296,640,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00003,2026-08-21,Western Cape,Health & Wellness,Pty Ltd,2.4,416222.62,0.04296134713072061,643,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00004,2026-08-27,KwaZulu-Natal,Professional Services,Pty Ltd,16.1,752318.68,0.2185688010576583,590,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00005,2026-08-28,KwaZulu-Natal,Professional Services,Sole Proprietor,1.1,279777.0,0.19543424658194994,594,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00006,2026-08-08,North West,Manufacturing,Sole Proprietor,11.5,5034886.39,0.03624472929171618,648,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00007,2026-08-13,Western Cape,Agriculture,Pty Ltd,11.8,3856696.45,0.5182713485197288,551,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00008,2026-08-21,Western Cape,Hospitality & Food Service,Pty Ltd,4.9,2218904.68,0.27123053134541647,582,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00009,2026-08-12,KwaZulu-Natal,Hospitality & Food Service,Sole Proprietor,1.6,383237.76,0.05719403896944849,634,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00010,2026-08-09,Limpopo,Wholesale Trade,Sole Proprietor,3.3,1267317.01,0.21344385407942176,591,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00011,2026-08-18,Eastern Cape,ICT & Tech Services,Pty Ltd,5.9,,0.63936700600351,537,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00012,2026-08-26,Western Cape,Wholesale Trade,Pty Ltd,9.5,1226581.26,0.014534583496258925,675,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00013,2026-08-14,Mpumalanga,Professional Services,Partnership,7.8,1001598.36,0.011050013547023556,683,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00014,2026-08-12,Western Cape,Real Estate,Pty Ltd,7.3,1828772.38,0.43295052518297406,561,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00015,2026-08-23,North West,Wholesale Trade,Sole Proprietor,3.8,735647.51,0.17350116713017685,599,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00016,2026-08-15,Gauteng,Personal Services,Sole Proprietor,10.9,2543901.75,0.08453731127746063,622,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00017,2026-08-09,Gauteng,Professional Services,Pty Ltd,2.2,1295781.31,0.7706297609738152,519,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00018,2026-08-26,Mpumalanga,ICT & Tech Services,Pty Ltd,3.0,822182.05,0.043491385547210486,643,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00019,2026-08-18,Gauteng,Health & Wellness,Pty Ltd,6.1,1028722.69,0.6712923629366769,533,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00020,2026-08-20,Mpumalanga,Hospitality & Food Service,Pty Ltd,9.0,764892.42,0.4655664719526886,558,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00021,2026-08-24,KwaZulu-Natal,Personal Services,Pty Ltd,7.4,2280440.99,0.19320046104268157,595,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00022,2026-08-03,KwaZulu-Natal,Wholesale Trade,Pty Ltd,7.7,929285.73,0.08786852351071399,621,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00023,2026-08-25,Gauteng,Wholesale Trade,Pty Ltd,3.6,1277913.68,0.08340680580092426,623,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00024,2026-08-04,Free State,Agriculture,Pty Ltd,10.3,806407.46,0.2762995606187907,581,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00025,2026-08-01,Gauteng,Hospitality & Food Service,Close Corporation,0.6,288108.8,0.01619774911220975,672,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00026,2026-08-29,North West,Agriculture,Pty Ltd,3.1,,0.7877371862979368,516,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00027,2026-08-09,Limpopo,Manufacturing,Pty Ltd,1.6,385636.52,0.3663419933496761,569,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00028,2026-08-01,Western Cape,Agriculture,Close Corporation,2.1,1990366.23,0.6502466281170756,536,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00029,2026-08-21,Gauteng,ICT & Tech Services,Sole Proprietor,7.3,1522068.75,0.0963035951401838,618,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00030,2026-08-09,Limpopo,Wholesale Trade,Pty Ltd,9.3,298360.15,0.25435999634563494,585,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00031,2026-08-13,Western Cape,Health & Wellness,Pty Ltd,2.3,389790.52,0.016347166457900787,672,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00032,2026-08-28,Gauteng,Construction,Sole Proprietor,5.3,743016.27,0.3194160169212022,575,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00033,2026-08-17,Western Cape,ICT & Tech Services,Pty Ltd,17.1,610018.48,0.8165586744817248,510,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00034,2026-08-01,Gauteng,Agriculture,Close Corporation,6.7,406392.51,0.7149672819043448,527,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00035,2026-08-20,Western Cape,Construction,Close Corporation,13.6,2280377.77,0.09004501828289584,620,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00036,2026-08-05,KwaZulu-Natal,Health & Wellness,Pty Ltd,10.8,971943.7,0.07985659408862542,624,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00037,2026-08-10,Limpopo,ICT & Tech Services,Pty Ltd,11.6,1600982.77,0.23226187825349626,588,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00038,2026-08-07,Mpumalanga,Transport & Logistics,Close Corporation,4.2,,0.1279433882027589,609,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00039,2026-08-27,Gauteng,Hospitality & Food Service,Pty Ltd,7.0,1405686.62,0.4952951126219557,554,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00040,2026-08-03,Western Cape,Construction,Sole Proprietor,20.7,594266.08,0.07797779693735751,625,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00041,2026-08-16,Western Cape,Personal Services,Close Corporation,2.9,1084949.69,0.11140359104473298,613,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00042,2026-08-14,Northern Cape,Professional Services,Sole Proprietor,12.1,1888400.0,0.3558396567987282,571,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00043,2026-08-17,Gauteng,Transport & Logistics,Close Corporation,3.4,,0.37702981070092445,568,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00044,2026-08-18,KwaZulu-Natal,Manufacturing,Pty Ltd,5.7,740449.71,0.03117059029564366,653,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00045,2026-08-03,Limpopo,Wholesale Trade,Close Corporation,8.3,404995.07,0.3444261778460854,572,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00046,2026-08-10,Western Cape,Transport & Logistics,Pty Ltd,4.0,1326497.58,0.20961446952643498,592,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00047,2026-08-17,Gauteng,Real Estate,Pty Ltd,,1510246.82,0.3391424946800433,573,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00048,2026-08-04,KwaZulu-Natal,Manufacturing,Pty Ltd,1.9,,0.27929137804398885,581,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00049,2026-08-24,Western Cape,Manufacturing,Pty Ltd,4.9,546113.78,0.3160463769511086,576,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00050,2026-08-24,Limpopo,Personal Services,Sole Proprietor,1.7,1624536.39,0.4391672347156905,561,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00051,2026-08-16,Gauteng,Manufacturing,Close Corporation,7.2,10243214.32,0.15627372450627516,602,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00052,2026-08-24,Gauteng,Agriculture,Pty Ltd,5.9,850048.21,0.022975126220775195,662,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00053,2026-08-13,Gauteng,Transport & Logistics,Pty Ltd,11.0,1547022.53,0.615109498181837,540,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00054,2026-08-17,Eastern Cape,Agriculture,Pty Ltd,4.5,1600067.63,0.20554087139527918,593,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00055,2026-08-14,Gauteng,ICT & Tech Services,Pty Ltd,10.9,113461.59,0.13505452307620106,607,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00056,2026-08-04,Limpopo,Real Estate,Partnership,11.6,1389287.51,0.2477191504730315,586,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00057,2026-08-06,Limpopo,Transport & Logistics,Partnership,12.1,625839.6,0.2791257852468764,581,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00058,2026-08-16,North West,Hospitality & Food Service,Partnership,9.1,4237280.33,0.087730749283389,621,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00059,2026-08-03,Gauteng,Professional Services,Sole Proprietor,7.4,881251.86,0.040715062190050076,645,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00060,2026-08-19,Gauteng,Health & Wellness,Sole Proprietor,6.6,544263.66,0.027782959788288056,656,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00061,2026-08-10,Western Cape,Health & Wellness,Pty Ltd,3.8,831755.84,0.18773493389688847,596,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00062,2026-08-13,North West,Professional Services,Pty Ltd,5.2,1313987.95,0.01688382782357428,671,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00063,2026-08-27,Free State,Retail Trade,Pty Ltd,5.2,695295.19,0.01771941735513121,669,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00064,2026-08-26,Gauteng,Transport & Logistics,Close Corporation,18.7,1249461.73,0.01148494745128811,682,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00065,2026-08-14,Eastern Cape,Retail Trade,Pty Ltd,1.8,326911.37,0.1914840016256958,595,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00066,2026-08-12,Limpopo,Real Estate,Pty Ltd,4.4,897036.08,0.5495483617964904,548,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00067,2026-08-24,North West,Wholesale Trade,Pty Ltd,6.5,2232157.88,0.2881052635571606,580,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00068,2026-08-15,Eastern Cape,Professional Services,Pty Ltd,2.4,6295666.52,0.024589077270955564,660,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00069,2026-08-22,Mpumalanga,Wholesale Trade,Sole Proprietor,8.8,2193958.96,0.11074345846988624,614,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00070,2026-08-04,Mpumalanga,Wholesale Trade,Pty Ltd,3.2,1458154.76,0.16102447286837104,601,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00071,2026-08-21,Western Cape,Agriculture,Pty Ltd,6.9,3432492.8,0.026862120042240933,657,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00072,2026-08-17,Gauteng,Personal Services,Close Corporation,5.5,2648436.03,0.3009635306492814,578,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00073,2026-08-07,Eastern Cape,Agriculture,Close Corporation,8.1,4967685.49,0.22943914760696235,589,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00074,2026-08-23,Gauteng,Health & Wellness,Sole Proprietor,1.7,2935726.07,0.534542325663797,550,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00075,2026-08-16,Western Cape,Agriculture,Sole Proprietor,6.8,1029852.15,0.8116423817659346,511,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00076,2026-08-22,Northern Cape,Wholesale Trade,Pty Ltd,13.6,1477487.97,0.047239213553023005,640,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00077,2026-08-25,KwaZulu-Natal,ICT & Tech Services,Close Corporation,9.6,1465574.51,0.22914903822148217,589,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00078,2026-08-08,KwaZulu-Natal,Manufacturing,Sole Proprietor,5.3,1417143.1,0.07864075514256945,625,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00079,2026-08-24,North West,Health & Wellness,Pty Ltd,5.6,1306456.75,0.10219475679531333,616,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00080,2026-08-29,Gauteng,Transport & Logistics,Pty Ltd,6.1,538806.25,0.16817797512119015,600,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00081,2026-08-15,Northern Cape,Transport & Logistics,Pty Ltd,4.5,147605.43,0.4744212408669784,557,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00082,2026-08-21,Limpopo,Health & Wellness,Pty Ltd,2.7,601227.73,0.5474772301946836,548,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00083,2026-08-23,Western Cape,Agriculture,Pty Ltd,,167312.85,0.7076614373096227,528,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00084,2026-08-13,Western Cape,Hospitality & Food Service,Pty Ltd,5.1,,0.01042623795733188,685,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00085,2026-08-24,Gauteng,Manufacturing,Pty Ltd,18.5,1145196.18,0.1974723420299514,594,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00086,2026-08-13,Limpopo,Construction,Pty Ltd,7.7,262363.16,0.03132715541949608,653,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00087,2026-08-26,Gauteng,Professional Services,Pty Ltd,20.2,2193091.95,0.0879252333484313,621,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00088,2026-08-23,Gauteng,Construction,Pty Ltd,5.3,2404231.78,0.11569063572373256,612,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00089,2026-08-16,Limpopo,Construction,Pty Ltd,6.9,1127877.31,0.38406642676896197,567,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00090,2026-08-06,KwaZulu-Natal,Real Estate,Pty Ltd,5.5,4933399.04,0.43845780707125687,561,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00091,2026-08-24,Eastern Cape,Transport & Logistics,Sole Proprietor,2.7,5265835.56,0.5892455073532865,543,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00092,2026-08-19,Eastern Cape,Transport & Logistics,Pty Ltd,2.4,359948.76,0.5811612833639598,544,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00093,2026-08-17,Gauteng,Transport & Logistics,Pty Ltd,4.4,2809093.59,0.011018161075538548,683,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00094,2026-08-21,Gauteng,Hospitality & Food Service,Sole Proprietor,10.3,1759956.25,0.06377672772391173,631,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00095,2026-08-29,Western Cape,Personal Services,Pty Ltd,2.2,1679881.31,0.07347032051009457,627,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00096,2026-08-15,Gauteng,Real Estate,Pty Ltd,1.6,,0.6642629821794915,534,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00097,2026-08-12,KwaZulu-Natal,Transport & Logistics,Sole Proprietor,5.2,592607.85,0.21608124302020815,591,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00098,2026-08-26,Eastern Cape,Professional Services,Sole Proprietor,3.2,628616.44,0.06689165888736194,630,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00099,2026-08-19,Eastern Cape,Retail Trade,Close Corporation,3.1,499798.39,0.3681499518943393,569,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00100,2026-08-14,KwaZulu-Natal,Real Estate,Close Corporation,14.4,629487.02,0.1092112959813517,614,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00101,2026-08-06,Gauteng,Wholesale Trade,Sole Proprietor,5.1,1059718.97,0.01756115816826965,670,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00102,2026-08-14,Gauteng,Personal Services,Sole Proprietor,7.9,290392.04,0.00760909243535889,694,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00103,2026-08-28,Limpopo,ICT & Tech Services,Pty Ltd,5.0,450076.1,0.4881209127324334,555,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00104,2026-08-09,Gauteng,ICT & Tech Services,Sole Proprietor,9.0,2012594.37,0.522598843161335,551,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00105,2026-08-28,KwaZulu-Natal,Wholesale Trade,Pty Ltd,5.0,1077329.34,0.007504072231788986,695,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00106,2026-08-27,Gauteng,Manufacturing,Pty Ltd,4.6,1572438.62,0.7358285251753754,524,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00107,2026-08-25,North West,Wholesale Trade,Pty Ltd,8.4,198004.81,0.11493151493443927,612,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00108,2026-08-10,Gauteng,Hospitality & Food Service,Pty Ltd,5.0,509426.77,0.4870652870847834,555,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00109,2026-08-24,Western Cape,Manufacturing,Pty Ltd,12.2,784130.91,0.5608538034907397,547,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00110,2026-08-21,KwaZulu-Natal,Professional Services,Sole Proprietor,3.0,1105489.37,0.1388032713494481,606,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00111,2026-08-27,Eastern Cape,Wholesale Trade,Sole Proprietor,13.7,649366.13,0.04871504283711483,639,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00112,2026-08-12,North West,Professional Services,Sole Proprietor,2.0,2456438.95,0.31555297427554535,576,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00113,2026-08-18,Eastern Cape,Health & Wellness,Pty Ltd,3.8,1001063.22,0.05379181402348778,636,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00114,2026-08-28,Western Cape,Transport & Logistics,Sole Proprietor,5.7,1021565.06,0.37720109954031206,568,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00115,2026-08-27,Gauteng,Real Estate,Close Corporation,2.0,934385.36,0.014354300330729118,676,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00116,2026-08-28,Eastern Cape,Transport & Logistics,Pty Ltd,3.2,1850528.48,0.01969144966148844,666,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00117,2026-08-03,Northern Cape,Professional Services,Pty Ltd,8.6,768904.87,0.39335069137195416,566,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00118,2026-08-01,Gauteng,Real Estate,Pty Ltd,4.3,2967637.53,0.21407424699076405,591,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00119,2026-08-03,Free State,Health & Wellness,Pty Ltd,2.9,1581389.15,0.013562101702886731,677,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00120,2026-08-29,Gauteng,Health & Wellness,Pty Ltd,8.7,1353197.41,0.182002469853629,597,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00121,2026-08-13,Western Cape,ICT & Tech Services,Sole Proprietor,5.6,,0.11774213703435445,612,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00122,2026-08-18,KwaZulu-Natal,Real Estate,Pty Ltd,7.8,1637288.0,0.5993005524119867,542,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00123,2026-08-13,KwaZulu-Natal,Retail Trade,Sole Proprietor,13.3,2909776.84,0.7443392066339669,523,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00124,2026-08-03,Northern Cape,Agriculture,Sole Proprietor,5.2,2467906.94,0.08637659347438029,622,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00125,2026-08-27,Eastern Cape,Manufacturing,Sole Proprietor,6.7,1481804.29,0.020323312665392532,665,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00126,2026-08-15,Western Cape,Professional Services,Pty Ltd,25.6,2536288.11,0.84481142577572,505,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00127,2026-08-09,Eastern Cape,Personal Services,Sole Proprietor,0.7,1126949.31,0.2967900930786954,578,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00128,2026-08-02,Western Cape,Health & Wellness,Sole Proprietor,6.1,3397191.41,0.02749472376950072,656,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00129,2026-08-04,Western Cape,Personal Services,Sole Proprietor,2.7,955007.48,0.05807709773124962,634,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00130,2026-08-16,Western Cape,Professional Services,Pty Ltd,7.1,170817.84,0.20988280222502706,592,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00131,2026-08-23,Western Cape,Agriculture,Partnership,2.7,3871135.31,0.09949255927778247,617,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00132,2026-08-06,Gauteng,Retail Trade,Sole Proprietor,3.7,1119660.35,0.054701121235265895,636,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00133,2026-08-16,Gauteng,Real Estate,Pty Ltd,1.6,330424.98,0.27880986062739377,581,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00134,2026-08-11,Gauteng,Real Estate,Pty Ltd,8.7,985082.71,0.36780090348510974,569,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00135,2026-08-19,Western Cape,Personal Services,Pty Ltd,5.3,511827.61,0.3524655903787678,571,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00136,2026-08-09,Gauteng,Transport & Logistics,Pty Ltd,4.2,7326531.91,0.13525598775678616,607,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00137,2026-08-26,Mpumalanga,Agriculture,Pty Ltd,2.2,1545377.67,0.03783433561660303,647,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00138,2026-08-18,Mpumalanga,Hospitality & Food Service,Pty Ltd,11.4,303084.28,0.21679971456462013,591,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00139,2026-08-06,Western Cape,Personal Services,Pty Ltd,1.0,1609397.75,0.049937438789698085,639,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00140,2026-08-24,KwaZulu-Natal,Professional Services,Sole Proprietor,10.6,780447.9,0.05126884075256992,638,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00141,2026-08-19,Limpopo,Agriculture,Pty Ltd,6.9,6147152.38,0.012387733309254174,680,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00142,2026-08-28,Western Cape,ICT & Tech Services,Pty Ltd,3.5,412273.96,0.08236797960121041,623,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00143,2026-08-27,KwaZulu-Natal,Construction,Pty Ltd,5.6,151657.97,0.019724825486148147,666,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00144,2026-08-10,Western Cape,Manufacturing,Pty Ltd,1.4,1128941.09,0.01791899379716802,669,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00145,2026-08-21,Eastern Cape,Manufacturing,Pty Ltd,13.0,865062.02,0.5580133619648738,547,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00146,2026-08-17,North West,Retail Trade,Partnership,1.7,746095.85,0.4347457262529875,561,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00147,2026-08-13,Gauteng,Retail Trade,Pty Ltd,3.3,155739.66,0.027720369553986084,656,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00148,2026-08-01,North West,Agriculture,Sole Proprietor,9.6,1806391.44,0.683502685884816,531,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00149,2026-08-24,Eastern Cape,Agriculture,Pty Ltd,3.9,4511671.1,0.04783579150432813,640,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00150,2026-08-11,Free State,Construction,Pty Ltd,6.2,184627.33,0.32532825640154855,575,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00151,2026-08-02,KwaZulu-Natal,Manufacturing,Partnership,6.0,3319037.27,0.048345953837903965,640,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00152,2026-08-28,Limpopo,Wholesale Trade,Partnership,3.0,591307.98,0.41357854400492183,564,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00153,2026-08-12,Western Cape,Agriculture,Pty Ltd,3.6,8735403.67,0.02224496716461017,663,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00154,2026-08-04,Eastern Cape,Manufacturing,Pty Ltd,15.6,1745229.37,0.14947493408236986,604,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00155,2026-08-13,Gauteng,Personal Services,Pty Ltd,9.6,970074.85,0.05721865428301288,634,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00156,2026-08-26,KwaZulu-Natal,Health & Wellness,Pty Ltd,7.8,3027530.87,0.06802943093812375,629,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00157,2026-08-22,Eastern Cape,Retail Trade,Sole Proprietor,5.5,1896954.36,0.43278603572811947,561,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00158,2026-08-19,Gauteng,Manufacturing,Sole Proprietor,2.5,538813.71,0.8339431776034384,507,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00159,2026-08-09,Gauteng,Hospitality & Food Service,Sole Proprietor,,2048609.77,0.7426953934303098,523,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00160,2026-08-09,Free State,Agriculture,Sole Proprietor,8.0,808923.07,0.553087072531568,547,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00161,2026-08-08,Mpumalanga,Professional Services,Pty Ltd,3.3,213315.93,0.3218604174078045,575,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00162,2026-08-23,Eastern Cape,Real Estate,Pty Ltd,4.3,6736241.11,0.09888051522437344,617,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00163,2026-08-24,Western Cape,ICT & Tech Services,Pty Ltd,2.0,788685.58,0.05321969851912908,637,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00164,2026-08-09,Eastern Cape,Wholesale Trade,Sole Proprietor,1.1,647582.35,0.5385295485722814,549,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00165,2026-08-09,Gauteng,Manufacturing,Pty Ltd,5.7,1413871.85,0.2012147973436049,593,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00166,2026-08-26,Eastern Cape,Retail Trade,Pty Ltd,2.4,,0.4952623272064985,554,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00167,2026-08-29,KwaZulu-Natal,Manufacturing,Close Corporation,17.3,347087.2,0.3670277102856701,569,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00168,2026-08-03,KwaZulu-Natal,Manufacturing,Pty Ltd,14.7,776700.16,0.06778944482959377,629,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00169,2026-08-08,Western Cape,Manufacturing,Pty Ltd,4.2,682873.9,0.49888886659689546,554,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00170,2026-08-04,Gauteng,Hospitality & Food Service,Pty Ltd,11.1,,0.4585565109187026,558,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00171,2026-08-11,Eastern Cape,Hospitality & Food Service,NPO,2.6,,0.13939671923083577,606,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00172,2026-08-22,Western Cape,Professional Services,Pty Ltd,11.1,775086.2,0.7866245132151046,516,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00173,2026-08-18,Free State,Manufacturing,Pty Ltd,18.4,1783937.5,0.6396388949514686,537,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00174,2026-08-14,Western Cape,Hospitality & Food Service,Pty Ltd,8.1,1911893.14,0.8331816775835622,507,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00175,2026-08-07,Gauteng,ICT & Tech Services,Sole Proprietor,,443359.74,0.29284740855933866,579,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00176,2026-08-05,KwaZulu-Natal,Hospitality & Food Service,Pty Ltd,0.5,1238803.9,0.5600263830477441,547,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00177,2026-08-23,KwaZulu-Natal,Manufacturing,Close Corporation,5.0,441587.57,0.06830871007824252,629,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00178,2026-08-15,Limpopo,Real Estate,Pty Ltd,4.3,3043782.73,0.4903044109568229,555,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00179,2026-08-01,Limpopo,Health & Wellness,Sole Proprietor,8.4,1729629.45,0.16096108610993334,601,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00180,2026-08-09,Gauteng,Agriculture,Pty Ltd,5.3,1040234.87,0.007410628611893393,695,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00181,2026-08-20,Free State,Agriculture,Close Corporation,8.0,363062.79,0.8008098495045378,513,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00182,2026-08-16,Gauteng,Personal Services,Pty Ltd,5.9,1187894.79,0.0056702066993562505,703,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00183,2026-08-22,Eastern Cape,Retail Trade,Sole Proprietor,2.6,541457.76,0.4125236961057851,564,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00184,2026-08-22,Western Cape,Agriculture,Close Corporation,1.6,1952745.53,0.2108763326193601,592,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00185,2026-08-04,Western Cape,Hospitality & Food Service,Pty Ltd,10.5,1077297.1,0.012119410813804923,681,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00186,2026-08-25,Western Cape,Construction,Pty Ltd,3.0,514720.73,0.35095136255726733,571,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00187,2026-08-18,KwaZulu-Natal,Personal Services,Sole Proprietor,7.8,2559022.66,0.23708880688758915,587,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00188,2026-08-02,Eastern Cape,Transport & Logistics,Pty Ltd,6.9,2166703.74,0.3615344549503093,570,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00189,2026-08-28,KwaZulu-Natal,Health & Wellness,Pty Ltd,3.6,691643.92,0.4110817038986404,564,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00190,2026-08-18,Eastern Cape,Manufacturing,Sole Proprietor,1.3,2603184.37,0.4644538444318479,558,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00191,2026-08-07,Western Cape,Professional Services,Pty Ltd,6.3,858158.7,0.07541156452153955,626,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00192,2026-08-29,Eastern Cape,Construction,Pty Ltd,11.8,916379.81,0.0650837793561319,630,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00193,2026-08-01,Western Cape,Professional Services,Pty Ltd,1.5,1094586.02,0.02035632534543936,665,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00194,2026-08-14,KwaZulu-Natal,Manufacturing,Pty Ltd,23.3,560485.41,0.14223629298851984,605,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00195,2026-08-02,Western Cape,Retail Trade,Pty Ltd,5.9,827749.58,0.13338040316071642,608,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00196,2026-08-23,KwaZulu-Natal,Wholesale Trade,Pty Ltd,7.2,,0.0409958609476818,645,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00197,2026-08-23,Gauteng,Health & Wellness,Pty Ltd,12.7,5183835.51,0.1722152467314078,599,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00198,2026-08-03,Western Cape,Retail Trade,Pty Ltd,14.8,4690393.64,0.23267492404623288,588,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00199,2026-08-09,Gauteng,Real Estate,Pty Ltd,6.8,896750.63,0.10195313516288528,616,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00200,2026-08-26,Western Cape,Construction,Sole Proprietor,9.1,5097335.03,0.20312952525910466,593,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00201,2026-08-08,Gauteng,Transport & Logistics,Pty Ltd,3.2,1055600.13,0.3301870385515058,574,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00202,2026-08-17,Eastern Cape,Manufacturing,Pty Ltd,5.4,1644985.32,0.017688015581841448,669,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00203,2026-08-16,Limpopo,Health & Wellness,Sole Proprietor,1.8,2351197.14,0.044865641189174334,642,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00204,2026-08-26,Western Cape,Agriculture,Pty Ltd,8.5,1516927.13,0.0151384896374238,674,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00205,2026-08-22,Gauteng,Health & Wellness,Pty Ltd,7.7,10142420.31,0.14449089451571495,605,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00206,2026-08-23,KwaZulu-Natal,ICT & Tech Services,Pty Ltd,7.8,1522357.43,0.06052733001541543,633,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00207,2026-08-03,Gauteng,Construction,Pty Ltd,8.2,408293.4,0.03236010022428851,652,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00208,2026-08-26,Limpopo,Agriculture,Sole Proprietor,0.9,3146085.18,0.34676157509470323,572,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00209,2026-08-14,Gauteng,Personal Services,Partnership,4.6,727437.2,0.2116177181116376,592,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00210,2026-08-02,Western Cape,Professional Services,Close Corporation,2.5,812688.02,0.4432041104080592,560,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00211,2026-08-03,Western Cape,Professional Services,Pty Ltd,4.2,70950.68,0.18370678385931696,597,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00212,2026-08-21,Gauteng,Hospitality & Food Service,Pty Ltd,7.9,2771178.85,0.5898356425526813,543,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00213,2026-08-26,Western Cape,Construction,Pty Ltd,13.8,2356139.23,0.31472618153259146,576,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00214,2026-08-06,Gauteng,Construction,Pty Ltd,4.6,2205327.48,0.41826986046266246,563,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00215,2026-08-09,Eastern Cape,Wholesale Trade,Partnership,3.0,2611670.4,0.26466519634806035,583,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00216,2026-08-08,Northern Cape,Construction,Pty Ltd,3.7,5158201.7,0.4539218789736219,559,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00217,2026-08-26,Western Cape,Personal Services,Pty Ltd,4.9,1050085.32,0.04481199877620074,642,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00218,2026-08-10,Free State,Wholesale Trade,Sole Proprietor,4.6,2794039.73,0.23640327581394893,587,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00219,2026-08-19,Gauteng,Real Estate,Sole Proprietor,6.3,570645.43,0.38461258227809364,567,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00220,2026-08-18,KwaZulu-Natal,Real Estate,Pty Ltd,8.6,978130.48,0.05745830342331207,634,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00221,2026-08-12,Western Cape,Retail Trade,Partnership,1.2,2794869.74,0.09480596369665632,619,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00222,2026-08-19,Gauteng,Agriculture,Pty Ltd,1.1,1495778.94,0.1501690453382895,604,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00223,2026-08-06,Mpumalanga,Personal Services,Sole Proprietor,3.0,311337.57,0.03519529171581634,649,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00224,2026-08-28,Free State,Retail Trade,Pty Ltd,3.4,1268829.17,0.0661992201312931,630,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00225,2026-08-27,Gauteng,Professional Services,Close Corporation,13.5,996993.53,0.22818892196753907,589,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00226,2026-08-01,Gauteng,Construction,Pty Ltd,4.3,523138.07,0.43658965166907343,561,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00227,2026-08-14,Mpumalanga,Hospitality & Food Service,Pty Ltd,10.0,1919440.12,0.1979164848153319,594,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00228,2026-08-06,Northern Cape,Wholesale Trade,Close Corporation,2.1,675520.49,0.3467625130033878,572,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00229,2026-08-14,KwaZulu-Natal,Professional Services,Partnership,1.6,275905.6,0.12076607748972189,611,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00230,2026-08-11,Limpopo,Real Estate,Partnership,24.1,430294.5,0.13288947502351617,608,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00231,2026-08-26,Northern Cape,Transport & Logistics,Close Corporation,10.5,6032805.08,0.05439538454149292,636,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00232,2026-08-24,Free State,ICT & Tech Services,Pty Ltd,2.2,233568.25,0.2756057782217886,581,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00233,2026-08-09,KwaZulu-Natal,Transport & Logistics,Pty Ltd,4.7,1341793.63,0.024424273106719876,660,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00234,2026-08-16,Gauteng,Transport & Logistics,Pty Ltd,17.8,2015990.08,0.04365834336561063,643,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly
+APP-00235,2026-08-12,Western Cape,Personal Services,Pty Ltd,7.3,2089397.01,0.6035216650684334,541,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00236,2026-08-15,KwaZulu-Natal,Transport & Logistics,Partnership,3.5,356449.0,0.3556386094501756,571,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00237,2026-08-27,Limpopo,Real Estate,Pty Ltd,10.0,836276.42,0.27058758824760254,582,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00238,2026-08-23,Western Cape,ICT & Tech Services,Pty Ltd,7.5,1355539.52,0.09330203924837618,619,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00239,2026-08-02,Western Cape,Transport & Logistics,Pty Ltd,0.7,,0.7391858980910192,524,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00240,2026-08-19,Gauteng,Personal Services,Pty Ltd,21.1,682722.56,0.6319919811176089,538,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00241,2026-08-23,Eastern Cape,Construction,Pty Ltd,10.9,436696.69,0.3696341964350239,569,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00242,2026-08-09,Western Cape,Transport & Logistics,Pty Ltd,5.1,2854675.4,0.38119098948971486,568,Very High Risk,Decline,N/A,N/A,No facility offered,N/A
+APP-00243,2026-08-22,Free State,Personal Services,Close Corporation,3.5,2887400.41,0.020150164020032866,666,Very Low Risk,Approve — preferred terms,Tier A,2.0% - 2.75%,"Higher limit eligible, longer tenor eligible",Quarterly
+APP-00244,2026-08-03,Gauteng,Hospitality & Food Service,Sole Proprietor,2.9,1376515.93,0.16026433026207776,601,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00245,2026-08-03,Eastern Cape,Personal Services,Pty Ltd,0.9,550440.6,0.08876032020327582,621,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00246,2026-08-14,Eastern Cape,Retail Trade,Close Corporation,6.0,1714144.28,0.14881422990547075,604,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00247,2026-08-12,Western Cape,Retail Trade,Sole Proprietor,3.1,1213398.03,0.21063106707397902,592,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00248,2026-08-26,Gauteng,Professional Services,Pty Ltd,2.0,2226691.94,0.079606151169079,624,Moderate Risk,Approve with conditions,Tier C,4.0% - 5.5%,"Standard limit with tighter covenant (e.g. minimum balance, revenue-linked repayment)",Monthly
+APP-00249,2026-08-24,Western Cape,ICT & Tech Services,Close Corporation,2.9,,0.2303172033682193,588,High Risk,Refer for manual underwriting,Tier D,5.5% - 7.0%,"Reduced limit, short tenor, with additional bureau/affordability checks",Monthly
+APP-00250,2026-08-18,Free State,Personal Services,Partnership,19.4,1317330.6,0.025279620421209976,659,Low Risk,Approve,Tier B,2.75% - 4.0%,"Standard limit, standard tenor",Quarterly

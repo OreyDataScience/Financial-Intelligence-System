@@ -1,0 +1,6 @@
+lending_decision,applicants,population_share
+Approve,36,0.144
+Approve with conditions,37,0.148
+Approve — preferred terms,28,0.112
+Decline,98,0.392
+Refer for manual underwriting,51,0.204
