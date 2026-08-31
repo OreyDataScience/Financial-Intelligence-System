@@ -1,0 +1,28 @@
+{
+    "run_timestamp_utc": "2026-08-31T07:13:06.154941+00:00",
+    "model_validation_pass": true,
+    "score_psi": 0.19106797561302147,
+    "score_psi_interpretation": "Moderate shift \u2014 monitor",
+    "features_material_shift_count": 10,
+    "features_material_shift": [
+        "fe_min_balance_to_expenses",
+        "fe_balance_to_monthly_expenses",
+        "fe_business_arrears_days",
+        "fe_negative_balance_days",
+        "credit_volatility_90d",
+        "fe_debt_to_assets",
+        "fe_liabilities_to_annual_revenue",
+        "fe_cash_flow_trend",
+        "director_credit_utilization",
+        "fe_business_credit_utilization"
+    ],
+    "features_moderate_shift_count": 4,
+    "fairness_material_count": 0,
+    "fairness_material_significant_count": 0,
+    "fairness_borderline_count": 0,
+    "governance_tier": "TIER_2_ESCALATE",
+    "governance_status": "Escalate for review",
+    "required_action": "Material signals present but not yet conclusive (e.g. a fairness flag without statistical significance, or several features drifting without the overall score drifting). A human review is warranted before deciding whether recalibration is needed.",
+    "owner": "Model Risk Analyst",
+    "sla_business_days": 15
+}

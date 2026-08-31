@@ -1,0 +1,38 @@
+{
+    "psi_thresholds": {
+        "moderate": 0.1,
+        "material": 0.25
+    },
+    "tiers": {
+        "TIER_0_CRITICAL": {
+            "label": "CRITICAL \u2014 statistical validation failed",
+            "action": "Halt automated production decisioning on this scorecard. Escalate immediately to the model owner. Do not resume production use until the model passes Stage 06 validation.",
+            "owner": "Head of Model Risk",
+            "sla_business_days": 1
+        },
+        "TIER_1_RECALIBRATE": {
+            "label": "Recalibration recommended",
+            "action": "Score-level population drift or a significant fairness disparity indicates the model's fitted assumptions no longer match the current population. Schedule a full recalibration (re-run Stages 02-07 on refreshed data) and review whether the affected features/segments need structural changes, not just refitting.",
+            "owner": "Model Risk Committee",
+            "sla_business_days": 10
+        },
+        "TIER_2_ESCALATE": {
+            "label": "Escalate for review",
+            "action": "Material signals present but not yet conclusive (e.g. a fairness flag without statistical significance, or several features drifting without the overall score drifting). A human review is warranted before deciding whether recalibration is needed.",
+            "owner": "Model Risk Analyst",
+            "sla_business_days": 15
+        },
+        "TIER_3_MONITOR": {
+            "label": "Monitor",
+            "action": "Minor or moderate signals present, below escalation thresholds. No action required now. Re-run this review next monitoring cycle and watch for a worsening trend.",
+            "owner": "Model Risk Analyst",
+            "sla_business_days": 30
+        },
+        "TIER_4_NO_ACTION": {
+            "label": "No action",
+            "action": "No signals flagged. Continue routine monitoring.",
+            "owner": "Model Risk Analyst",
+            "sla_business_days": null
+        }
+    }
+}
