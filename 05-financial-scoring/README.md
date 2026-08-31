@@ -21,10 +21,6 @@ The architecture deliberately favours interpretability over raw predictive power
 
 ---
 
-## Repository Structure
-
----
-
 # Project Objectives
 
 This project was developed to demonstrate how data science can support:
@@ -32,11 +28,12 @@ This project was developed to demonstrate how data science can support:
 * Alternative lending decisions
 * SME financial risk assessment
 * Creditworthiness evaluation
-* Early warning systems
-* Executive financial reporting
-* Data quality governance
+* Applicant-facing explainability and reason codes
+* Ongoing model monitoring and population stability tracking
+* Fairness and disparate impact screening
+* Model governance and recalibration decision-making
 
-Rather than relying solely on historical financial statements, the scoring model incorporates operational behaviour and commercial performance to produce a more holistic assessment of business health.
+Rather than relying solely on historical financial statements, the scoring model incorporates operational behaviour, cash-flow stability, and bureau history to produce a more holistic assessment of business health.
 
 ---
 
