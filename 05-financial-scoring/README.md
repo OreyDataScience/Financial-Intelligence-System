@@ -1,10 +1,27 @@
-# Financial Health Scoring & Data Quality
+# Financial Health Scoring
+
+**Orey Analytics — Cash Flow Intelligence for SMEs**
+
+An interpretable, end-to-end SME credit risk scoring system: from raw transactional and bureau data to a validated, monitored, and governed lending decision engine. Built for two audiences ... SMEs seeking to understand their own financial health, and alternative lenders seeking faster, more consistent, and more explainable credit decisions.
+
+---
 
 ## Overview
 
-This project demonstrates how data quality management and predictive financial scoring can be combined to support better lending and business decisions.
+This phase takes raw SME financial panel data, bank transactions, and applicant records, and turns them into:
 
-The objective is to transform raw operational data into an interpretable Financial Health Score that enables SMEs, lenders and financial institutions to assess business risk with greater confidence.
+- A validated **Weight-of-Evidence (WoE) logistic regression scorecard** predicting 12-month SME default risk
+- A **300–850 point score** (the *Orey Financial Health Score*) with five empirically-derived risk bands
+- Per-applicant **reason codes** explaining exactly what drove each score
+- An **indicative lending decision** (approve / refer / decline) and pricing tier for each applicant
+- Ongoing **population stability monitoring** (PSI/CSI) and a **fairness/disparate impact screen**
+- A single **governance decision layer** that turns all of the above into an auditable escalation policy
+
+The architecture deliberately favours interpretability over raw predictive power: every score decomposes into per-feature point contributions, every risk band is derived from validation performance rather than chosen by hand, and every stage reads and writes fixed, inspectable artifacts on disk rather than hidden state.
+
+---
+
+## Repository Structure
 
 ---
 
