@@ -311,9 +311,3 @@ Helping businesses and financial institutions predict risk, improve financial vi
 
 **Author:** Oreneile Katlego
 
-## Orey Analytics
-
-**Cash Flow Intelligence for SMEs**
-
-Helping businesses and financial institutions predict risk, improve financial visibility and make smarter data-driven decisions through advanced analytics.
-
