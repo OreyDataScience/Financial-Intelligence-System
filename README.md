@@ -47,7 +47,7 @@ Predictive modelling and time-series forecasting used to estimate future busines
 An interactive retail intelligence application combining financial, product, store, inventory, supplier, customer, and revenue intelligence.
 
 **05 — Financial Health Scoring**  
-A structured Financial Health Score (0–100) designed to assess the financial condition and resilience of SMEs.
+A structured SME credit-risk scoring methodology combining financial health assessment, probability of default, risk classification, and explainable lending decision support.
 
 **06 — Cash Flow Intelligence**  
 Financial monitoring and forecasting focused on cash flow visibility, payment behaviour, profitability, and early risk detection.
