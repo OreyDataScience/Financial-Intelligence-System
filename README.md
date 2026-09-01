@@ -184,30 +184,44 @@ The application demonstrates the transition from individual analytical outputs t
 
 # 05 — Financial Health Scoring
 
-Developed a Financial Health Scoring framework that combines multiple financial and operational indicators into a single **Financial Health Score (0–100)**.
+Developed an end-to-end SME financial health and credit-risk scoring methodology designed to assess financial condition, default risk, and lending suitability.
+The methodology combines statistical modelling, financial indicators, behavioural characteristics, and credit-risk techniques to transform SME financial data into a structured and explainable risk assessment.
 
-The framework is designed to provide a structured assessment of SME financial condition beyond individual financial ratios.
+The framework includes:
+- Data quality and target validation
+- Financial and behavioural feature engineering
+- Missing-value treatment and preprocessing
+- Weight of Evidence (WoE) transformation
+- Variable binning and Information Value (IV) analysis
+- Feature selection
+- Logistic regression scorecard modelling
+- Probability of default estimation
+- Financial Health Score generation
+- Risk band classification
+- Model discrimination and calibration validation
+- Individual SME assessment
+- Explainable scoring reason codes
+- Population Stability Index (PSI) monitoring
+- Characteristic Stability Index (CSI) monitoring
+- Fairness and disparate-impact review
+- Recalibration and governance triggers
 
-The scoring framework evaluates areas including:
+The methodology produces a structured assessment of SME financial health and credit risk, providing insight into both the condition of the business and its potential lending risk.
 
-* Profitability
-* Profit Margin
-* Revenue Stability
-* Revenue Growth
-* Payment Behaviour
-* Customer Concentration
-* Customer Retention
-* Operational Efficiency
-* Financial Risk
+It is designed to support:
+- SME financial health assessment
+- Early risk identification
+- Individual SME assessment
+- Alternative lending assessment
+- Credit-risk decision support
+- Risk-based lending decisions
+- Portfolio risk monitoring
+- Model performance monitoring
+- Explainable credit decisions
+- Fairness review
+- Model-risk governance
 
-The resulting score provides a standardised business health indicator that can support:
-
-* SME financial monitoring
-* Early risk identification
-* Business performance assessment
-* Management decision-making
-* Financial intelligence reporting
-* Alternative lending assessment
+The framework extends beyond a standalone score by incorporating the broader lifecycle required to operate a responsible financial scoring methodology (from data preparation and model development through validation, individual assessment, monitoring, fairness review, and governance)
 
 ---
 
