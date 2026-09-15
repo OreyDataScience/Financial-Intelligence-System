@@ -4,7 +4,7 @@
 
 This portfolio demonstrates the development of financial intelligence solutions designed to help SMEs and alternative lenders transform operational and financial data into actionable business decisions.
 
-Each project follows a structured analytics lifecycle — from data cleaning and exploratory analysis through forecasting, financial health scoring, cash flow intelligence, lender intelligence, and interactive applications.
+Showcasing a structured analytics lifecycle  from data cleaning and exploratory analysis through forecasting, financial health scoring, cash flow intelligence, lender intelligence, and interactive applications.
 
 The portfolio focuses on building scalable financial intelligence systems that improve financial visibility, identify emerging risks, strengthen cash flow resilience, support business decision-making, and provide additional intelligence for SME lending.
 
@@ -34,33 +34,33 @@ The portfolio focuses on building scalable financial intelligence systems that i
 
 The portfolio is organised into eight development stages:
 
-**01 — Data Cleaning**  
+**01: Data Cleaning**  
 Data quality assessment, cleaning, transformation, and preparation of business datasets.
 
-**02 — Visualizations**  
+**02: Visualizations**  
 Exploratory and business-focused visualisations used to identify trends, patterns, relationships, and risks.
 
-**03 — Forecasting**  
+**03: Forecasting**  
 Predictive modelling and time-series forecasting used to estimate future business and financial performance.
 
-**04 — Retail Intelligence Application**  
+**04: Retail Intelligence Application**  
 An interactive retail intelligence application combining financial, product, store, inventory, supplier, customer, and revenue intelligence.
 
-**05 — Financial Health Scoring**  
+**05: Financial Health Scoring**  
 A structured SME credit-risk scoring methodology combining financial health assessment, probability of default, risk classification, and explainable lending decision support.
 
-**06 — Cash Flow Intelligence**  
+**06: Cash Flow Intelligence**  
 Financial monitoring and forecasting focused on cash flow visibility, payment behaviour, profitability, and early risk detection.
 
-**07 — Lender Intelligence**  
+**07: Lender Intelligence**  
 Financial and operational intelligence designed to support alternative lenders with SME assessment, risk monitoring, and lending decision support.
 
-**08 — Case Studies**  
+**08: Case Studies**  
 End-to-end simulated business scenarios demonstrating how the intelligence systems can be applied to real-world business problems.
 
 ---
 
-# 01 — Data Cleaning
+# 01. Data Cleaning
 
 Developed a reusable data preparation and quality assessment process to transform raw business datasets into reliable, analysis-ready data.
 
@@ -80,7 +80,7 @@ This stage establishes the data foundation for the financial intelligence system
 
 ---
 
-# 02 — Visualizations
+# 02. Visualizations
 
 Developed business-focused visualisations to transform structured datasets into clear and actionable insights.
 
@@ -99,7 +99,7 @@ The objective is to understand business performance and identify important patte
 
 ---
 
-# 03 — Forecasting
+# 03. Forecasting
 
 Developed predictive models to estimate future business and financial performance.
 
@@ -119,7 +119,7 @@ The forecasting layer enables businesses to move beyond understanding historical
 
 ---
 
-# 04 — Retail Intelligence Application
+# 04. Retail Intelligence Application
 
 Developed an interactive retail intelligence application that brings multiple analytical datasets together into a single decision-support environment.
 
@@ -182,7 +182,7 @@ The application demonstrates the transition from individual analytical outputs t
 
 ---
 
-# 05 — Financial Health Scoring
+# 05. Financial Health Scoring
 
 Developed an end-to-end SME financial health and credit-risk scoring methodology designed to assess financial condition, default risk, and lending suitability.
 The methodology combines statistical modelling, financial indicators, behavioural characteristics, and credit-risk techniques to transform SME financial data into a structured and explainable risk assessment.
@@ -225,7 +225,7 @@ The framework extends beyond a standalone score by incorporating the broader lif
 
 ---
 
-# 06 — Cash Flow Intelligence
+# 06. Cash Flow Intelligence
 
 Built an end-to-end financial intelligence system focused on one of the most significant risks facing SMEs: **cash flow failure**.
 
@@ -249,7 +249,7 @@ The objective is to help businesses identify potential cash flow problems early 
 
 ---
 
-# 07 — Lender Intelligence
+# 07. Lender Intelligence
 
 Developed a lender intelligence framework focused on providing alternative lenders with additional financial and operational insight into SME businesses.
 
@@ -280,7 +280,7 @@ Applications include:
 
 ---
 
-# 08 — Case Studies
+# 08. Case Studies
 
 Developed simulated real-world business scenarios to demonstrate how the financial intelligence systems can be applied to practical business problems.
 
@@ -457,6 +457,6 @@ For alternative lenders, the focus is on providing additional financial and busi
 
 ---
 
-## Portfolio Philosophy
+## Philosophy
 
 **Smarter data. Better intelligence. Stronger decisions.**
