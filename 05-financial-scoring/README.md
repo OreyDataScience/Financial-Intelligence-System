@@ -1,6 +1,7 @@
 # Financial Health Scoring
 
-**Orey Analytics — Cash Flow Intelligence for SMEs**
+**Orey Analytics** 
+**Cash Flow Intelligence for SMEs**
 
 An interpretable, end-to-end SME credit risk scoring system: from raw transactional and bureau data to a validated, monitored, and governed lending decision engine. Built for two audiences ... SMEs seeking to understand their own financial health, and alternative lenders seeking faster, more consistent, and more explainable credit decisions.
 
@@ -139,8 +140,8 @@ New, unlabelled SME applicants are scored by exactly replaying the fitted pipeli
 
 The scored applicant population is compared against the training population the model was built on.
 
-* **Score-level PSI** — has the overall score distribution drifted from the model's training baseline?
-* **Feature-level CSI** — which individual features are driving that drift, if any?
+* **Score-level PSI**: has the overall score distribution drifted from the model's training baseline?
+* **Feature-level CSI**: which individual features are driving that drift, if any?
 * Risk-band mix comparison between training and applicant populations
 
 ## 10. Fairness & Disparate Impact Review
@@ -180,7 +181,7 @@ The scoring framework incorporates factors such as:
 * Business and director bureau risk
 * Business age and structure
 
-The resulting score provides a decomposable, auditable indication of financial stability and repayment capacity — every point on the score can be traced back to the specific feature that produced it.
+The resulting score provides a decomposable, auditable indication of financial stability and repayment capacity (every point on the score can be traced back to the specific feature that produced it)
 
 ---
 
@@ -212,7 +213,7 @@ The Orey Financial Health Score can support:
 * Credit committees
 * SMEs themselves, seeking to understand and improve their own financial health
 
-Instead of evaluating businesses using only traditional financial statements, lenders gain additional insight into cash-flow behaviour, operational conduct, and bureau history — with a full, auditable trail from raw data to decision.
+Instead of evaluating businesses using only traditional financial statements, lenders gain additional insight into cash-flow behaviour, operational conduct, and bureau history (with a full, auditable trail from raw data to decision)
 
 ---
 
