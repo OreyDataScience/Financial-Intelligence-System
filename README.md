@@ -443,10 +443,6 @@ _The long-term vision is to build a financial intelligence platform that enables
 
 ## About Orey Analytics
 
-**Orey Analytics**
-
-**Cash Flow Intelligence for SMEs**
-
 **Preventing Cash Flow Failure Through Data-Driven Financial Intelligence.**
 
 Orey Analytics develops financial intelligence solutions that transform business data into actionable insights for SMEs and alternative lenders.
