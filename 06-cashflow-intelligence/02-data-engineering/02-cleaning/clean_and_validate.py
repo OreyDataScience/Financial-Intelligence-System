@@ -1,6 +1,6 @@
 """
-Phase 06 Data Engineering: Cleaning & Validation
-Orey Analytics Cash Flow Intelligence
+Phase 06 - Data Engineering: Cleaning & Validation
+Orey Analytics - Cash Flow Intelligence
 
 Reads 01-data/01-raw, standardizes formats, detects data-quality issues using
 rule-based logic (NOT by reading the issues log - that would be cheating),
@@ -21,6 +21,13 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+# Default paths resolved relative to THIS FILE, not the current working
+# directory. This script lives at: 02-data-engineering/02-cleaning/
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_PROJECT_ROOT = _SCRIPT_DIR.parent.parent
+_DEFAULT_RAWDIR = _PROJECT_ROOT / "01-data" / "01-raw"
+_DEFAULT_STAGINGDIR = _PROJECT_ROOT / "01-data" / "02-staging"
 
 DATE_FORMATS = ["%Y-%m-%d", "%d/%m/%Y", "%d %b %Y"]
 
@@ -383,7 +390,7 @@ def main(rawdir, stagingdir):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--rawdir", default="../../01-data/01-raw")
-    parser.add_argument("--stagingdir", default="../../01-data/02-staging")
+    parser.add_argument("--rawdir", default=str(_DEFAULT_RAWDIR))
+    parser.add_argument("--stagingdir", default=str(_DEFAULT_STAGINGDIR))
     args = parser.parse_args()
     main(args.rawdir, args.stagingdir)

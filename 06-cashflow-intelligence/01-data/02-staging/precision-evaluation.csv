@@ -1,0 +1,16 @@
+dataset,flag,total_flagged,true_positives,false_positives,precision
+business_profiles_raw.csv,missing_employee_count,1,1,0,1.0
+business_profiles_raw.csv,missing_financial_year_end,1,1,0,1.0
+business_profiles_raw.csv,revenue_format_flagged,1,1,0,1.0
+business_profiles_raw.csv,conflicting_profile_version,2,1,1,0.5
+bank_transactions_raw.csv,missing_transaction_reference,791,780,11,0.986
+bank_transactions_raw.csv,missing_balance_after_transaction,595,585,10,0.983
+bank_transactions_raw.csv,delayed_posting_flag,381,376,5,0.987
+bank_transactions_raw.csv,possible_sign_inconsistency,3,1,2,0.333
+bank_transactions_raw.csv,is_reversal,2,2,0,1.0
+bank_transactions_raw.csv,is_duplicate,293,292,1,0.997
+invoices_raw.csv,missing_due_date,20,20,0,1.0
+invoices_raw.csv,payment_before_invoice_flag,6,n/a,n/a,n/a (no logged issue_type)
+invoices_raw.csv,is_duplicate,5,5,0,1.0
+supplier_bills_raw.csv,missing_supplier_id,15,15,0,1.0
+supplier_bills_raw.csv,is_duplicate,4,4,0,1.0

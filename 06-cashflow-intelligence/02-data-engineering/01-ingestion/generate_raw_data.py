@@ -25,6 +25,13 @@ import numpy as np
 import pandas as pd
 from faker import Faker
 
+# Default output path is resolved relative to THIS FILE, not the current
+# working directory - so it's correct no matter where you run the script from.
+# This script lives at: 02-data-engineering/01-ingestion/generate_raw_data.py
+# Target:                01-data/01-raw/
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_DEFAULT_OUTDIR = _SCRIPT_DIR.parent.parent / "01-data" / "01-raw"
+
 SEED = 42
 random.seed(SEED)
 np.random.seed(SEED)
@@ -185,7 +192,6 @@ def daterange_days(start, end):
     days = (end - start).days
     return [start + timedelta(days=i) for i in range(days + 1)]
 
-
 def generate_bank_transactions_for_sme(sme, start_sid):
     pattern = sme["txn_pattern"]
     business_id = sme["business_id"]
@@ -304,7 +310,6 @@ def generate_bank_transactions_for_sme(sme, start_sid):
 
     df = pd.DataFrame(rows)
     return df, sid
-
 
 def _txn_row(sid, business_id, bank, account_id, txn_date, description, amount, credit, balance):
     debit_amount = "" if credit else amount
@@ -608,6 +613,6 @@ def main(outdir: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--outdir", default="./01-data/01-raw")
+    parser.add_argument("--outdir", default=str(_DEFAULT_OUTDIR))
     args = parser.parse_args()
     main(args.outdir)
