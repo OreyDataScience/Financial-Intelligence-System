@@ -1,7 +1,9 @@
 # Phase 06 — Synthetic SME Data Specification
 
 **Status:** v2 — implemented and validated
+
 **Owner:** Orey Analytics — Cash Flow Intelligence
+
 **Applies to:** `01-data/01-raw`, `01-data/02-staging`, `01-data/03-processed`
 
 This is the source of truth for how synthetic SME financial data is generated, structured and validated in Phase 06. The generator implements this document; if the generator and this file disagree, this file is updated first.
