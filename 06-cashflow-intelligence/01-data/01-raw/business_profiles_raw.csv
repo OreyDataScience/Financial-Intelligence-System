@@ -1,7 +1,0 @@
-source_record_id,business_id,business_name,industry,business_start_date,province,employee_count,annual_revenue,accounting_basis,financial_year_end,source_file
-BP_0001,SME_001,Karabo Retail Traders,Retail Trade,2018-03-01,Gauteng,8,3500000,Cash,,business_profiles_export_2026.csv
-BP_0002,SME_002,Nkosi & Associates Consulting,Consulting,2016-06-15,Western Cape,,2100000,Accrual,February,business_profiles_export_2026.csv
-BP_0003,SME_003,Delta Build Construction,Construction,2012-01-10,KwaZulu-Natal,15,8000000,Accrual,December,business_profiles_export_2026.csv
-BP_0004,SME_004,Vuka Wholesale Distributors,wholesale distribution,2014-09-01,Gauteng,20,"R 12,000,000",Accrual,February,business_profiles_export_2026.csv
-BP_0005,SME_005,Thandiwe Professional Services,professional services,2019-04-20,Eastern Cape,4,1800000,Cash,February,business_profiles_export_2026.csv
-BP_0006,SME_001,Karabo Retail Traders,Retail,2018-03-01,Gauteng,5,2800000.0,Cash,February,business_profiles_export_2025_stale.csv
