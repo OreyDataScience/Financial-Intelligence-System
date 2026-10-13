@@ -1,0 +1,5 @@
+dataset,issue_type,injected,flagged_needs_investigation,flagged_with_expected_reason,wrongly_matched
+invoices_raw.csv,no_bank_receipt,48,48,48,0
+invoices_raw.csv,ledger_bank_amount_conflict,9,9,9,0
+supplier_bills_raw.csv,no_bank_receipt,37,36,36,1
+supplier_bills_raw.csv,ledger_bank_amount_conflict,11,11,10,0

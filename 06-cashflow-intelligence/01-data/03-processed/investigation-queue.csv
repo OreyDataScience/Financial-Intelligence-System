@@ -1,0 +1,142 @@
+dataset,source_record_id,business_id,reason,detail
+business_profiles,BP_0006,SME_001,conflicting_profile_version,differs from BP_0001 in: industry;employee_count;annual_revenue_standardized;financial_year_end
+invoices,INV_000004,SME_001,no_bank_record,amount_paid=36320.85; candidate_bank_row=none
+invoices,INV_000007,SME_001,no_bank_record,amount_paid=4426.93; candidate_bank_row=none
+invoices,INV_000016,SME_001,no_bank_record,amount_paid=11820.87; candidate_bank_row=none
+invoices,INV_000023,SME_001,no_bank_record,amount_paid=18236.53; candidate_bank_row=none
+invoices,INV_000031,SME_001,no_bank_record,amount_paid=36845.15; candidate_bank_row=none
+invoices,INV_000032,SME_001,no_bank_record,amount_paid=11060.92; candidate_bank_row=none
+invoices,INV_000044,SME_002,no_bank_record,amount_paid=29115.36; candidate_bank_row=none
+invoices,INV_000046,SME_002,no_bank_record,amount_paid=28533.12; candidate_bank_row=none
+invoices,INV_000047,SME_002,amount_conflict,amount_paid=19390.95; candidate_bank_row=BT_0004401
+invoices,INV_000048,SME_002,amount_conflict,amount_paid=31684.01; candidate_bank_row=BT_0004441
+invoices,INV_000054,SME_002,no_bank_record,amount_paid=53794.81; candidate_bank_row=none
+invoices,INV_000062,SME_002,no_bank_record,amount_paid=6730.86; candidate_bank_row=none
+invoices,INV_000064,SME_002,no_bank_record,amount_paid=22048.45; candidate_bank_row=none
+invoices,INV_000067,SME_002,amount_conflict,amount_paid=9314.53; candidate_bank_row=BT_0004452
+invoices,INV_000068,SME_002,no_bank_record,amount_paid=48329.62; candidate_bank_row=none
+invoices,INV_000075,SME_002,no_bank_record,amount_paid=42704.58; candidate_bank_row=none
+invoices,INV_000085,SME_002,no_bank_record,amount_paid=14893.42; candidate_bank_row=none
+invoices,INV_000091,SME_002,amount_conflict,amount_paid=8056.06; candidate_bank_row=BT_0004537
+invoices,INV_000093,SME_002,no_bank_record,amount_paid=45886.32; candidate_bank_row=none
+invoices,INV_000096,SME_002,no_bank_record,amount_paid=30133.94; candidate_bank_row=none
+invoices,INV_000097,SME_002,no_bank_record,amount_paid=15702.4; candidate_bank_row=none
+invoices,INV_000115,SME_003,no_bank_record,amount_paid=254461.29; candidate_bank_row=none
+invoices,INV_000120,SME_003,no_bank_record,amount_paid=115085.59; candidate_bank_row=none
+invoices,INV_000137,SME_004,no_bank_record,amount_paid=31608.65; candidate_bank_row=none
+invoices,INV_000142,SME_004,no_bank_record,amount_paid=4673.87; candidate_bank_row=none
+invoices,INV_000155,SME_004,amount_conflict,amount_paid=59153.38; candidate_bank_row=BT_0013739
+invoices,INV_000219,SME_004,no_bank_record,amount_paid=39328.34; candidate_bank_row=none
+invoices,INV_000229,SME_004,no_bank_record,amount_paid=53630.75; candidate_bank_row=none
+invoices,INV_000251,SME_004,no_bank_record,amount_paid=3964.24; candidate_bank_row=none
+invoices,INV_000254,SME_004,no_bank_record,amount_paid=19698.4; candidate_bank_row=none
+invoices,INV_000267,SME_004,amount_conflict,amount_paid=42123.93; candidate_bank_row=BT_0016261
+invoices,INV_000270,SME_004,no_bank_record,amount_paid=18321.92; candidate_bank_row=none
+invoices,INV_000276,SME_004,no_bank_record,amount_paid=30589.46; candidate_bank_row=none
+invoices,INV_000280,SME_004,no_bank_record,amount_paid=47951.77; candidate_bank_row=none
+invoices,INV_000298,SME_004,no_bank_record,amount_paid=5471.55; candidate_bank_row=none
+invoices,INV_000302,SME_004,amount_conflict,amount_paid=32349.92; candidate_bank_row=BT_0011605
+invoices,INV_000311,SME_004,no_bank_record,amount_paid=26899.31; candidate_bank_row=none
+invoices,INV_000317,SME_004,no_bank_record,amount_paid=25128.22; candidate_bank_row=none
+invoices,INV_000321,SME_004,no_bank_record,amount_paid=33404.37; candidate_bank_row=none
+invoices,INV_000338,SME_004,no_bank_record,amount_paid=10399.29; candidate_bank_row=none
+invoices,INV_000344,SME_004,no_bank_record,amount_paid=26597.25; candidate_bank_row=none
+invoices,INV_000346,SME_004,amount_conflict,amount_paid=37335.16; candidate_bank_row=BT_0014126
+invoices,INV_000347,SME_004,no_bank_record,amount_paid=38470.53; candidate_bank_row=none
+invoices,INV_000363,SME_004,no_bank_record,amount_paid=13947.85; candidate_bank_row=none
+invoices,INV_000368,SME_004,no_bank_record,amount_paid=54415.69; candidate_bank_row=none
+invoices,INV_000382,SME_005,amount_conflict,amount_paid=42107.49; candidate_bank_row=BT_0019552
+invoices,INV_000383,SME_005,no_bank_record,amount_paid=38107.63; candidate_bank_row=none
+invoices,INV_000389,SME_005,no_bank_record,amount_paid=45286.27; candidate_bank_row=none
+invoices,INV_000393,SME_005,no_bank_record,amount_paid=7626.38; candidate_bank_row=none
+invoices,INV_000412,SME_005,no_bank_record,amount_paid=19982.11; candidate_bank_row=none
+invoices,INV_000416,SME_005,no_bank_record,amount_paid=27458.29; candidate_bank_row=none
+invoices,INV_000430,SME_005,no_bank_record,amount_paid=7906.95; candidate_bank_row=none
+invoices,INV_000433,SME_005,no_bank_record,amount_paid=13610.44; candidate_bank_row=none
+invoices,INV_000435,SME_005,no_bank_record,amount_paid=5962.3; candidate_bank_row=none
+invoices,INV_000451,SME_005,no_bank_record,amount_paid=46851.67; candidate_bank_row=none
+invoices,INV_000452,SME_005,no_bank_record,amount_paid=20982.84; candidate_bank_row=none
+invoices,INV_000463,SME_005,no_bank_record,amount_paid=45016.65; candidate_bank_row=none
+supplier_bills,BILL_000001,SME_001,no_bank_record,amount_paid=980.1; candidate_bank_row=none
+supplier_bills,BILL_000006,SME_001,no_bank_record,amount_paid=39722.11; candidate_bank_row=none
+supplier_bills,BILL_000016,SME_001,no_bank_record,amount_paid=36095.74; candidate_bank_row=none
+supplier_bills,BILL_000017,SME_001,no_bank_record,amount_paid=2295.13; candidate_bank_row=none
+supplier_bills,BILL_000029,SME_001,no_bank_record,amount_paid=38988.59; candidate_bank_row=none
+supplier_bills,BILL_000044,SME_001,no_bank_record,amount_paid=34709.52; candidate_bank_row=none
+supplier_bills,BILL_000045,SME_001,no_bank_record,amount_paid=2286.14; candidate_bank_row=none
+supplier_bills,BILL_000048,SME_001,no_bank_record,amount_paid=32516.86; candidate_bank_row=none
+supplier_bills,BILL_000051,SME_002,no_bank_record,amount_paid=23968.16; candidate_bank_row=none
+supplier_bills,BILL_000053,SME_002,possible_sign_error_in_bank,amount_paid=38811.62; candidate_bank_row=BT_0004534
+supplier_bills,BILL_000054,SME_002,amount_conflict,amount_paid=33763.7; candidate_bank_row=BT_0004493
+supplier_bills,BILL_000059,SME_002,no_bank_record,amount_paid=2726.83; candidate_bank_row=none
+supplier_bills,BILL_000061,SME_002,possible_sign_error_in_bank,amount_paid=32609.59; candidate_bank_row=BT_0004404
+supplier_bills,BILL_000066,SME_002,no_bank_record,amount_paid=37818.25; candidate_bank_row=none
+supplier_bills,BILL_000068,SME_002,possible_sign_error_in_bank,amount_paid=10270.25; candidate_bank_row=BT_0004435
+supplier_bills,BILL_000074,SME_003,no_bank_record,amount_paid=168581.77; candidate_bank_row=none
+supplier_bills,BILL_000078,SME_003,payment_reversed,amount_paid=168550.15; candidate_bank_row=BT_0004557
+supplier_bills,BILL_000080,SME_003,amount_conflict,amount_paid=193534.96; candidate_bank_row=BT_0004636
+supplier_bills,BILL_000115,SME_003,no_bank_record,amount_paid=159083.41; candidate_bank_row=none
+supplier_bills,BILL_000142,SME_004,no_bank_record,amount_paid=32076.71; candidate_bank_row=none
+supplier_bills,BILL_000145,SME_004,no_bank_record,amount_paid=35006.36; candidate_bank_row=none
+supplier_bills,BILL_000158,SME_004,amount_conflict,amount_paid=30025.1; candidate_bank_row=BT_0015679
+supplier_bills,BILL_000160,SME_004,possible_sign_error_in_bank,amount_paid=5419.68; candidate_bank_row=BT_0018966
+supplier_bills,BILL_000161,SME_004,no_bank_record,amount_paid=28677.31; candidate_bank_row=none
+supplier_bills,BILL_000175,SME_004,no_bank_record,amount_paid=5230.6; candidate_bank_row=none
+supplier_bills,BILL_000176,SME_004,no_bank_record,amount_paid=35675.83; candidate_bank_row=none
+supplier_bills,BILL_000177,SME_004,no_bank_record,amount_paid=23946.9; candidate_bank_row=none
+supplier_bills,BILL_000179,SME_004,no_bank_record,amount_paid=14935.26; candidate_bank_row=none
+supplier_bills,BILL_000185,SME_004,no_bank_record,amount_paid=17550.55; candidate_bank_row=none
+supplier_bills,BILL_000188,SME_004,no_bank_record,amount_paid=14841.75; candidate_bank_row=none
+supplier_bills,BILL_000191,SME_004,possible_sign_error_in_bank,amount_paid=14565.82; candidate_bank_row=BT_0018556
+supplier_bills,BILL_000193,SME_004,amount_conflict,amount_paid=24428.11; candidate_bank_row=BT_0008520
+supplier_bills,BILL_000198,SME_004,no_bank_record,amount_paid=6846.91; candidate_bank_row=none
+supplier_bills,BILL_000200,SME_004,no_bank_record,amount_paid=11761.26; candidate_bank_row=none
+supplier_bills,BILL_000209,SME_004,possible_sign_error_in_bank,amount_paid=38794.08; candidate_bank_row=BT_0014844
+supplier_bills,BILL_000210,SME_004,amount_conflict,amount_paid=34687.53; candidate_bank_row=BT_0007092
+supplier_bills,BILL_000214,SME_004,possible_sign_error_in_bank,amount_paid=14798.67; candidate_bank_row=BT_0007917
+supplier_bills,BILL_000218,SME_004,no_bank_record,amount_paid=11559.17; candidate_bank_row=none
+supplier_bills,BILL_000223,SME_004,no_bank_record,amount_paid=6824.96; candidate_bank_row=none
+supplier_bills,BILL_000228,SME_004,no_bank_record,amount_paid=23458.91; candidate_bank_row=none
+supplier_bills,BILL_000229,SME_004,no_bank_record,amount_paid=6597.33; candidate_bank_row=none
+supplier_bills,BILL_000234,SME_004,no_bank_record,amount_paid=5809.38; candidate_bank_row=none
+supplier_bills,BILL_000236,SME_004,amount_conflict,amount_paid=39603.43; candidate_bank_row=BT_0014676
+supplier_bills,BILL_000241,SME_004,no_bank_record,amount_paid=30529.0; candidate_bank_row=none
+supplier_bills,BILL_000242,SME_004,amount_conflict,amount_paid=24027.73; candidate_bank_row=BT_0013818
+supplier_bills,BILL_000246,SME_004,no_bank_record,amount_paid=37216.4; candidate_bank_row=none
+supplier_bills,BILL_000247,SME_004,possible_sign_error_in_bank,amount_paid=33309.47; candidate_bank_row=BT_0015332
+supplier_bills,BILL_000250,SME_004,possible_sign_error_in_bank,amount_paid=16538.23; candidate_bank_row=BT_0005531
+supplier_bills,BILL_000255,SME_004,payment_reversed,amount_paid=23191.69; candidate_bank_row=BT_0008866
+supplier_bills,BILL_000265,SME_004,amount_conflict,amount_paid=14673.8; candidate_bank_row=BT_0012298
+supplier_bills,BILL_000270,SME_004,no_bank_record,amount_paid=15389.3; candidate_bank_row=none
+supplier_bills,BILL_000271,SME_004,no_bank_record,amount_paid=18775.85; candidate_bank_row=none
+supplier_bills,BILL_000274,SME_004,amount_conflict,amount_paid=20357.46; candidate_bank_row=BT_0013121
+supplier_bills,BILL_000289,SME_004,payment_reversed,amount_paid=35808.76; candidate_bank_row=BT_0007883
+supplier_bills,BILL_000304,SME_004,payment_reversed,amount_paid=16192.85; candidate_bank_row=BT_0013356
+supplier_bills,BILL_000308,SME_004,possible_sign_error_in_bank,amount_paid=18707.6; candidate_bank_row=BT_0011868
+supplier_bills,BILL_000317,SME_004,possible_sign_error_in_bank,amount_paid=23543.98; candidate_bank_row=BT_0016043
+supplier_bills,BILL_000322,SME_004,no_bank_record,amount_paid=23656.08; candidate_bank_row=none
+supplier_bills,BILL_000328,SME_004,amount_conflict,amount_paid=22822.76; candidate_bank_row=BT_0007624
+supplier_bills,BILL_000336,SME_004,no_bank_record,amount_paid=29589.55; candidate_bank_row=none
+supplier_bills,BILL_000353,SME_005,no_bank_record,amount_paid=13673.22; candidate_bank_row=none
+supplier_bills,BILL_000355,SME_005,no_bank_record,amount_paid=21727.13; candidate_bank_row=none
+bank_transactions,BT_0004404,SME_002,possible_sign_inconsistency,net_amount=32609.59; SUPPLIER PAYMENT SUPP_SME_002_007
+bank_transactions,BT_0004409,SME_002,possible_sign_inconsistency,net_amount=1728.54; OPERATING EXPENSE
+bank_transactions,BT_0004435,SME_002,possible_sign_inconsistency,net_amount=10270.25; SUPPLIER PAYMENT SUPP_SME_002_006
+bank_transactions,BT_0004444,SME_002,possible_sign_inconsistency,net_amount=2022.79; OPERATING EXPENSE
+bank_transactions,BT_0004458,SME_002,possible_sign_inconsistency,net_amount=1780.29; OPERATING EXPENSE
+bank_transactions,BT_0004464,SME_002,possible_sign_inconsistency,net_amount=1577.04; OPERATING EXPENSE
+bank_transactions,BT_0004467,SME_002,possible_sign_inconsistency,net_amount=1293.04; OPERATING EXPENSE
+bank_transactions,BT_0004468,SME_002,possible_sign_inconsistency,net_amount=130873.52; PAYROLL RUN
+bank_transactions,BT_0004490,SME_002,possible_sign_inconsistency,net_amount=4782.59; OPERATING EXPENSE
+bank_transactions,BT_0004505,SME_002,possible_sign_inconsistency,net_amount=2831.22; OPERATING EXPENSE
+bank_transactions,BT_0004513,SME_002,possible_sign_inconsistency,net_amount=5238.11; OPERATING EXPENSE
+bank_transactions,BT_0004515,SME_002,possible_sign_inconsistency,net_amount=124120.17; PAYROLL RUN
+bank_transactions,BT_0004534,SME_002,possible_sign_inconsistency,net_amount=38811.62; SUPPLIER PAYMENT SUPP_SME_002_010
+bank_transactions,BT_0005531,SME_004,possible_sign_inconsistency,net_amount=16538.23; SUPPLIER CREDIT SETTLEMENT SUPP_SME_004_001
+bank_transactions,BT_0007917,SME_004,possible_sign_inconsistency,net_amount=14798.67; SUPPLIER CREDIT SETTLEMENT SUPP_SME_004_003
+bank_transactions,BT_0011868,SME_004,possible_sign_inconsistency,net_amount=18707.6; SUPPLIER CREDIT SETTLEMENT SUPP_SME_004_005
+bank_transactions,BT_0014844,SME_004,possible_sign_inconsistency,net_amount=38794.08; SUPPLIER CREDIT SETTLEMENT SUPP_SME_004_008
+bank_transactions,BT_0015332,SME_004,possible_sign_inconsistency,net_amount=33309.47; SUPPLIER CREDIT SETTLEMENT SUPP_SME_004_001
+bank_transactions,BT_0016043,SME_004,possible_sign_inconsistency,net_amount=23543.98; SUPPLIER CREDIT SETTLEMENT SUPP_SME_004_004
+bank_transactions,BT_0018556,SME_004,possible_sign_inconsistency,net_amount=14565.82; SUPPLIER CREDIT SETTLEMENT SUPP_SME_004_009
+bank_transactions,BT_0018966,SME_004,possible_sign_inconsistency,net_amount=5419.68; SUPPLIER CREDIT SETTLEMENT SUPP_SME_004_008

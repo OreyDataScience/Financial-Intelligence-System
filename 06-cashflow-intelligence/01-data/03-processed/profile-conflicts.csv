@@ -1,0 +1,2 @@
+business_id,canonical_source_record_id,conflicting_source_record_id,differing_fields,status,note
+SME_001,BP_0001,BP_0006,industry;employee_count;annual_revenue_standardized;financial_year_end,needs_review,Earliest version used as working record; conflicting version preserved in staging/raw. A person must confirm which version is correct.
