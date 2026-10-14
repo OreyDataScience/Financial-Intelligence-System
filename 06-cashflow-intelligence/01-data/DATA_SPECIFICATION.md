@@ -1,9 +1,7 @@
 # Phase 06 — Synthetic SME Data Specification
 
 **Status:** v2 — implemented and validated
-
 **Owner:** Orey Analytics — Cash Flow Intelligence
-
 **Applies to:** `01-data/01-raw`, `01-data/02-staging`, `01-data/03-processed`
 
 This is the source of truth for how synthetic SME financial data is generated, structured and validated in Phase 06. The generator implements this document; if the generator and this file disagree, this file is updated first.
@@ -67,6 +65,7 @@ Generation order matters, because the sources must be *economically linked* for 
    - ~12% of paid/partially-paid records get **no bank transaction** (`no_bank_receipt`).
    - ~3% of fully-paid records have a **bank amount that differs** from the ledger (`ledger_bank_amount_conflict`).
 5. **Independent operational noise** is added, which has no ledger counterpart by design: retail card settlements, wholesale cash-and-carry orders, payroll, operating expenses.
+   The running balance (`balance_after_transaction`) is then recomputed chronologically from each business's opening balance, so it behaves like a real statement. (Blank balances are injected afterwards as export messiness.)
 6. **Bank-export messiness** is applied (see §6), then ledger date formats are scrambled and duplicate imports added.
 
 Every injected issue is written to `data-quality-issues-log.csv` at the moment it is injected.
@@ -165,3 +164,14 @@ Outcomes: `matched`, `needs_investigation` (with a reason), `not_applicable`. No
 - `possible_sign_inconsistency` is a keyword heuristic and fragile by nature; a production version should learn each business's normal sign pattern per description template.
 - Synthetic data is cleaner than reality in one way: counterparty IDs always appear in bank descriptions. Real bank data will often lack them, so low-confidence matching will matter more.
 - `payment_before_invoice` is flagged but not yet routed anywhere downstream.
+- **The synthetic businesses are not economically calibrated to their profiles.** Measured per year against the stated profiles:
+
+  | Business | Stated revenue | Actual inflow | Actual outflow | Ending balance |
+  |---|---|---|---|---|
+  | SME_001 | R3.5m | R1.4m | R0.4m | +R2.1m |
+  | SME_002 | R2.1m | R0.6m | R1.5m | −R2.2m |
+  | SME_003 | R8.0m | R1.9m | R4.9m | −R5.8m |
+  | SME_004 | R12.0m | R11.4m | R1.3m | +R20.0m |
+  | SME_005 | R1.8m | R0.9m | R1.1m | −R0.3m |
+
+  Three businesses run deeply overdrawn with no overdraft facility, retail and wholesale have no payroll or operating costs at all despite 8 and 20 staff, and most inflows fall well short of stated revenue. This does not affect reconciliation or the database schema, but it will distort burn rate, runway, forecasting and risk scoring. **It must be calibrated (revenue targets, payroll and fixed costs for every business, a financing assumption) before `05-cashflow-intelligence`.**
