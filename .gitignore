@@ -64,3 +64,4 @@ venv/
 
 # Financial Health Scoring generated outputs
 05-financial-scoring/01-population-model/outputs/*.csv
+.Rproj.user
