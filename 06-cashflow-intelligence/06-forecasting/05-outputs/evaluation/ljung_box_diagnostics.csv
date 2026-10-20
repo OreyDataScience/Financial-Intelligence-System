@@ -1,0 +1,16 @@
+"business_id","business_name","target","observations","test_lag","test_statistic","degrees_of_freedom","p_value"
+"SME_001","Karabo Retail Traders","total_credit_inflows",24,6,4.11768941072349,6,0.660753414871836
+"SME_001","Karabo Retail Traders","total_debit_outflows",24,6,5.01817516071878,6,0.541484136930253
+"SME_001","Karabo Retail Traders","net_bank_movement",24,6,4.58050594178981,6,0.59862521659883
+"SME_002","Nkosi & Associates Consulting","total_credit_inflows",24,6,9.94327293865779,6,0.127061336126057
+"SME_002","Nkosi & Associates Consulting","total_debit_outflows",24,6,2.38962548814574,6,0.88061005641118
+"SME_002","Nkosi & Associates Consulting","net_bank_movement",24,6,5.04953016888945,6,0.537476397275616
+"SME_003","Delta Build Construction","total_credit_inflows",24,6,5.04150926508307,6,0.53850038411722
+"SME_003","Delta Build Construction","total_debit_outflows",24,6,5.69128054003384,6,0.458645737720176
+"SME_003","Delta Build Construction","net_bank_movement",24,6,4.49064640076929,6,0.610587321170966
+"SME_004","Vuka Wholesale Distributors","total_credit_inflows",24,6,3.20756417746729,6,0.782380633519436
+"SME_004","Vuka Wholesale Distributors","total_debit_outflows",24,6,8.21149365206626,6,0.223014664220917
+"SME_004","Vuka Wholesale Distributors","net_bank_movement",24,6,8.40891283548709,6,0.209649264431358
+"SME_005","Thandiwe Professional Services","total_credit_inflows",24,6,7.44123659327835,6,0.281960337591864
+"SME_005","Thandiwe Professional Services","total_debit_outflows",24,6,2.05209224066601,6,0.914845839573107
+"SME_005","Thandiwe Professional Services","net_bank_movement",24,6,6.36051243454521,6,0.384039556766613

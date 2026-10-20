@@ -1,0 +1,6 @@
+"business_id","business_name","observations","months_with_investigations","total_investigation_flags","total_reversals","total_sign_inconsistencies","missing_inflows","missing_outflows","missing_net_movement"
+"SME_001","Karabo Retail Traders",24,0,0,0,0,0,0,0
+"SME_002","Nkosi & Associates Consulting",24,12,18,0,13,0,0,0
+"SME_003","Delta Build Construction",24,2,2,1,0,0,0,0
+"SME_004","Vuka Wholesale Distributors",24,14,23,3,8,0,0,0
+"SME_005","Thandiwe Professional Services",24,1,1,0,0,0,0,0
