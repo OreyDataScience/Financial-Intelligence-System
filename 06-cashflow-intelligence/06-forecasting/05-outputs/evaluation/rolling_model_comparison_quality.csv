@@ -1,0 +1,5 @@
+method,status,forecast_records
+ARIMA,success,855
+ETS,success,855
+naive,success,855
+seasonal_naive,success,855
