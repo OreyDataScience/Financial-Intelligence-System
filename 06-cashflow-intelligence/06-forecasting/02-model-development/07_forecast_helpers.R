@@ -1,20 +1,22 @@
+
+# ============================================================
 # Orey Analytics
 # Phase 06 — Cash Flow Intelligence
 # Shared Forecasting Helpers
 #
 # Purpose:
-# Provide reusable forecasting functions for:
 #   1. Naive baseline
 #   2. Seasonal naive baseline
 #   3. ETS
 #   4. ARIMA
 #
-# Design principles:
-#   - Never silently remove unusual observations.
-#   - Do not automatically replace zero or negative values.
-#   - Return explicit model status and error information.
-#   - Keep model fitting separate from database operations.
+# Principles:
+#   - Preserve unusual observations.
+#   - Never automatically replace zero or negative values.
+#   - Report model failures explicitly.
+#   - Keep forecasting separate from database operations.
 # ============================================================
+
 
 # ------------------------------------------------------------
 # 1. Validate input series
@@ -37,15 +39,20 @@ validate_forecast_series <- function(y, horizon = 6L) {
     )
   }
   
-  if (length(horizon) != 1L ||
-      is.na(horizon) ||
-      horizon < 1 ||
-      horizon != as.integer(horizon)) {
+  if (
+    length(horizon) != 1L ||
+    !is.numeric(horizon) ||
+    is.na(horizon) ||
+    !is.finite(horizon) ||
+    horizon < 1 ||
+    horizon != as.integer(horizon)
+  ) {
     stop("horizon must be a positive whole number.")
   }
   
   invisible(TRUE)
 }
+
 
 # ------------------------------------------------------------
 # 2. Naive forecast
@@ -56,31 +63,48 @@ fit_naive_forecast <- function(y, horizon = 6L) {
   validate_forecast_series(y, horizon)
   
   forecast::naive(
-    stats::ts(y, frequency = 12),
+    stats::ts(
+      y,
+      start = c(2024, 1),
+      frequency = 12
+    ),
     h = as.integer(horizon)
   )
 }
+
 
 # ------------------------------------------------------------
 # 3. Seasonal naive forecast
 # ------------------------------------------------------------
 
-fit_seasonal_naive_forecast <- function(y, horizon = 6L) {
+fit_seasonal_naive_forecast <- function(
+    y,
+    horizon = 6L
+) {
   
   validate_forecast_series(y, horizon)
   
-  if (length(y) < 24L) {
-    stop(
-      "Seasonal naive forecasting requires at least ",
-      "24 monthly observations for this project."
-    )
-  }
+  # A complete annual cycle is required.
+  # Repeat the latest 12 observations in seasonal order.
+  #
+  # This implementation returns point forecasts only.
+  # It does not calculate prediction intervals.
   
-  forecast::snaive(
-    stats::ts(y, frequency = 12),
-    h = as.integer(horizon)
+  last_season <- tail(y, 12L)
+  
+  forecast_values <- rep(
+    last_season,
+    length.out = as.integer(horizon)
+  )
+  
+  # Return a list containing $mean so it remains
+  # compatible with the other forecasting helpers.
+  
+  list(
+    mean = forecast_values
   )
 }
+
 
 # ------------------------------------------------------------
 # 4. ETS forecast
@@ -90,13 +114,24 @@ fit_ets_forecast <- function(y, horizon = 6L) {
   
   validate_forecast_series(y, horizon)
   
-  forecast::ets(
-    stats::ts(y, frequency = 12),
+  monthly_series <- stats::ts(
+    y,
+    start = c(2024, 1),
+    frequency = 12
+  )
+  
+  fitted_model <- forecast::ets(
+    monthly_series,
     model = "ZZZ",
     damped = NULL
-  ) |>
-    forecast::forecast(h = as.integer(horizon))
+  )
+  
+  forecast::forecast(
+    fitted_model,
+    h = as.integer(horizon)
+  )
 }
+
 
 # ------------------------------------------------------------
 # 5. ARIMA forecast
@@ -106,13 +141,23 @@ fit_arima_forecast <- function(y, horizon = 6L) {
   
   validate_forecast_series(y, horizon)
   
-  forecast::auto.arima(
-    stats::ts(y, frequency = 12),
+  monthly_series <- stats::ts(
+    y,
+    start = c(2024, 1),
+    frequency = 12
+  )
+  
+  fitted_model <- forecast::auto.arima(
+    monthly_series,
     seasonal = TRUE,
     stepwise = TRUE,
     approximation = FALSE
-  ) |>
-    forecast::forecast(h = as.integer(horizon))
+  )
+  
+  forecast::forecast(
+    fitted_model,
+    h = as.integer(horizon)
+  )
 }
 
 
@@ -133,7 +178,11 @@ run_forecast_safely <- function(
     ARIMA = fit_arima_forecast
   )
   
-  if (!method %in% names(forecast_functions)) {
+  if (
+    length(method) != 1L ||
+    is.na(method) ||
+    !method %in% names(forecast_functions)
+  ) {
     stop(
       "Unknown method. Choose: ",
       paste(names(forecast_functions), collapse = ", ")
@@ -167,8 +216,9 @@ run_forecast_safely <- function(
   result
 }
 
+
 # ------------------------------------------------------------
-# 7. Extract forecast values into a simple data frame
+# 7. Extract forecast values into a data frame
 # ------------------------------------------------------------
 
 extract_forecast_values <- function(
@@ -188,15 +238,18 @@ extract_forecast_values <- function(
   
   fitted_forecast <- forecast_result$forecast
   
+  if (length(fitted_forecast$mean) != horizon) {
+    stop(
+      "The forecast length does not match ",
+      "the requested horizon."
+    )
+  }
+  
   future_dates <- seq.Date(
     from = as.Date(origin_date),
     by = "month",
     length.out = as.integer(horizon) + 1L
   )[-1L]
-  
-  if (length(fitted_forecast$mean) != horizon) {
-    stop("The forecast length does not match the requested horizon.")
-  }
   
   data.frame(
     business_id = business_id,
