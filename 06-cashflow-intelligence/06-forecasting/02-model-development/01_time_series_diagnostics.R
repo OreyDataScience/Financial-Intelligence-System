@@ -434,3 +434,4 @@ if (length(ljung_box_results) > 0) {
     row.names = FALSE
   )
 }
+

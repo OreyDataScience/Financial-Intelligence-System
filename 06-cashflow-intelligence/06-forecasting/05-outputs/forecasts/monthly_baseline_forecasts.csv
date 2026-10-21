@@ -1,0 +1,181 @@
+"business_id","business_name","industry","currency","target","method","forecast_origin_month","forecast_month","horizon_month","last_observed_value","forecast_value","training_months","training_months_with_investigations","missing_investigation_flag_months","training_reversal_flags","training_sign_inconsistency_flags"
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","naive",2025-12-01,2026-01-01,1,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","naive",2025-12-01,2026-02-01,2,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","naive",2025-12-01,2026-03-01,3,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","naive",2025-12-01,2026-04-01,4,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","naive",2025-12-01,2026-05-01,5,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","naive",2025-12-01,2026-06-01,6,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-01-01,1,95264.56,188923.01,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-02-01,2,95264.56,127346.33,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-03-01,3,95264.56,184800.57,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-04-01,4,95264.56,102478.14,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-05-01,5,95264.56,92877.37,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-06-01,6,95264.56,147652.49,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","naive",2025-12-01,2026-01-01,1,0,0,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","naive",2025-12-01,2026-02-01,2,0,0,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","naive",2025-12-01,2026-03-01,3,0,0,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","naive",2025-12-01,2026-04-01,4,0,0,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","naive",2025-12-01,2026-05-01,5,0,0,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","naive",2025-12-01,2026-06-01,6,0,0,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-01-01,1,0,20880.98,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-02-01,2,0,36481.62,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-03-01,3,0,45898.37,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-04-01,4,0,0,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-05-01,5,0,51424.47,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-06-01,6,0,25524.51,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","naive",2025-12-01,2026-01-01,1,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","naive",2025-12-01,2026-02-01,2,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","naive",2025-12-01,2026-03-01,3,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","naive",2025-12-01,2026-04-01,4,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","naive",2025-12-01,2026-05-01,5,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","naive",2025-12-01,2026-06-01,6,95264.56,95264.56,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-01-01,1,95264.56,168042.03,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-02-01,2,95264.56,90864.71,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-03-01,3,95264.56,138902.2,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-04-01,4,95264.56,102478.14,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-05-01,5,95264.56,41452.9,24,0,0,0,0
+"SME_001","Karabo Retail Traders","Retail Trade","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-06-01,6,95264.56,122127.98,24,0,0,0,0
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","naive",2025-12-01,2026-01-01,1,67156.52,67156.52,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","naive",2025-12-01,2026-02-01,2,67156.52,67156.52,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","naive",2025-12-01,2026-03-01,3,67156.52,67156.52,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","naive",2025-12-01,2026-04-01,4,67156.52,67156.52,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","naive",2025-12-01,2026-05-01,5,67156.52,67156.52,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","naive",2025-12-01,2026-06-01,6,67156.52,67156.52,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-01-01,1,67156.52,0,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-02-01,2,67156.52,22776.15,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-03-01,3,67156.52,24655.73,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-04-01,4,67156.52,51672.27,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-05-01,5,67156.52,40605.81,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-06-01,6,67156.52,66687.36,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","naive",2025-12-01,2026-01-01,1,91422.13,91422.13,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","naive",2025-12-01,2026-02-01,2,91422.13,91422.13,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","naive",2025-12-01,2026-03-01,3,91422.13,91422.13,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","naive",2025-12-01,2026-04-01,4,91422.13,91422.13,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","naive",2025-12-01,2026-05-01,5,91422.13,91422.13,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","naive",2025-12-01,2026-06-01,6,91422.13,91422.13,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-01-01,1,91422.13,118054.15,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-02-01,2,91422.13,106373.1,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-03-01,3,91422.13,138416.91,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-04-01,4,91422.13,191134.82,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-05-01,5,91422.13,156883.1,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-06-01,6,91422.13,118413.34,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","naive",2025-12-01,2026-01-01,1,-24265.61,-24265.61,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","naive",2025-12-01,2026-02-01,2,-24265.61,-24265.61,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","naive",2025-12-01,2026-03-01,3,-24265.61,-24265.61,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","naive",2025-12-01,2026-04-01,4,-24265.61,-24265.61,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","naive",2025-12-01,2026-05-01,5,-24265.61,-24265.61,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","naive",2025-12-01,2026-06-01,6,-24265.61,-24265.61,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-01-01,1,-24265.61,-118054.15,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-02-01,2,-24265.61,-83596.95,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-03-01,3,-24265.61,-113761.18,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-04-01,4,-24265.61,-139462.55,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-05-01,5,-24265.61,-116277.29,24,12,0,0,13
+"SME_002","Nkosi & Associates Consulting","Consulting","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-06-01,6,-24265.61,-51725.98,24,12,0,0,13
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","naive",2025-12-01,2026-01-01,1,0,0,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","naive",2025-12-01,2026-02-01,2,0,0,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","naive",2025-12-01,2026-03-01,3,0,0,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","naive",2025-12-01,2026-04-01,4,0,0,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","naive",2025-12-01,2026-05-01,5,0,0,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","naive",2025-12-01,2026-06-01,6,0,0,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-01-01,1,0,0,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-02-01,2,0,0,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-03-01,3,0,93832.87,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-04-01,4,0,129247.38,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-05-01,5,0,327751.86,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-06-01,6,0,409994.5,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","naive",2025-12-01,2026-01-01,1,618856.65,618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","naive",2025-12-01,2026-02-01,2,618856.65,618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","naive",2025-12-01,2026-03-01,3,618856.65,618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","naive",2025-12-01,2026-04-01,4,618856.65,618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","naive",2025-12-01,2026-05-01,5,618856.65,618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","naive",2025-12-01,2026-06-01,6,618856.65,618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-01-01,1,618856.65,590430.48,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-02-01,2,618856.65,308293,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-03-01,3,618856.65,476222.99,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-04-01,4,618856.65,181361.17,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-05-01,5,618856.65,260946.42,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-06-01,6,618856.65,384477.41,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","naive",2025-12-01,2026-01-01,1,-618856.65,-618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","naive",2025-12-01,2026-02-01,2,-618856.65,-618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","naive",2025-12-01,2026-03-01,3,-618856.65,-618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","naive",2025-12-01,2026-04-01,4,-618856.65,-618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","naive",2025-12-01,2026-05-01,5,-618856.65,-618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","naive",2025-12-01,2026-06-01,6,-618856.65,-618856.65,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-01-01,1,-618856.65,-590430.48,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-02-01,2,-618856.65,-308293,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-03-01,3,-618856.65,-382390.12,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-04-01,4,-618856.65,-52113.79,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-05-01,5,-618856.65,66805.44,24,2,0,1,0
+"SME_003","Delta Build Construction","Construction","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-06-01,6,-618856.65,25517.09,24,2,0,1,0
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","naive",2025-12-01,2026-01-01,1,1085988.35,1085988.35,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","naive",2025-12-01,2026-02-01,2,1085988.35,1085988.35,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","naive",2025-12-01,2026-03-01,3,1085988.35,1085988.35,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","naive",2025-12-01,2026-04-01,4,1085988.35,1085988.35,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","naive",2025-12-01,2026-05-01,5,1085988.35,1085988.35,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","naive",2025-12-01,2026-06-01,6,1085988.35,1085988.35,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-01-01,1,1085988.35,961682.87,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-02-01,2,1085988.35,859894.22,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-03-01,3,1085988.35,928536.54,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-04-01,4,1085988.35,1002467.78,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-05-01,5,1085988.35,1098301.51,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-06-01,6,1085988.35,1058493.5,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","naive",2025-12-01,2026-01-01,1,65078.84,65078.84,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","naive",2025-12-01,2026-02-01,2,65078.84,65078.84,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","naive",2025-12-01,2026-03-01,3,65078.84,65078.84,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","naive",2025-12-01,2026-04-01,4,65078.84,65078.84,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","naive",2025-12-01,2026-05-01,5,65078.84,65078.84,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","naive",2025-12-01,2026-06-01,6,65078.84,65078.84,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-01-01,1,65078.84,188113.87,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-02-01,2,65078.84,69569.01,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-03-01,3,65078.84,137657.15,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-04-01,4,65078.84,160829.38,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-05-01,5,65078.84,184290.09,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-06-01,6,65078.84,108453.14,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","naive",2025-12-01,2026-01-01,1,1020909.51,1020909.51,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","naive",2025-12-01,2026-02-01,2,1020909.51,1020909.51,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","naive",2025-12-01,2026-03-01,3,1020909.51,1020909.51,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","naive",2025-12-01,2026-04-01,4,1020909.51,1020909.51,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","naive",2025-12-01,2026-05-01,5,1020909.51,1020909.51,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","naive",2025-12-01,2026-06-01,6,1020909.51,1020909.51,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-01-01,1,1020909.51,773569,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-02-01,2,1020909.51,790325.21,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-03-01,3,1020909.51,790879.39,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-04-01,4,1020909.51,841638.4,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-05-01,5,1020909.51,914011.42,24,14,0,3,8
+"SME_004","Vuka Wholesale Distributors","wholesale distribution","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-06-01,6,1020909.51,950040.36,24,14,0,3,8
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","naive",2025-12-01,2026-01-01,1,49489.74,49489.74,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","naive",2025-12-01,2026-02-01,2,49489.74,49489.74,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","naive",2025-12-01,2026-03-01,3,49489.74,49489.74,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","naive",2025-12-01,2026-04-01,4,49489.74,49489.74,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","naive",2025-12-01,2026-05-01,5,49489.74,49489.74,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","naive",2025-12-01,2026-06-01,6,49489.74,49489.74,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-01-01,1,49489.74,42606.94,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-02-01,2,49489.74,0,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-03-01,3,49489.74,98304.75,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-04-01,4,49489.74,124502.76,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-05-01,5,49489.74,60221.78,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_credit_inflows","seasonal_naive",2025-12-01,2026-06-01,6,49489.74,104618.06,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","naive",2025-12-01,2026-01-01,1,126438.67,126438.67,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","naive",2025-12-01,2026-02-01,2,126438.67,126438.67,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","naive",2025-12-01,2026-03-01,3,126438.67,126438.67,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","naive",2025-12-01,2026-04-01,4,126438.67,126438.67,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","naive",2025-12-01,2026-05-01,5,126438.67,126438.67,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","naive",2025-12-01,2026-06-01,6,126438.67,126438.67,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-01-01,1,126438.67,94914.02,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-02-01,2,126438.67,69672.95,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-03-01,3,126438.67,88932.23,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-04-01,4,126438.67,109157.19,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-05-01,5,126438.67,124571.84,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","total_debit_outflows","seasonal_naive",2025-12-01,2026-06-01,6,126438.67,67807.64,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","naive",2025-12-01,2026-01-01,1,-76948.93,-76948.93,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","naive",2025-12-01,2026-02-01,2,-76948.93,-76948.93,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","naive",2025-12-01,2026-03-01,3,-76948.93,-76948.93,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","naive",2025-12-01,2026-04-01,4,-76948.93,-76948.93,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","naive",2025-12-01,2026-05-01,5,-76948.93,-76948.93,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","naive",2025-12-01,2026-06-01,6,-76948.93,-76948.93,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-01-01,1,-76948.93,-52307.08,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-02-01,2,-76948.93,-69672.95,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-03-01,3,-76948.93,9372.52,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-04-01,4,-76948.93,15345.57,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-05-01,5,-76948.93,-64350.06,24,1,0,0,0
+"SME_005","Thandiwe Professional Services","professional services","ZAR","net_bank_movement","seasonal_naive",2025-12-01,2026-06-01,6,-76948.93,36810.42,24,1,0,0,0

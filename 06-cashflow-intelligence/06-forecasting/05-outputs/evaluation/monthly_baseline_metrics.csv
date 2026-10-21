@@ -1,0 +1,31 @@
+"business_id","business_name","currency","target","method","forecast_error_count","MAE","RMSE","MASE"
+"SME_001","Karabo Retail Traders","ZAR","total_credit_inflows","naive",42,45286.4790476191,54515.1656063795,1.19936317226812
+"SME_001","Karabo Retail Traders","ZAR","total_credit_inflows","seasonal_naive",42,24966.8011904762,31496.8348847079,0.658065343682239
+"SME_001","Karabo Retail Traders","ZAR","total_debit_outflows","naive",42,26878.1221428571,31939.4637390906,1.078972452484
+"SME_001","Karabo Retail Traders","ZAR","total_debit_outflows","seasonal_naive",42,19092.5054761905,23846.588432971,0.766574798442255
+"SME_001","Karabo Retail Traders","ZAR","net_bank_movement","naive",42,57450.1430952381,68156.1191862145,1.26294850786663
+"SME_001","Karabo Retail Traders","ZAR","net_bank_movement","seasonal_naive",42,38021.4076190476,46863.6926833042,0.825220808394208
+"SME_002","Nkosi & Associates Consulting","ZAR","total_credit_inflows","naive",42,37853.315952381,48573.8046850467,0.64626860176891
+"SME_002","Nkosi & Associates Consulting","ZAR","total_credit_inflows","seasonal_naive",42,59994.2576190476,79166.2347744983,1.06466870639153
+"SME_002","Nkosi & Associates Consulting","ZAR","total_debit_outflows","naive",42,49446.955952381,64546.3074321601,1.185444266932
+"SME_002","Nkosi & Associates Consulting","ZAR","total_debit_outflows","seasonal_naive",42,44312.8230952381,66675.831229888,1.06515915441579
+"SME_002","Nkosi & Associates Consulting","ZAR","net_bank_movement","naive",42,66363.2785714286,97542.8182189842,0.750856409299234
+"SME_002","Nkosi & Associates Consulting","ZAR","net_bank_movement","seasonal_naive",42,88157.4045238095,122113.819997003,1.03300320709805
+"SME_003","Delta Build Construction","ZAR","total_credit_inflows","naive",42,198804.579047619,236864.66505508,1.08843110635827
+"SME_003","Delta Build Construction","ZAR","total_credit_inflows","seasonal_naive",42,150587.17452381,178411.245732771,0.82594595538078
+"SME_003","Delta Build Construction","ZAR","total_debit_outflows","naive",42,180423.129761905,217375.983390796,0.68221773284649
+"SME_003","Delta Build Construction","ZAR","total_debit_outflows","seasonal_naive",42,229664.877619048,286852.83597009,0.872262972208712
+"SME_003","Delta Build Construction","ZAR","net_bank_movement","naive",42,332450.419761905,394597.257123765,2.06420144100518
+"SME_003","Delta Build Construction","ZAR","net_bank_movement","seasonal_naive",42,245484.061190476,312890.015977727,1.48763123318253
+"SME_004","Vuka Wholesale Distributors","ZAR","total_credit_inflows","naive",42,120015.059761905,144706.680184692,0.707380633659422
+"SME_004","Vuka Wholesale Distributors","ZAR","total_credit_inflows","seasonal_naive",42,99957.8242857143,114340.292257303,0.582502165472816
+"SME_004","Vuka Wholesale Distributors","ZAR","total_debit_outflows","naive",42,51994.3964285714,60835.1522333566,0.984594341956763
+"SME_004","Vuka Wholesale Distributors","ZAR","total_debit_outflows","seasonal_naive",42,48453.865,55337.5457689165,0.925816009028142
+"SME_004","Vuka Wholesale Distributors","ZAR","net_bank_movement","naive",42,112956.952380952,140658.285860619,0.658691819963658
+"SME_004","Vuka Wholesale Distributors","ZAR","net_bank_movement","seasonal_naive",42,111968.833095238,137435.777527197,0.65092165614167
+"SME_005","Thandiwe Professional Services","ZAR","total_credit_inflows","naive",42,53754.3235714286,63848.8738276873,0.856588595265121
+"SME_005","Thandiwe Professional Services","ZAR","total_credit_inflows","seasonal_naive",42,55245.464047619,63689.8400023316,0.878547044375184
+"SME_005","Thandiwe Professional Services","ZAR","total_debit_outflows","naive",42,25649.5273809524,30548.3849410115,1.02776209677184
+"SME_005","Thandiwe Professional Services","ZAR","total_debit_outflows","seasonal_naive",42,23285.6642857143,29255.5685133761,0.93402252459651
+"SME_005","Thandiwe Professional Services","ZAR","net_bank_movement","naive",42,53172.2504761905,63188.6765635086,0.719818091324669
+"SME_005","Thandiwe Professional Services","ZAR","net_bank_movement","seasonal_naive",42,48778.5002380952,59195.8149968721,0.655322444509339
