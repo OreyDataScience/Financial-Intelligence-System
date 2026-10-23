@@ -1,0 +1,31 @@
+"business_id","target","method","origin_date","forecast_date","horizon","forecast_value","business_name","industry","currency","selected_model_MAE","training_months","training_months_with_investigations","training_reversal_flags","training_sign_inconsistency_flags"
+"SME_001","total_credit_inflows","ETS",2025-12-01,2026-01-01,1,116014.575287524,"Karabo Retail Traders","Retail Trade","ZAR",24577.2373408627,24,0,0,0
+"SME_001","total_credit_inflows","ETS",2025-12-01,2026-02-01,2,116014.575287524,"Karabo Retail Traders","Retail Trade","ZAR",24577.2373408627,24,0,0,0
+"SME_001","total_credit_inflows","ETS",2025-12-01,2026-03-01,3,116014.575287524,"Karabo Retail Traders","Retail Trade","ZAR",24577.2373408627,24,0,0,0
+"SME_001","total_credit_inflows","ETS",2025-12-01,2026-04-01,4,116014.575287524,"Karabo Retail Traders","Retail Trade","ZAR",24577.2373408627,24,0,0,0
+"SME_001","total_credit_inflows","ETS",2025-12-01,2026-05-01,5,116014.575287524,"Karabo Retail Traders","Retail Trade","ZAR",24577.2373408627,24,0,0,0
+"SME_001","total_credit_inflows","ETS",2025-12-01,2026-06-01,6,116014.575287524,"Karabo Retail Traders","Retail Trade","ZAR",24577.2373408627,24,0,0,0
+"SME_002","total_credit_inflows","ARIMA",2025-12-01,2026-01-01,1,53453.09,"Nkosi & Associates Consulting","Consulting","ZAR",31443.0737362188,24,12,0,13
+"SME_002","total_credit_inflows","ARIMA",2025-12-01,2026-02-01,2,53453.09,"Nkosi & Associates Consulting","Consulting","ZAR",31443.0737362188,24,12,0,13
+"SME_002","total_credit_inflows","ARIMA",2025-12-01,2026-03-01,3,53453.09,"Nkosi & Associates Consulting","Consulting","ZAR",31443.0737362188,24,12,0,13
+"SME_002","total_credit_inflows","ARIMA",2025-12-01,2026-04-01,4,53453.09,"Nkosi & Associates Consulting","Consulting","ZAR",31443.0737362188,24,12,0,13
+"SME_002","total_credit_inflows","ARIMA",2025-12-01,2026-05-01,5,53453.09,"Nkosi & Associates Consulting","Consulting","ZAR",31443.0737362188,24,12,0,13
+"SME_002","total_credit_inflows","ARIMA",2025-12-01,2026-06-01,6,53453.09,"Nkosi & Associates Consulting","Consulting","ZAR",31443.0737362188,24,12,0,13
+"SME_003","total_credit_inflows","ARIMA",2025-12-01,2026-01-01,1,159913.59625,"Delta Build Construction","Construction","ZAR",133746.569945305,24,2,1,0
+"SME_003","total_credit_inflows","ARIMA",2025-12-01,2026-02-01,2,159913.59625,"Delta Build Construction","Construction","ZAR",133746.569945305,24,2,1,0
+"SME_003","total_credit_inflows","ARIMA",2025-12-01,2026-03-01,3,159913.59625,"Delta Build Construction","Construction","ZAR",133746.569945305,24,2,1,0
+"SME_003","total_credit_inflows","ARIMA",2025-12-01,2026-04-01,4,159913.59625,"Delta Build Construction","Construction","ZAR",133746.569945305,24,2,1,0
+"SME_003","total_credit_inflows","ARIMA",2025-12-01,2026-05-01,5,159913.59625,"Delta Build Construction","Construction","ZAR",133746.569945305,24,2,1,0
+"SME_003","total_credit_inflows","ARIMA",2025-12-01,2026-06-01,6,159913.59625,"Delta Build Construction","Construction","ZAR",133746.569945305,24,2,1,0
+"SME_004","total_credit_inflows","seasonal_naive",2025-12-01,2026-01-01,1,961682.87,"Vuka Wholesale Distributors","wholesale distribution","ZAR",91796.3526315789,24,14,3,8
+"SME_004","total_credit_inflows","seasonal_naive",2025-12-01,2026-02-01,2,859894.22,"Vuka Wholesale Distributors","wholesale distribution","ZAR",91796.3526315789,24,14,3,8
+"SME_004","total_credit_inflows","seasonal_naive",2025-12-01,2026-03-01,3,928536.54,"Vuka Wholesale Distributors","wholesale distribution","ZAR",91796.3526315789,24,14,3,8
+"SME_004","total_credit_inflows","seasonal_naive",2025-12-01,2026-04-01,4,1002467.78,"Vuka Wholesale Distributors","wholesale distribution","ZAR",91796.3526315789,24,14,3,8
+"SME_004","total_credit_inflows","seasonal_naive",2025-12-01,2026-05-01,5,1098301.51,"Vuka Wholesale Distributors","wholesale distribution","ZAR",91796.3526315789,24,14,3,8
+"SME_004","total_credit_inflows","seasonal_naive",2025-12-01,2026-06-01,6,1058493.5,"Vuka Wholesale Distributors","wholesale distribution","ZAR",91796.3526315789,24,14,3,8
+"SME_005","total_credit_inflows","ETS",2025-12-01,2026-01-01,1,73136.999775042,"Thandiwe Professional Services","professional services","ZAR",41187.2437649484,24,1,0,0
+"SME_005","total_credit_inflows","ETS",2025-12-01,2026-02-01,2,73136.999775042,"Thandiwe Professional Services","professional services","ZAR",41187.2437649484,24,1,0,0
+"SME_005","total_credit_inflows","ETS",2025-12-01,2026-03-01,3,73136.999775042,"Thandiwe Professional Services","professional services","ZAR",41187.2437649484,24,1,0,0
+"SME_005","total_credit_inflows","ETS",2025-12-01,2026-04-01,4,73136.999775042,"Thandiwe Professional Services","professional services","ZAR",41187.2437649484,24,1,0,0
+"SME_005","total_credit_inflows","ETS",2025-12-01,2026-05-01,5,73136.999775042,"Thandiwe Professional Services","professional services","ZAR",41187.2437649484,24,1,0,0
+"SME_005","total_credit_inflows","ETS",2025-12-01,2026-06-01,6,73136.999775042,"Thandiwe Professional Services","professional services","ZAR",41187.2437649484,24,1,0,0

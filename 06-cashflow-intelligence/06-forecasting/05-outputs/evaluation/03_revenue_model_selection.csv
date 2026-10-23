@@ -1,0 +1,6 @@
+"business_id","target","selected_method","backtest_MAE","backtest_RMSE","selection_basis"
+"SME_001","total_credit_inflows","ETS",24577.2373408627,29719.4704351851,"Lowest MAE in rolling backtest"
+"SME_002","total_credit_inflows","ARIMA",31443.0737362188,39699.7047800988,"Lowest MAE in rolling backtest"
+"SME_003","total_credit_inflows","ARIMA",133746.569945305,148063.184576188,"Lowest MAE in rolling backtest"
+"SME_004","total_credit_inflows","seasonal_naive",91796.3526315789,105594.958763105,"Lowest MAE in rolling backtest"
+"SME_005","total_credit_inflows","ETS",41187.2437649484,47734.8933830795,"Lowest MAE in rolling backtest"
