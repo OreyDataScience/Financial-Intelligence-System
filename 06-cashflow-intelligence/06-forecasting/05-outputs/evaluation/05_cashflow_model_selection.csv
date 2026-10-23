@@ -1,0 +1,6 @@
+"business_id","target","selected_method","backtest_MAE","backtest_RMSE","selection_basis"
+"SME_001","net_bank_movement","ETS",39701.2057657098,47564.3629951993,"Lowest MAE in rolling backtest"
+"SME_002","net_bank_movement","ETS",56575.9149895108,76208.1519325204,"Lowest MAE in rolling backtest"
+"SME_003","net_bank_movement","ETS",247526.723536435,293928.744240865,"Lowest MAE in rolling backtest"
+"SME_004","net_bank_movement","ETS",98995.6042086164,116343.732002387,"Lowest MAE in rolling backtest"
+"SME_005","net_bank_movement","ARIMA",38782.1112899897,45259.1559012953,"Lowest MAE in rolling backtest"
