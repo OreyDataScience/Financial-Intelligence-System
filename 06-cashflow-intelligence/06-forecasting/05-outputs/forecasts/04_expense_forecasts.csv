@@ -1,0 +1,31 @@
+"business_id","target","method","origin_date","forecast_date","horizon","forecast_value","business_name","industry","currency","selected_model_MAE","training_months","training_months_with_investigations","training_reversal_flags","training_sign_inconsistency_flags"
+"SME_001","total_debit_outflows","seasonal_naive",2025-12-01,2026-01-01,1,20880.98,"Karabo Retail Traders","Retail Trade","ZAR",21224.3319298246,24,0,0,0
+"SME_001","total_debit_outflows","seasonal_naive",2025-12-01,2026-02-01,2,36481.62,"Karabo Retail Traders","Retail Trade","ZAR",21224.3319298246,24,0,0,0
+"SME_001","total_debit_outflows","seasonal_naive",2025-12-01,2026-03-01,3,45898.37,"Karabo Retail Traders","Retail Trade","ZAR",21224.3319298246,24,0,0,0
+"SME_001","total_debit_outflows","seasonal_naive",2025-12-01,2026-04-01,4,0,"Karabo Retail Traders","Retail Trade","ZAR",21224.3319298246,24,0,0,0
+"SME_001","total_debit_outflows","seasonal_naive",2025-12-01,2026-05-01,5,51424.47,"Karabo Retail Traders","Retail Trade","ZAR",21224.3319298246,24,0,0,0
+"SME_001","total_debit_outflows","seasonal_naive",2025-12-01,2026-06-01,6,25524.51,"Karabo Retail Traders","Retail Trade","ZAR",21224.3319298246,24,0,0,0
+"SME_002","total_debit_outflows","ARIMA",2025-12-01,2026-01-01,1,124593.53875,"Nkosi & Associates Consulting","Consulting","ZAR",33275.3488815582,24,12,0,13
+"SME_002","total_debit_outflows","ARIMA",2025-12-01,2026-02-01,2,124593.53875,"Nkosi & Associates Consulting","Consulting","ZAR",33275.3488815582,24,12,0,13
+"SME_002","total_debit_outflows","ARIMA",2025-12-01,2026-03-01,3,124593.53875,"Nkosi & Associates Consulting","Consulting","ZAR",33275.3488815582,24,12,0,13
+"SME_002","total_debit_outflows","ARIMA",2025-12-01,2026-04-01,4,124593.53875,"Nkosi & Associates Consulting","Consulting","ZAR",33275.3488815582,24,12,0,13
+"SME_002","total_debit_outflows","ARIMA",2025-12-01,2026-05-01,5,124593.53875,"Nkosi & Associates Consulting","Consulting","ZAR",33275.3488815582,24,12,0,13
+"SME_002","total_debit_outflows","ARIMA",2025-12-01,2026-06-01,6,124593.53875,"Nkosi & Associates Consulting","Consulting","ZAR",33275.3488815582,24,12,0,13
+"SME_003","total_debit_outflows","ARIMA",2025-12-01,2026-01-01,1,405118.122083333,"Delta Build Construction","Construction","ZAR",123957.670169728,24,2,1,0
+"SME_003","total_debit_outflows","ARIMA",2025-12-01,2026-02-01,2,405118.122083333,"Delta Build Construction","Construction","ZAR",123957.670169728,24,2,1,0
+"SME_003","total_debit_outflows","ARIMA",2025-12-01,2026-03-01,3,405118.122083333,"Delta Build Construction","Construction","ZAR",123957.670169728,24,2,1,0
+"SME_003","total_debit_outflows","ARIMA",2025-12-01,2026-04-01,4,405118.122083333,"Delta Build Construction","Construction","ZAR",123957.670169728,24,2,1,0
+"SME_003","total_debit_outflows","ARIMA",2025-12-01,2026-05-01,5,405118.122083333,"Delta Build Construction","Construction","ZAR",123957.670169728,24,2,1,0
+"SME_003","total_debit_outflows","ARIMA",2025-12-01,2026-06-01,6,405118.122083333,"Delta Build Construction","Construction","ZAR",123957.670169728,24,2,1,0
+"SME_004","total_debit_outflows","ARIMA",2025-12-01,2026-01-01,1,108951.035,"Vuka Wholesale Distributors","wholesale distribution","ZAR",46207.8113886289,24,14,3,8
+"SME_004","total_debit_outflows","ARIMA",2025-12-01,2026-02-01,2,108951.035,"Vuka Wholesale Distributors","wholesale distribution","ZAR",46207.8113886289,24,14,3,8
+"SME_004","total_debit_outflows","ARIMA",2025-12-01,2026-03-01,3,108951.035,"Vuka Wholesale Distributors","wholesale distribution","ZAR",46207.8113886289,24,14,3,8
+"SME_004","total_debit_outflows","ARIMA",2025-12-01,2026-04-01,4,108951.035,"Vuka Wholesale Distributors","wholesale distribution","ZAR",46207.8113886289,24,14,3,8
+"SME_004","total_debit_outflows","ARIMA",2025-12-01,2026-05-01,5,108951.035,"Vuka Wholesale Distributors","wholesale distribution","ZAR",46207.8113886289,24,14,3,8
+"SME_004","total_debit_outflows","ARIMA",2025-12-01,2026-06-01,6,108951.035,"Vuka Wholesale Distributors","wholesale distribution","ZAR",46207.8113886289,24,14,3,8
+"SME_005","total_debit_outflows","ETS",2025-12-01,2026-01-01,1,94057.12301399,"Thandiwe Professional Services","professional services","ZAR",19398.4709365533,24,1,0,0
+"SME_005","total_debit_outflows","ETS",2025-12-01,2026-02-01,2,94057.12301399,"Thandiwe Professional Services","professional services","ZAR",19398.4709365533,24,1,0,0
+"SME_005","total_debit_outflows","ETS",2025-12-01,2026-03-01,3,94057.12301399,"Thandiwe Professional Services","professional services","ZAR",19398.4709365533,24,1,0,0
+"SME_005","total_debit_outflows","ETS",2025-12-01,2026-04-01,4,94057.12301399,"Thandiwe Professional Services","professional services","ZAR",19398.4709365533,24,1,0,0
+"SME_005","total_debit_outflows","ETS",2025-12-01,2026-05-01,5,94057.12301399,"Thandiwe Professional Services","professional services","ZAR",19398.4709365533,24,1,0,0
+"SME_005","total_debit_outflows","ETS",2025-12-01,2026-06-01,6,94057.12301399,"Thandiwe Professional Services","professional services","ZAR",19398.4709365533,24,1,0,0

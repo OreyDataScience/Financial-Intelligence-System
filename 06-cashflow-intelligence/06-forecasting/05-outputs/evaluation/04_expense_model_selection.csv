@@ -1,0 +1,6 @@
+"business_id","target","selected_method","backtest_MAE","backtest_RMSE","selection_basis"
+"SME_001","total_debit_outflows","seasonal_naive",21224.3319298246,25923.9755989519,"Lowest MAE in rolling backtest"
+"SME_002","total_debit_outflows","ARIMA",33275.3488815582,47803.5017552712,"Lowest MAE in rolling backtest"
+"SME_003","total_debit_outflows","ARIMA",123957.670169728,160090.173790884,"Lowest MAE in rolling backtest"
+"SME_004","total_debit_outflows","ARIMA",46207.8113886289,55308.1168678909,"Lowest MAE in rolling backtest"
+"SME_005","total_debit_outflows","ETS",19398.4709365533,23387.6710106034,"Lowest MAE in rolling backtest"
